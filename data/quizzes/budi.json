@@ -333,5 +333,493 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789276794852",
+    "npcId": "budi",
+    "title": "Kuis Tembung Budi",
+    "generatedAt": "2026-09-13T05:19:54.852Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing crita Budi, dheweke ngucapaké, 'Sampeyan arek anyar pisan yo?' Apa tegese tembung 'anyar' ing ukara kasebut?",
+        "options": [
+          "Lama",
+          "Baru",
+          "Luar",
+          "Luhur"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'anyar' tegese 'baru' ing basa Indonesia. Ukara kasebut tegese 'Kamu anak baru juga ya?'",
+        "teaches": {
+          "word": "anyar",
+          "meaning": "baru"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Budi nyebutake dheweke 'arek rantau'. Ing konteks kasebut, apa tegese tembung 'rantau'?",
+        "options": [
+          "Desa kanggo tinggal",
+          "Ninggal omah kanggo kerja ing kutha liyane",
+          "Mrene mrene ing kasebut",
+          "Ngadeg ing pinggir dalan"
+        ],
+        "answer": 1,
+        "explanation": "'Rantau' tegese ninggal omah kanggo kerja utawa urip ing kutha liyane (perantau). 'Anak rantau' tegese orang perantau.",
+        "teaches": {
+          "word": "rantau",
+          "meaning": "perantauan / tempat kerja di kota lain"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789277450408",
+    "npcId": "budi",
+    "title": "Kuis Tembung Budi",
+    "generatedAt": "2026-09-13T05:30:50.408Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Halo mas! Sampeyan arek anyar pisan yo?', tembung 'pisan' iku tegese apa?",
+        "options": [
+          "Kesatu",
+          "Kedua",
+          "Kunang",
+          "Kapisan"
+        ],
+        "answer": 3,
+        "explanation": "Tembung 'pisan' tegese kapisan utawa pertama.",
+        "teaches": {
+          "word": "pisan",
+          "meaning": "kapisan / pertama"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Budi ngucapaké: 'Aku sisan arek rantau sing pindah nang deso NusaQuest'. Ing ukara kasebut, tembung 'deso' tegese apa?",
+        "options": [
+          "Kutha",
+          "Desa",
+          "Negoro",
+          "Gg"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'deso' tegese desa.",
+        "teaches": {
+          "word": "deso",
+          "meaning": "desa"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen sampeyan takon marang Budi, 'Sampeyan arek anyar pisan yo?', tembung 'arek' ing ukara kasebut tegese apa?",
+        "options": [
+          "Bu",
+          "Rasul",
+          "Kuda",
+          "Anak"
+        ],
+        "answer": 3,
+        "explanation": "Tembung 'arek' tegese anak.",
+        "teaches": {
+          "word": "arek",
+          "meaning": "anak"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789295057391",
+    "npcId": "budi",
+    "title": "Kuis Tembung Budi",
+    "generatedAt": "2026-09-13T10:24:17.391Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Halo mas! Sampeyan arek anyar pisan yo?', tembung 'sisan' ing ukara Budi liyane ('Aku sisan arek rantau...') tegese apa?",
+        "options": [
+          "Sudah",
+          "Juga",
+          "Tapi",
+          "Kini"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'sisan' tegese 'juga' (also). Ing ukara kasebut, Budi nyebutake manawa dheweke uga anak rantau.",
+        "teaches": {
+          "word": "sisan",
+          "meaning": "juga"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Budi ngucapaké, 'Aku sisan arek rantau sing pindah nang deso NusaQuest'. Ing konteks kasebut, tembung 'nang' tegese apa?",
+        "options": [
+          "Dari",
+          "Ke",
+          "Di",
+          "Oleh"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'nang' (utawa 'menang') tegese 'ke' (to) nalika manutake tembung kanggo nuduhake arah utawa tujuan, kayata 'pindah nang deso' tegese 'pindah ke desa'.",
+        "teaches": {
+          "word": "nang",
+          "meaning": "ke"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen Budi takon, 'Sampeyan arek anyar pisan yo?', lan sampeyan wangsulan manawa sampeyan 'sisan' anak rantau, apa tembung kasebut ing basa Indonesia?",
+        "options": [
+          "Kamu (sampeyan)",
+          "Anak (arek)",
+          "Juga (sisan)",
+          "Baru (anyar)"
+        ],
+        "answer": 2,
+        "explanation": "Ing konteks wangsulan manawa sampeyan uga anak rantau, tembung 'sisan' iku padha tegese karo 'juga' ing basa Indonesia.",
+        "teaches": {
+          "word": "sisan",
+          "meaning": "juga"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789295189252",
+    "npcId": "budi",
+    "title": "Kuis Tembung Budi",
+    "generatedAt": "2026-09-13T10:26:29.252Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Halo mas! Sampeyan arek anyar pisan yo?', yen sampeyan wangsulake nganggo tembung 'aku', apa tegese tembung 'aku' ing basa Indonesia?",
+        "options": [
+          "Kamu",
+          "Aku",
+          "Dia",
+          "Kita"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'aku' iku tembung dhikhotik kanggo ngarani dhiri dhewe, tegese 'aku' utawa 'saya' ing basa Indonesia.",
+        "teaches": {
+          "word": "aku",
+          "meaning": "aku/saya"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Budi ngucapaké, 'Aku sisan arek rantau sing pindah nang deso NusaQuest'. Ing ukara kasebut, apa tegese tembung 'pindah'?",
+        "options": [
+          "Tetep",
+          "Pergi",
+          "Pindah",
+          "Datang"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'pindah' tegese ngalih papan utawa pindah saka siji papan menyang papan liyane.",
+        "teaches": {
+          "word": "pindah",
+          "meaning": "pindah"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen Budi takon, 'Sampeyan arek anyar pisan yo?', lan sampeyan arep ngudharake manawa sampeyan anak desa, tembung Javanese kanggo 'desa' yaiku ...?",
+        "options": [
+          "Deso",
+          "Kutha",
+          "Kampung",
+          "Lembah"
+        ],
+        "answer": 0,
+        "explanation": "Ing dialog Budi, tembung 'deso' digunaake kanggo nuduhake papan tinggal utawa desa. Tegese 'desa'.",
+        "teaches": {
+          "word": "deso",
+          "meaning": "desa"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789295432128",
+    "npcId": "budi",
+    "title": "Kuis Tembung Budi",
+    "generatedAt": "2026-09-13T10:30:32.128Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Halo mas! Sampeyan arek anyar pisan yo?', tembung 'anyar' tegese apa ing basa Indonesia?",
+        "options": [
+          "Lama",
+          "Baru",
+          "Cantik",
+          "Rapi"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'anyar' tegese 'baru' ing basa Indonesia.",
+        "teaches": {
+          "word": "anyar",
+          "meaning": "baru"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Budi ngucapaké, 'Aku sisan arek rantau sing pindah nang deso NusaQuest'. Ing ukara kasebut, tembung 'rantau' tegese apa?",
+        "options": [
+          "Ngalam / di luar rumah",
+          "Mangan",
+          "Turu",
+          "Maca"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'rantau' tegese 'ngalam' utawa di luar rumah/kampung halaman.",
+        "teaches": {
+          "word": "rantau",
+          "meaning": "ngalam / di luar rumah"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen Budi takon, 'Sampeyan arek anyar pisan yo?', lan sampeyan pengin wangsulake dadi 'Kamu anak baru juga ya?', apa tembung Javanese kanggo 'juga' sing digunakake Budi ing ukara 'Aku sisan arek rantau...' yaiku?",
+        "options": [
+          "Uga",
+          "Pisan",
+          "Sisan",
+          "Yo"
+        ],
+        "answer": 2,
+        "explanation": "Ing ukara Budi, tembung 'sisan' nuduhake 'juga' (same as).",
+        "teaches": {
+          "word": "sisan",
+          "meaning": "juga"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789295649964",
+    "npcId": "budi",
+    "title": "Kuis Tembung Budi",
+    "generatedAt": "2026-09-13T10:34:09.964Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Halo mas! Sampeyan arek anyar pisan yo?', tembung 'pisan' tegese apa ing basa Indonesia?",
+        "options": [
+          "Sekarang",
+          "Pulih",
+          "Paling",
+          "Pertama"
+        ],
+        "answer": 3,
+        "explanation": "Tembung 'pisan' tegese 'pertama'.",
+        "teaches": {
+          "word": "pisan",
+          "meaning": "pertama"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Budi ngucapaké, 'Aku sisan arek rantau...'. Yen sampeyan nglengkapi ukara kasebut kanthi 'Aku juga anak rantau', tembung Javanese kanggo 'juga' yaiku ...?",
+        "options": [
+          "sisan",
+          "sisih",
+          "siji",
+          "sare"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'sisan' ing konteks kasebut tegese 'juga' utawa 'pula'.",
+        "teaches": {
+          "word": "sisan",
+          "meaning": "juga"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing ukara 'Sampeyan arek anyar pisan yo?', yen sampeyan wangsulake nganggo tembung 'aku', apa tegese tembung 'aku' ing basa Indonesia?",
+        "options": [
+          "Kamu",
+          "Kita",
+          "Mereka",
+          "Saya"
+        ],
+        "answer": 3,
+        "explanation": "Tembung 'aku' tegese 'saya' utawa 'gue' ing basa Indonesia.",
+        "teaches": {
+          "word": "aku",
+          "meaning": "saya"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789295986028",
+    "npcId": "budi",
+    "title": "Kuis Tembung Budi",
+    "generatedAt": "2026-09-13T10:39:46.028Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara Budi, 'Halo mas! Sampeyan arek anyar pisan yo?', tembung 'sanpeyan' (sampeyan) ngganti tembung kepriye ing basa Indonesia?",
+        "options": [
+          "Kowe",
+          "Sampeyan (Kamu)",
+          "Lha",
+          "Aké"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'sampeyan' ing basa Indonesia tegese 'kamu'.",
+        "teaches": {
+          "word": "sampeyan",
+          "meaning": "kamu"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Budi nyebutake, 'Aku sisan arek rantau...'. Ing ukara kasebut, tembung 'arek' tegese apa?",
+        "options": [
+          "Anak",
+          "Rantau",
+          "Pindah",
+          "Deso"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'arek' tegese 'anak'.",
+        "teaches": {
+          "word": "arek",
+          "meaning": "anak"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen sampeyan arep nyambungaké ukara Budi dadi 'Kamu juga anak baru juga ya?' ing basa Javanese, tembung kanggo 'juga' sing digunakake Budi ing ukara kapisan yaiku ...?",
+        "options": [
+          "Pisan",
+          "Anyar",
+          "Sisan",
+          "Rantau"
+        ],
+        "answer": 2,
+        "explanation": "Ing ukara 'Halo mas! Sampeyan arek anyar pisan yo?', tembung 'pisan' ing konteks iki nduweni arta 'juga' utawa 'saja' (new also).",
+        "teaches": {
+          "word": "pisan",
+          "meaning": "juga (dalam konteks sapaan)"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789297488383",
+    "npcId": "budi",
+    "title": "Kuis Pemahaman Dialog Budi",
+    "generatedAt": "2026-09-13T11:04:48.383Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing dialog Budi, 'Halo mas! Sampeyan arek anyar pisan yo?', apa andharan tegese tembung 'sampeyan' kang digunakake kanggo nyebut lawan omong?",
+        "options": [
+          "Aku",
+          "Kowe",
+          "Kamu",
+          "Panjenengan"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'sampeyan' ing ngoko krama/andhap tegese 'kamu' nalika ngomong marang kanca utawa sing setingkat.",
+        "teaches": {
+          "word": "sampeyan",
+          "meaning": "kamu"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Budi nyebutake, 'Aku sisan arek rantau...'. Ing basa Indonesia, tembung 'arek' sing kaendha ing ukara kasebut tegese apa?",
+        "options": [
+          "Orang",
+          "Anak",
+          "Remaja",
+          "Kawan"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'arek' tegese 'anak'. Ing konteks kasebut, 'arek rantau' tegese 'anak rantau'.",
+        "teaches": {
+          "word": "arek",
+          "meaning": "anak"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen sampeyan ngganti tembung 'sampeyan' dadi 'aku' ing ukara 'Sampeyan arek anyar pisan yo?', dadi 'Aku arek anyar pisan yo'. Apa tegese ukara 'Aku arek anyar pisan yo' ing basa Indonesia?",
+        "options": [
+          "Kamu anak baru juga ya?",
+          "Aku anak baru juga ya?",
+          "Saya anak baru sekali ya?",
+          "Orang itu anak baru juga ya?"
+        ],
+        "answer": 1,
+        "explanation": "'Aku' = 'aku/saya', 'arek' = 'anak', 'anyar' = 'baru', 'pisan' = 'juga/sekaligus'. Dadi ukara kasebut tegese 'Aku anak baru juga ya'.",
+        "teaches": {
+          "word": "aku",
+          "meaning": "aku/saya"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789297618654",
+    "npcId": "budi",
+    "title": "Kuis Tembung Budi",
+    "generatedAt": "2026-09-13T11:06:58.654Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Halo mas! Sampeyan arek anyar pisan yo?', tembung 'arek' tegese apa ing basa Indonesia?",
+        "options": [
+          "Guru",
+          "Anak",
+          "Temen",
+          "Wong tuwa"
+        ],
+        "answer": 1,
+        "explanation": "'Arek' tegese 'anak'.",
+        "teaches": {
+          "word": "arek",
+          "meaning": "anak"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Budi ngucapaké, 'Aku sisan arek rantau...'. Ing ukara kasebut, tembung 'sisan' tegese apa ing basa Indonesia?",
+        "options": [
+          "Udah",
+          "Sedang",
+          "Juga",
+          "Dulu"
+        ],
+        "answer": 2,
+        "explanation": "'Sisan' tegese 'juga'.",
+        "teaches": {
+          "word": "sisan",
+          "meaning": "juga"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen sampeyan ngganti tembung 'arek' dadi 'wong' ing ukara 'Sampeyan arek anyar pisan yo?', dadi 'Sampeyan wong anyar pisan yo'. Apa tegese ukara 'Sampeyan wong anyar pisan yo' ing basa Indonesia?",
+        "options": [
+          "Kamu orang baru pertama ya?",
+          "Kamu anak baru ya?",
+          "Kamu sudah lama di sini ya?",
+          "Kamu berasal dari mana ya?"
+        ],
+        "answer": 0,
+        "explanation": "'Sampeyan' tegese 'kamu', 'wong' tegese 'orang', 'anyar' tegese 'baru', 'pisan' tegese 'pertama'.",
+        "teaches": {
+          "word": "sampeyan",
+          "meaning": "kamu"
+        }
+      }
+    ]
   }
 ]

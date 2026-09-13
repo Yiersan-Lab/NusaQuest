@@ -2,6 +2,7 @@ class UIManager {
   constructor() {
     this.learnedVocab = new Map();
     this.isNotebookCollapsed = true;
+    this.isQuestTrackerCollapsed = true;
     
     this.currentQuiz = null;
     this.currentQuestionIdx = 0;
@@ -45,7 +46,32 @@ class UIManager {
     this.nextQuizBtn = document.getElementById('nextQuizBtn');
     this.closeQuizBtn = document.getElementById('closeQuizBtn');
 
+    // Gladhen Micara (NusaTTSE Pronunciation Modal) Elements
+    this.pronounceModal = document.getElementById('pronounceModal');
+    this.pronounceTitle = document.getElementById('pronounceTitle');
+    this.pronounceTargetText = document.getElementById('pronounceTargetText');
+    this.pronounceTranslation = document.getElementById('pronounceTranslation');
+    this.pronounceListenBtn = document.getElementById('pronounceListenBtn');
+    this.recordMicBtn = document.getElementById('recordMicBtn');
+    this.recordingTimer = document.getElementById('recordingTimer');
+    this.micLiveWave = document.getElementById('micLiveWave');
+    this.micStatusText = document.getElementById('micStatusText');
+    this.pronounceResultCard = document.getElementById('pronounceResultCard');
+    this.evalOverallScore = document.getElementById('evalOverallScore');
+    this.evalRatingBadge = document.getElementById('evalRatingBadge');
+    this.evalFeedbackText = document.getElementById('evalFeedbackText');
+    this.wordChipsContainer = document.getElementById('wordChipsContainer');
+    this.skipPronounceBtn = document.getElementById('skipPronounceBtn');
+    this.finishPronounceBtn = document.getElementById('finishPronounceBtn');
+    this.closePronounceBtn = document.getElementById('closePronounceBtn');
+
+    this.currentPronounceTarget = null;
+    this.onPronounceComplete = null;
+    this.isRecordingPronounce = false;
+    this.recordTimerInterval = null;
+
     this.questTracker = document.getElementById('questTracker');
+    this.toggleQuestTrackerBtn = document.getElementById('toggleQuestTrackerBtn');
     this.questTrackerText = document.getElementById('questTrackerText');
     this.questModal = document.getElementById('questModal');
     this.questHudBtn = document.getElementById('questHudBtn');
@@ -75,12 +101,49 @@ class UIManager {
       });
     }
 
+    if (this.toggleQuestTrackerBtn) {
+      this.toggleQuestTrackerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.toggleQuestTracker();
+      });
+    }
+
+    if (this.questTracker) {
+      this.questTracker.addEventListener('click', (e) => {
+        if (!e.target.closest('#toggleQuestTrackerBtn')) {
+          this.toggleQuestTracker();
+        }
+      });
+    }
+
     if (this.closeQuizBtn) {
       this.closeQuizBtn.addEventListener('click', () => this.hideQuizModal());
     }
 
     if (this.nextQuizBtn) {
       this.nextQuizBtn.addEventListener('click', () => this.handleNextQuestion());
+    }
+
+    // Pronunciation modal events
+    if (this.pronounceListenBtn) {
+      this.pronounceListenBtn.addEventListener('click', () => this.handlePronounceListen());
+    }
+
+    if (this.recordMicBtn) {
+      this.recordMicBtn.addEventListener('click', () => this.handleTogglePronounceRecord());
+    }
+
+    if (this.skipPronounceBtn) {
+      this.skipPronounceBtn.addEventListener('click', () => this.hidePronounceModal(false));
+    }
+
+    if (this.finishPronounceBtn) {
+      this.finishPronounceBtn.addEventListener('click', () => this.hidePronounceModal(true));
+    }
+
+    if (this.closePronounceBtn) {
+      this.closePronounceBtn.addEventListener('click', () => this.hidePronounceModal(false));
     }
 
     if (this.questHudBtn) {
@@ -138,12 +201,37 @@ class UIManager {
     } else {
       this.isNotebookCollapsed = !this.isNotebookCollapsed;
     }
-    if (this.isNotebookCollapsed) {
-      this.vocabNotebook.classList.add('collapsed');
-      if (this.toggleNotebookBtn) this.toggleNotebookBtn.innerText = '+';
+    if (this.vocabNotebook) {
+      if (this.isNotebookCollapsed) {
+        this.vocabNotebook.classList.add('collapsed');
+        if (this.toggleNotebookBtn) this.toggleNotebookBtn.innerText = '+';
+      } else {
+        this.vocabNotebook.classList.remove('collapsed');
+        if (this.toggleNotebookBtn) this.toggleNotebookBtn.innerText = '−';
+        if (!this.isQuestTrackerCollapsed && window.innerWidth <= 900) {
+          this.toggleQuestTracker(false);
+        }
+      }
+    }
+  }
+
+  toggleQuestTracker(forceOpen = null) {
+    if (forceOpen !== null) {
+      this.isQuestTrackerCollapsed = !forceOpen;
     } else {
-      this.vocabNotebook.classList.remove('collapsed');
-      if (this.toggleNotebookBtn) this.toggleNotebookBtn.innerText = '−';
+      this.isQuestTrackerCollapsed = !this.isQuestTrackerCollapsed;
+    }
+    if (this.questTracker) {
+      if (this.isQuestTrackerCollapsed) {
+        this.questTracker.classList.add('collapsed');
+        if (this.toggleQuestTrackerBtn) this.toggleQuestTrackerBtn.innerText = '+';
+      } else {
+        this.questTracker.classList.remove('collapsed');
+        if (this.toggleQuestTrackerBtn) this.toggleQuestTrackerBtn.innerText = '−';
+        if (!this.isNotebookCollapsed && window.innerWidth <= 900) {
+          this.toggleNotebook(false);
+        }
+      }
     }
   }
 
@@ -502,8 +590,287 @@ class UIManager {
       this.renderQuestion();
     } else {
       const total = this.currentQuiz.questions.length;
-      this.showToast(`Kuis Selesai! Skor: ${this.score} / ${total}`);
-      this.hideQuizModal();
+      const quizFinalScore = this.score;
+      const finishedQuiz = this.currentQuiz;
+      
+      this.showToast(`Kuis Selesai! Skor: ${quizFinalScore} / ${total}`);
+      
+      // Extract target phrase for pronunciation practice
+      let targetPhrase = 'Sugeng enjing sedherek sedaya.';
+      let targetMeaning = 'Selamat pagi saudara sekalian.';
+      const npcId = finishedQuiz.npcId || '';
+
+      if (npcId === 'dimas') {
+        targetPhrase = 'Sugeng enjing, pripun kabare?';
+        targetMeaning = 'Selamat pagi, bagaimana kabarnya?';
+      } else if (npcId === 'mbok_sari') {
+        targetPhrase = 'Pinten regine sayur punika?';
+        targetMeaning = 'Berapa harga sayur ini?';
+      } else if (npcId === 'pak_joko') {
+        targetPhrase = 'Sawah ing kidul iki subur banget.';
+        targetMeaning = 'Sawah di sebelah selatan ini sangat subur.';
+      } else if (npcId === 'mbah_kakung') {
+        targetPhrase = 'Sugeng rawuh wonten ing Balai Joglo.';
+        targetMeaning = 'Selamat datang di Balai Joglo.';
+      } else if (finishedQuiz.questions && finishedQuiz.questions[0] && finishedQuiz.questions[0].teaches) {
+        targetPhrase = finishedQuiz.questions[0].teaches.word;
+        targetMeaning = finishedQuiz.questions[0].teaches.meaning;
+      }
+
+      // Extract NPC voice persona, speed, and pitch
+      let npcVoice = 'jv-ID-SitiNeural';
+      let npcSpeed = 1.0;
+      let npcPitch = 0;
+
+      if (typeof DIALOGUES !== 'undefined' && DIALOGUES[npcId]) {
+        const d = DIALOGUES[npcId];
+        if (d.voice) npcVoice = d.voice;
+        if (d.speed !== undefined) npcSpeed = parseFloat(d.speed) || 1.0;
+        if (d.pitch !== undefined) npcPitch = parseInt(d.pitch, 10) || 0;
+      } else if (npcId === 'dimas' || npcId === 'pak_joko' || npcId === 'mbah_kakung' || npcId === 'budi' || npcId === 'pak_tyson' || npcId === 'raden_atif') {
+        npcVoice = 'jv-ID-DimasNeural';
+      }
+
+      // Hide quiz modal
+      this.quizModal.classList.add('hidden');
+      this.currentQuiz = null;
+
+      // Open Gladhen Micara (NusaTTSE Pronunciation Challenge) with NPC-specific voice, speed, and pitch
+      this.showPronounceModal(targetPhrase, targetMeaning, (pronounceScore) => {
+        if (this.onQuizComplete) {
+          this.onQuizComplete(quizFinalScore);
+        }
+        if (this.questEngine && finishedQuiz) {
+          this.questEngine.onQuizComplete(finishedQuiz.npcId, quizFinalScore, total);
+        }
+      }, npcVoice, npcSpeed, npcPitch);
+    }
+  }
+
+  isPronounceActive() {
+    return !!this.pronounceModal && !this.pronounceModal.classList.contains('hidden');
+  }
+
+  showPronounceModal(targetText, translation, onComplete = null, voice = 'jv-ID-SitiNeural', speed = 1.0, pitch = 0) {
+    this.currentPronounceTarget = {
+      text: targetText || 'Sugeng enjing sedherek sedaya.',
+      translation: translation || 'Selamat pagi saudara sekalian.',
+      voice: voice || 'jv-ID-SitiNeural',
+      speed: speed !== undefined ? speed : 1.0,
+      pitch: pitch !== undefined ? pitch : 0
+    };
+    this.onPronounceComplete = onComplete;
+    this.isRecordingPronounce = false;
+
+    if (this.pronounceTargetText) {
+      this.pronounceTargetText.innerText = `"${this.currentPronounceTarget.text}"`;
+    }
+    if (this.pronounceTranslation) {
+      this.pronounceTranslation.innerText = `(${this.currentPronounceTarget.translation})`;
+    }
+
+    if (this.pronounceResultCard) {
+      this.pronounceResultCard.classList.add('hidden');
+    }
+    if (this.recordMicBtn) {
+      this.recordMicBtn.classList.remove('recording');
+    }
+    if (this.micLiveWave) {
+      this.micLiveWave.classList.add('hidden');
+    }
+    if (this.recordingTimer) {
+      this.recordingTimer.classList.add('hidden');
+      this.recordingTimer.innerText = '00:00';
+    }
+    if (this.micStatusText) {
+      this.micStatusText.innerText = 'Pencet tombol ing ngisor iki banjur ucapake ukara ing dhuwur kanthi cetha:';
+    }
+
+    if (this.pronounceModal) {
+      this.pronounceModal.classList.remove('hidden');
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  hidePronounceModal(completed = false) {
+    if (window.SpeechEvaluator) {
+      window.SpeechEvaluator.stopAudio();
+      if (this.isRecordingPronounce) {
+        window.SpeechEvaluator.stopRecording().catch(() => {});
+        this.isRecordingPronounce = false;
+      }
+    }
+
+    if (this.recordTimerInterval) {
+      clearInterval(this.recordTimerInterval);
+      this.recordTimerInterval = null;
+    }
+
+    if (this.pronounceModal) {
+      this.pronounceModal.classList.add('hidden');
+    }
+
+    if (completed) {
+      this.showToast('+50 XP Bonus Micara Basa Jawa!');
+      if (this.questEngine) {
+        this.questEngine.playerXP = (this.questEngine.playerXP || 0) + 50;
+        this.questEngine.saveState();
+        this.updateQuestTracker();
+      }
+    }
+
+    if (this.onPronounceComplete) {
+      this.onPronounceComplete(completed ? 100 : 0);
+      this.onPronounceComplete = null;
+    }
+  }
+
+  async handlePronounceListen() {
+    if (!this.currentPronounceTarget || !window.SpeechEvaluator) return;
+
+    if (this.pronounceListenBtn) {
+      this.pronounceListenBtn.classList.add('playing');
+    }
+
+    try {
+      await window.SpeechEvaluator.playTts(
+        this.currentPronounceTarget.text,
+        this.currentPronounceTarget.voice || 'jv-ID-SitiNeural',
+        this.currentPronounceTarget.speed !== undefined ? this.currentPronounceTarget.speed : 1.0,
+        this.currentPronounceTarget.pitch !== undefined ? this.currentPronounceTarget.pitch : 0,
+        () => {
+          if (this.pronounceListenBtn) this.pronounceListenBtn.classList.add('playing');
+        },
+        () => {
+          if (this.pronounceListenBtn) this.pronounceListenBtn.classList.remove('playing');
+        }
+      );
+    } catch (e) {
+      if (this.pronounceListenBtn) this.pronounceListenBtn.classList.remove('playing');
+    }
+  }
+
+  async handleTogglePronounceRecord() {
+    if (!window.SpeechEvaluator) return;
+
+    if (!this.isRecordingPronounce) {
+      // Start recording
+      try {
+        await window.SpeechEvaluator.startRecording();
+        this.isRecordingPronounce = true;
+
+        if (this.recordMicBtn) {
+          this.recordMicBtn.classList.add('recording');
+        }
+        if (this.micLiveWave) {
+          this.micLiveWave.classList.remove('hidden');
+        }
+        if (this.recordingTimer) {
+          this.recordingTimer.classList.remove('hidden');
+        }
+        if (this.micStatusText) {
+          this.micStatusText.innerText = '🎙️ Lagi ngrekam... Ucapake ukara kasebut saiki!';
+        }
+
+        let seconds = 0;
+        if (this.recordTimerInterval) clearInterval(this.recordTimerInterval);
+        this.recordTimerInterval = setInterval(() => {
+          seconds++;
+          const mins = Math.floor(seconds / 60);
+          const secs = seconds % 60;
+          if (this.recordingTimer) {
+            this.recordingTimer.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+          }
+          if (seconds >= 8) {
+            this.handleTogglePronounceRecord(); // Auto-stop after 8s
+          }
+        }, 1000);
+      } catch (err) {
+        this.showToast('Izin mikrofon dibutuhake kanggo gladhen micara.');
+      }
+    } else {
+      // Stop recording and evaluate
+      if (this.recordTimerInterval) {
+        clearInterval(this.recordTimerInterval);
+        this.recordTimerInterval = null;
+      }
+
+      this.isRecordingPronounce = false;
+      if (this.recordMicBtn) {
+        this.recordMicBtn.classList.remove('recording');
+      }
+      if (this.micLiveWave) {
+        this.micLiveWave.classList.add('hidden');
+      }
+      if (this.micStatusText) {
+        this.micStatusText.innerText = '⏳ Lagi ngevaluasi swara sampeyan...';
+      }
+
+      const recordedData = await window.SpeechEvaluator.stopRecording();
+      const evalResult = await window.SpeechEvaluator.evaluatePronunciation(
+        this.currentPronounceTarget ? this.currentPronounceTarget.text : '',
+        recordedData
+      );
+
+      this.displayPronunciationResults(evalResult);
+    }
+  }
+
+  displayPronunciationResults(evalResult) {
+    if (!evalResult) return;
+
+    if (this.micStatusText) {
+      this.micStatusText.innerText = 'Asil Evaluasi Gladhen Micara:';
+    }
+
+    if (this.evalOverallScore) {
+      this.evalOverallScore.innerText = evalResult.overall_score || 85;
+    }
+
+    if (this.evalRatingBadge) {
+      this.evalRatingBadge.className = `eval-rating-badge ${evalResult.rating_badge || 'good'}`;
+      this.evalRatingBadge.innerText = evalResult.fluency_rating || 'Wis Apik';
+    }
+
+    if (this.evalFeedbackText) {
+      const fb = (evalResult.feedback && evalResult.feedback[0]) ||
+        (evalResult.overall_score >= 80
+          ? 'Apik banget! Pangucapan lan intonasi basa Jawa sampeyan wis lancar lan cetha.'
+          : (evalResult.overall_score >= 60
+              ? 'Wis apik! Ana sawetara tembung sing bisa disampurnakake maneh.'
+              : 'Ayo coba latihan maneh! Rungokake conto swara dhisik banjur baleni.'));
+      this.evalFeedbackText.innerText = fb;
+    }
+
+    if (this.wordChipsContainer && Array.isArray(evalResult.word_analysis)) {
+      this.wordChipsContainer.innerHTML = '';
+      evalResult.word_analysis.forEach(item => {
+        const chip = document.createElement('span');
+        chip.className = `word-chip ${item.status || 'correct'}`;
+        
+        let iconName = 'check';
+        if (item.status === 'mispronounced') iconName = 'alert-triangle';
+        else if (item.status === 'missing') iconName = 'x';
+
+        chip.innerHTML = `<i data-lucide="${iconName}" style="width: 12px; height: 12px;"></i> ${item.word}`;
+        chip.title = item.tip || '';
+        this.wordChipsContainer.appendChild(chip);
+      });
+    }
+
+    if (this.pronounceResultCard) {
+      this.pronounceResultCard.classList.remove('hidden');
+    }
+
+    if (window.SoundManager && evalResult.overall_score >= 70) {
+      window.SoundManager.playCorrect();
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
     }
   }
 

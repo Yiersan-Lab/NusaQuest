@@ -17,7 +17,9 @@ class SoundManager {
       dialog: new Audio('/assets/sfx/dialog.mp3'),
       atif: new Audio('/assets/sfx/atip russia.mp3'),
       correct: new Audio('/assets/sfx/correct.mp3'),
-      incorrect: new Audio('/assets/sfx/incorrect.wav')
+      incorrect: new Audio('/assets/sfx/incorrect.wav'),
+      btnHover: new Audio('/assets/sfx/2.mp3'),
+      btnClick: new Audio('/assets/sfx/6.mp3')
     };
 
     this.ambient = {
@@ -33,6 +35,8 @@ class SoundManager {
 
     this.sfx.correct.volume = 0.65;
     this.sfx.incorrect.volume = 0.55;
+    this.sfx.btnHover.volume = 0.40;
+    this.sfx.btnClick.volume = 0.55;
 
     this.ambient.outdoor.loop = true;
     this.ambient.outdoor.volume = 0;
@@ -40,23 +44,76 @@ class SoundManager {
     this.ambient.indoor.loop = true;
     this.ambient.indoor.volume = 0;
 
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        this.ctx = new AudioContextClass();
+      }
+    } catch (e) {
+      this.ctx = null;
+    }
+
+    // Set preload on all audio elements and load
+    Object.values(this.sfx).forEach(audio => {
+      audio.preload = 'auto';
+      try { audio.load(); } catch (e) { }
+    });
+    Object.values(this.ambient).forEach(audio => {
+      audio.preload = 'auto';
+      try { audio.load(); } catch (e) { }
+    });
+
     this.bindUnlockListener();
+    this.bindMenuSfxListeners();
+
+    // Attempt immediate autoplay on initialization
+    this.tryImmediateAutoplay();
+  }
+
+  warmupAudioContext() {
+    if (!this.ctx) return;
+    try {
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => { });
+      }
+      const buffer = this.ctx.createBuffer(1, 1, 22050);
+      const source = this.ctx.createBufferSource();
+      source.buffer = buffer;
+      source.connect(this.ctx.destination);
+      source.start(0);
+    } catch (e) { }
+  }
+
+  tryImmediateAutoplay() {
+    this.warmupAudioContext();
+    if (this.currentAmbientMode) {
+      this.playAmbient(this.currentAmbientMode);
+    }
   }
 
   bindUnlockListener() {
     const unlock = () => {
       this.initialized = true;
+      this.warmupAudioContext();
+
+      if (this.ambient.outdoor && this.ambient.outdoor.muted) {
+        this.ambient.outdoor.muted = false;
+      }
+      if (this.ambient.indoor && this.ambient.indoor.muted) {
+        this.ambient.indoor.muted = false;
+      }
+
       if (this.currentAmbientMode) {
         this.playAmbient(this.currentAmbientMode);
       }
-      window.removeEventListener('click', unlock);
-      window.removeEventListener('keydown', unlock);
-      window.removeEventListener('touchstart', unlock);
+      events.forEach(evt => window.removeEventListener(evt, unlock, true));
     };
 
-    window.addEventListener('click', unlock, { once: false });
-    window.addEventListener('keydown', unlock, { once: false });
-    window.addEventListener('touchstart', unlock, { once: false });
+    const events = [
+      'click', 'keydown', 'touchstart', 'pointerdown', 'pointermove',
+      'mousemove', 'mouseover', 'mouseenter', 'focus', 'wheel', 'scroll', 'visibilitychange'
+    ];
+    events.forEach(evt => window.addEventListener(evt, unlock, { once: true, capture: true, passive: true }));
   }
 
   toggleMute() {
@@ -106,9 +163,7 @@ class SoundManager {
     const targetMode = isIndoor ? 'indoor' : 'outdoor';
     this.currentAmbientMode = targetMode;
 
-    if (this.initialized) {
-      this.playAmbient(targetMode);
-    }
+    this.playAmbient(targetMode);
   }
 
   isIndoorMap(mapId, mapName = '') {
@@ -126,7 +181,14 @@ class SoundManager {
 
     try {
       if (activeAudio.paused) {
-        activeAudio.play().catch(() => { });
+        const playPromise = activeAudio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Autoplay policy prevented unmuted playback. Start muted to stream in background immediately
+            activeAudio.muted = true;
+            activeAudio.play().catch(() => { });
+          });
+        }
       }
     } catch (e) { }
 
@@ -224,6 +286,51 @@ class SoundManager {
         playPromise.catch(() => { });
       }
     } catch (e) { }
+  }
+
+  playButtonHover() {
+    if (this.muted) return;
+    try {
+      const sound = this.sfx.btnHover.cloneNode();
+      sound.volume = 0.40;
+      const playPromise = sound.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => { });
+      }
+    } catch (e) { }
+  }
+
+  playButtonClick() {
+    if (this.muted) return;
+    try {
+      const sound = this.sfx.btnClick.cloneNode();
+      sound.volume = 0.55;
+      const playPromise = sound.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => { });
+      }
+    } catch (e) { }
+  }
+
+  bindMenuSfxListeners() {
+    // Restrict hover/click sound effects exclusively to the title screen buttons
+    const selector = '#startScreen button, #startScreen .start-menu-item, #startPlayBtn, #startOptionsBtn';
+
+    // Use capture phase mouseover to trigger hover sound on enter
+    document.addEventListener('mouseover', (e) => {
+      const btn = e.target && e.target.closest ? e.target.closest(selector) : null;
+      if (btn && (!e.relatedTarget || !btn.contains(e.relatedTarget))) {
+        this.playButtonHover();
+      }
+    }, true);
+
+    // Use capture phase click to trigger click sound
+    document.addEventListener('click', (e) => {
+      const btn = e.target && e.target.closest ? e.target.closest(selector) : null;
+      if (btn) {
+        this.playButtonClick();
+      }
+    }, true);
   }
 
   updateMuteUI() {

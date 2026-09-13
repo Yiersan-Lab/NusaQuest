@@ -477,5 +477,365 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789276914179",
+    "npcId": "mbok_sari",
+    "title": "Kuis Tembung Mbok Sari",
+    "generatedAt": "2026-09-13T05:21:54.179Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing dialog, Mbok Sari nyebut \"Reginipun sedasa ewu\". Apa tegese kata \"ewu\" ing konteks iki dadi harga totalipun?",
+        "options": [
+          "Seratus ribu (100.000)",
+          "Sepuluh ribu (10.000)",
+          "Satu ribu (1.000)",
+          "Seribu (1.000) tapi ditulis 'sedasa'"
+        ],
+        "answer": 1,
+        "explanation": "Mbok Sari ngendika \"Reginipun sedasa ewu\", tegese \"Harganya sepuluh ribu\". Tembung \"ewu\" tegese ribu, dadi sedasa ewu = 10.000.",
+        "teaches": {
+          "word": "sedasa ewu",
+          "meaning": "sepuluh ribu (10.000)"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen sampeyan arep takon harga sayur marang Mbok Sari, ukara kang paling trep menapa?",
+        "options": [
+          "Reginipun sedasa ewu.",
+          "Mundhut sayur mboten?",
+          "Regine pinten?",
+          "Matur nuwun sampun mampir!"
+        ],
+        "answer": 2,
+        "explanation": "Mbok Sari wis nglawahi bilih \"Pinten\" tegese \"berapa\" lan \"Regine\" tegese \"harganya\". Dadi, \"Regine pinten?\" tegese \"Harganya berapa?\".",
+        "teaches": {
+          "word": "Regine pinten?",
+          "meaning": "Harganya berapa?"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789277100614",
+    "npcId": "mbok_sari",
+    "title": "Kuis Tembung Mbok Sari",
+    "generatedAt": "2026-09-13T05:25:00.614Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Mundhut sayur mboten?', tembung 'mundhut' iku tegese apa?",
+        "options": [
+          "Makan",
+          "Menjual",
+          "Membeli",
+          "Memberi"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'mundhut' tegese 'membeli'.",
+        "teaches": {
+          "word": "mundhut",
+          "meaning": "membeli"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Mbok Sari ngandika: \"'Pinten' niku tegese 'berapa' — dadi 'regine pinten?'\". Ukara 'Regine pinten?' ing basa Indonesia tegese apa?",
+        "options": [
+          "Beliau siapa?",
+          "Harganya berapa?",
+          "Waktunya kapan?",
+          "Namanya apa?"
+        ],
+        "answer": 1,
+        "explanation": "'Regine pinten?' tegese 'Harganya berapa?' ing basa Indonesia.",
+        "teaches": {
+          "word": "pinten",
+          "meaning": "berapa"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Sasuwene transaksi rampung, Mbok Sari ngucapake tembung apa kanggo nutup dialog lan ngucapake rasa syukur?",
+        "options": [
+          "Sugeng enjing",
+          "Matur nuwun",
+          "Mundhut sayur",
+          "Reginipun sedasa"
+        ],
+        "answer": 1,
+        "explanation": "Mbok Sari ngucapake 'Matur nuwun sampun mampir!' kang tegese 'Terima kasih sudah mampir!'.",
+        "teaches": {
+          "word": "matur nuwun",
+          "meaning": "terima kasih"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789277501177",
+    "npcId": "mbok_sari",
+    "title": "Kuis Tembung Mbok Sari",
+    "generatedAt": "2026-09-13T05:31:41.177Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing dialog kapisan, sapa iki sing ngucapake 'Sugeng enjing, Nak!' lan apa tegese ukara kasebut?",
+        "options": [
+          "Mbok Sari ngucapake selamat sore",
+          "Mbok Sari ngucapake selamat pagi",
+          "Pembeli ngucapake selamat pagi",
+          "Mbok Sari ngucapake selamat makan"
+        ],
+        "answer": 1,
+        "explanation": "Mbok Sari ngucapake 'Sugeng enjing' sing tegese 'Selamat pagi'.",
+        "teaches": {
+          "word": "Sugeng enjing",
+          "meaning": "Selamat pagi"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen Mbok Sari ngandika 'Mundhut sayur mboten?', menapa tegese tembung 'mboten' ing ukara kasebut?",
+        "options": [
+          "Ya",
+          "Tidak",
+          "Mungkin",
+          "Sedikit"
+        ],
+        "answer": 1,
+        "explanation": "'Mboten' tegese 'Tidak'. Dadi 'Mundhut sayur mboten?' tegese 'Mau beli sayur tidak?'.",
+        "teaches": {
+          "word": "mboten",
+          "meaning": "tidak"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Mbok Sari njlentrehake bilih 'Regine' tegese 'harganya'. Yen sampeyan arep ngrungokake harga sayur, menapa ukara Javanese kang trep miturut conto Mbok Sari?",
+        "options": [
+          "Regine pinten?",
+          "Sedasa ewu?",
+          "Matur nuwun?",
+          "Sugeng enjing?"
+        ],
+        "answer": 0,
+        "explanation": "Miturut penjelasan Mbok Sari, 'regine' tegese 'harganya' lan 'pinten' tegese 'berapa', dadi 'Regine pinten?' tegese 'Harganya berapa?'.",
+        "teaches": {
+          "word": "Regine pinten?",
+          "meaning": "Harganya berapa?"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789278293897",
+    "npcId": "mbok_sari",
+    "title": "Kuis Tembung Mbok Sari",
+    "generatedAt": "2026-09-13T05:44:53.897Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Mbok Sari ngandika 'Reginipun sedasa ewu'. Miturut ngelmu tembung ing dialog kasebut, menapa tegese 'sedasa'?",
+        "options": [
+          "Sepuluh (10)",
+          "Sepuluh ribu (10,000)",
+          "Seratus (100)",
+          "Satu (1)"
+        ],
+        "answer": 0,
+        "explanation": "Ing dialog, 'sedasa' tegese sepuluh (10), dadi 'sedasa ewu' tegese sepuluh ribu.",
+        "teaches": {
+          "word": "sedasa",
+          "meaning": "sepuluh (10)"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen sampeyan wis tuku sayur marang Mbok Sari, menapa ukara Javanese kang trep kanggo ngucapake rasa syukur miturut dialog pungkasanipun?",
+        "options": [
+          "Sugeng enjing",
+          "Tinuwi",
+          "Matur nuwun",
+          "Pinten regine"
+        ],
+        "answer": 2,
+        "explanation": "Mbok Sari ngajarake bilih 'matur nuwun' tegese 'terima kasih'. Ukara pungkasan ing dialog yaiku 'Matur nuwun sampun mampir!'.",
+        "teaches": {
+          "word": "matur nuwun",
+          "meaning": "terima kasih"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Mbok Sari njlentrehake: \"'Pinten' niku tegese 'berapa'\". Yen sampeyan arep nggunakake tembung kasebut kanggo takon harga sayur menapa ukara kang bener?",
+        "options": [
+          "Regine mboten?",
+          "Regine pinten?",
+          "Sedasa ewu?",
+          "Mundhut sayur?"
+        ],
+        "answer": 1,
+        "explanation": "Miturut penjelasan Mbok Sari, 'regine pinten?' iku ukara kang trep kanggo takon 'harganya berapa?', amarga 'pinten' tegese 'berapa'.",
+        "teaches": {
+          "word": "pinten",
+          "meaning": "berapa"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789295712924",
+    "npcId": "mbok_sari",
+    "title": "Kuis Tembung Mbok Sari",
+    "generatedAt": "2026-09-13T10:35:12.924Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Mundhut sayur mboten?', tembung 'mboten' iku punya tegese apa ing basa Indonesia?",
+        "options": [
+          "Ya / Iya",
+          "Tidak",
+          "Mungkin",
+          "Sedang"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'mboten' iku tegese 'tidak'. Dadi ukara kasebut tegese 'Mau beli sayur tidak?'",
+        "teaches": {
+          "word": "mboten",
+          "meaning": "tidak"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Mbok Sari ngandika: 'Reginipun sedasa ewu'. Yen diterjemahke menyang basa Indonesia, ukara kasebut duwe arti apa?",
+        "options": [
+          "Harganya lima ribu",
+          "Harganya dua puluh ribu",
+          "Harganya sepuluh ribu",
+          "Harganya seratus ribu"
+        ],
+        "answer": 2,
+        "explanation": "'Reginipun' tegese harganya, 'sedasa' tegese sepuluh, lan 'ewu' tegese ribu. Dadi tegese 'Harganya sepuluh ribu'.",
+        "teaches": {
+          "word": "sedasa ewu",
+          "meaning": "sepuluh ribu"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Kanggo ngucapake 'Terima kasih' marang Mbok Sari, tembung Javanese kang trep miturut dialog pungkasan apa?",
+        "options": [
+          "Matur nuwun",
+          "Nyuwun pangapunten",
+          "Sugeng rawuh",
+          "Mung mugi-mugi"
+        ],
+        "answer": 0,
+        "explanation": "Ing dialog pungkasan, Mbok Sari ngandika 'Matur nuwun sampun mampir!' kang tegese 'Terima kasih sudah mampir!'. Dadi 'Matur nuwun' tegese terima kasih.",
+        "teaches": {
+          "word": "matur nuwun",
+          "meaning": "terima kasih"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789302979419",
+    "npcId": "mbok_sari",
+    "title": "Kuis Tembung Mbok Sari",
+    "generatedAt": "2026-09-13T12:36:19.419Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing dialog pisanan, Mbok Sari ngucapake 'Sugeng enjing, Nak!'. Menapa tegese tembung 'Sugeng enjing' ing basa Indonesia?",
+        "options": [
+          "Selamat siang",
+          "Selamat sore",
+          "Selamat malam",
+          "Selamat pagi"
+        ],
+        "answer": 3,
+        "explanation": "'Sugeng enjing' tegese 'Selamat pagi'.",
+        "teaches": {
+          "word": "Sugeng enjing",
+          "meaning": "Selamat pagi"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Mbok Sari takon, 'Mundhut sayur mboten?'. Miturut kosakata sing diajarkene, menapa tegese tembung 'mundhut'?",
+        "options": [
+          "Memasak",
+          "Membeli",
+          "Menjual",
+          "Menanam"
+        ],
+        "answer": 1,
+        "explanation": "'Mundhut' tegese 'membeli'.",
+        "teaches": {
+          "word": "mundhut",
+          "meaning": "membeli"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen sampeyan arep ngucapake rasa terima kasih marang Mbok Sari sawise tuku sayur, menapa ukara Javanese kang bener miturut dialog pungkasan?",
+        "options": [
+          "Matur nuwun sampun mampir!",
+          "Sugeng enjing, Nak!",
+          "Reginipun sedasa ewu.",
+          "Mundhut sayur mboten?"
+        ],
+        "answer": 0,
+        "explanation": "Ukara kanggo ngucapake terima kasih yaiku 'Matur nuwun sampun mampir!'.",
+        "teaches": {
+          "word": "matur nuwun",
+          "meaning": "terima kasih"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789303390400",
+    "npcId": "mbok_sari",
+    "title": "Kuis Tembung Mbok Sari",
+    "generatedAt": "2026-09-13T12:43:10.400Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Mundhut sayur mboten?', menapa tegese tembung 'mboten' sing durung diajarkene ing dhaftar kosakata nanging bisa ditebak saka konteks?",
+        "options": [
+          "Ya",
+          "Dibandhinge",
+          "Ora",
+          "Mung"
+        ],
+        "answer": 2,
+        "explanation": "Ing konteks pitakonan 'Mundhut sayur mboten?', tembung 'mboten' iku tegese 'ora' utawa 'tidak'. Iku wujud pitakonan yen arep tuku utawa ora.",
+        "teaches": {
+          "word": "mboten",
+          "meaning": "tidak / ora"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Mbok Sari njlentrehake: \"'Regine' niku tegese 'harganya'\". Yen sampeyan arep nampa ukara 'Harganya sepuluh ribu' dadi basa Jawa miturut pola dialog, menapa ukara kang trep?",
+        "options": [
+          "Reginipun dolas ewu.",
+          "Reginipun sedasa ewu.",
+          "Hargane sedasa ewu.",
+          "Pinten sedasa ewu."
+        ],
+        "answer": 1,
+        "explanation": "Berdasarkan dialog, 'Reginipun' iku bentuk formal/krama alus kanggo 'harganya' lan 'sedasa' iku 'sepuluh'. Dadi 'Harganya sepuluh ribu' dadi 'Reginipun sedasa ewu'.",
+        "teaches": {
+          "word": "Reginipun sedasa ewu",
+          "meaning": "Harganya sepuluh ribu"
+        }
+      }
+    ]
   }
 ]

@@ -34,7 +34,14 @@
     }
   ],
   "east_village": [],
-  "west_village": [],
+  "west_village": [
+    {
+      "id": "pak_tyson",
+      "tileX": 10,
+      "tileY": 7,
+      "dir": 1
+    }
+  ],
   "rumah_joko": [],
   "istana_atif": [
     {
@@ -45,5 +52,6 @@
       "col": 6,
       "row": 4
     }
-  ]
+  ],
+  "rumah_pak_tyson": []
 }

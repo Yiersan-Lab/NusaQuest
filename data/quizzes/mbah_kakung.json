@@ -317,5 +317,453 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789277080454",
+    "npcId": "mbah_kakung",
+    "title": "Kuis Tembung Mbah Kakung",
+    "generatedAt": "2026-09-13T05:24:40.454Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing dialogue Mbah Kakung, ukara 'Sugeng rawuh ing balai desa, Nak' tegese apa ing basa Indonesia?",
+        "options": [
+          "Silakan pulang ke rumah, Nak.",
+          "Selamat datang di balai desa, Nak.",
+          "Terima kasih sudah datang ke rumah, Nak.",
+          "Hati-hati di jalan menuju desa, Nak."
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'sugeng rawuh' tegese 'selamat datang'. Dadi, ukara kasebut tegese 'Selamat datang di balai desa, Nak'.",
+        "teaches": {
+          "word": "sugeng rawuh",
+          "meaning": "selamat datang"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen Mbah Kakung ngandika 'Kula mriki urip tentrem kaliyan kulawarga', apa tegese tembung 'kaliyan' ing ukara kasebut?",
+        "options": [
+          "Tanpa / Tanpa",
+          "Bersama / Dengan",
+          "Melawan / Lawan",
+          "Atau / Atau"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'kaliyan' tegese 'bersama' utawa 'dengan'. Ing ukara kasebut, tegese 'hidup tenteram bersama keluarga'.",
+        "teaches": {
+          "word": "kaliyan",
+          "meaning": "bersama / dengan"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing pangandikan pungkasan Mbah Kakung, 'Mugi-mugi betah ing desa NusaQuest!', tembung 'mugi-mugi' nduweni tegese apa?",
+        "options": [
+          "Pasti / Tentu",
+          "Jangan / Don't",
+          "Semoga / Hopefully",
+          "Sudah / Already"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'mugi-mugi' adicara kanggo ngarep-arep utawa do'a, tegese 'semoga'. Dadi ukara kasebut tegese 'Semoga betah di desa NusaQuest!'.",
+        "teaches": {
+          "word": "mugi-mugi",
+          "meaning": "semoga"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789278080824",
+    "npcId": "mbah_kakung",
+    "title": "Kuis Tembung Mbah Kakung",
+    "generatedAt": "2026-09-13T05:41:20.824Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Sugeng rawuh ing balai desa, Nak', tembung 'balai desa' nuduhake papan apa?",
+        "options": [
+          "Omah warga",
+          "Gedung pamrentah desa",
+          "Wisma wisata",
+          "Sekolah desa"
+        ],
+        "answer": 1,
+        "explanation": "'Balai desa' tegese gedung utawa papan sing digunaake kanggo kagiyatan warga desa, kaya ta rapat utawa penerimaan tamu.",
+        "teaches": {
+          "word": "balai desa",
+          "meaning": "balai desa"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Kangge nyambungake katrangan babagan 'tenteram' lan 'keluarga' ing ukara 'urip tentrem kaliyan kulawarga', tembung pira sing digunaake?",
+        "options": [
+          "Kaliyan",
+          "Karo",
+          "Kanthi",
+          "Sarta"
+        ],
+        "answer": 0,
+        "explanation": "Ing ukara kasebut, tembung 'kaliyan' digunaake kanggo nyambungake 'tentrem' lan 'kulawarga' (artine 'beserta' utawa 'bersama').",
+        "teaches": {
+          "word": "kaliyan",
+          "meaning": "beserta / bersama"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Saka ukara 'Mugi-mugi betah ing desa NusaQuest', apa maksud kata 'betah' ing basa Indonesia?",
+        "options": [
+          "Lelah",
+          "Senang / nyaman",
+          "Sedih",
+          "Marah"
+        ],
+        "answer": 1,
+        "explanation": "'Betah' tegese seneng, nyaman, utawa suka ing papan kasebut. Dadi 'Mugi-mugi betah' tegese 'Semoga senang/nyaman'.",
+        "teaches": {
+          "word": "betah",
+          "meaning": "senang / nyaman"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789278173987",
+    "npcId": "mbah_kakung",
+    "title": "Kuis Tembung Mbah Kakung",
+    "generatedAt": "2026-09-13T05:42:53.987Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Kula mriki urip tentrem kaliyan kulawarga', tembung 'Kula' nuduhake apa?",
+        "options": [
+          "Kau (Engkau)",
+          "Saya (Aku)",
+          "Kita (Kami)",
+          "Ia (Beliau)"
+        ],
+        "answer": 1,
+        "explanation": "'Kula' tegese 'saya' utawa 'aku' ing basa Indonesia.",
+        "teaches": {
+          "word": "kula",
+          "meaning": "saya / aku"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Apa tegese tembung 'mriki' ing ukara 'Kula mriki urip tentrem kaliyan kulawarga'?",
+        "options": [
+          "Di sana",
+          "Di atas",
+          "Di sini",
+          "Di bawah"
+        ],
+        "answer": 2,
+        "explanation": "'Mriki' tegese 'di sini' ing basa Indonesia.",
+        "teaches": {
+          "word": "mriki",
+          "meaning": "di sini"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Menapa tegese ukara 'Mugi-mugi betah ing desa NusaQuest' ing basa Indonesia?",
+        "options": [
+          "Selamat tinggal di desa NusaQuest",
+          "Syukurlah ada di desa NusaQuest",
+          "Semoga betah di desa NusaQuest",
+          "Sudah betah di desa NusaQuest"
+        ],
+        "answer": 2,
+        "explanation": "'Mugi-mugi' tegese 'semoga', 'betah' tegese 'betah/nyaman', lan 'ing' tegese 'di'. Dadi tegese 'Semoga betah di desa NusaQuest'.",
+        "teaches": {
+          "word": "mugi-mugi",
+          "meaning": "semoga"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789278366955",
+    "npcId": "mbah_kakung",
+    "title": "Kuis Tembung Mbah Kakung",
+    "generatedAt": "2026-09-13T05:46:06.955Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Sugeng rawuh ing balai desa, Nak', tembung 'sugeng rawuh' nuduhake teges apa ing basa Indonesia?",
+        "options": [
+          "Selamat tinggal",
+          "Selamat datang",
+          "Selamat pagi",
+          "Selamat tidur"
+        ],
+        "answer": 1,
+        "explanation": "'Sugeng rawuh' tegese 'Selamat datang'.",
+        "teaches": {
+          "word": "sugeng rawuh",
+          "meaning": "selamat datang"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Menapa tegese tembung 'tentrem' ing basa Indonesia miturut pangandikan Mbah Kakung?",
+        "options": [
+          "Sakit",
+          "Gembira",
+          "Tenteram / Damai",
+          "Marah"
+        ],
+        "answer": 2,
+        "explanation": "'Tentrem' tegese 'tenteram' utawa 'damai'.",
+        "teaches": {
+          "word": "tentrem",
+          "meaning": "tenteram / damai"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing ukara 'Kula mriki urip tentrem kaliyan kulawarga', tembung 'kulawarga' tegese apa?",
+        "options": [
+          "Tetangga",
+          "Teman",
+          "Tetua",
+          "Keluarga"
+        ],
+        "answer": 3,
+        "explanation": "'Kulawarga' tegese 'keluarga'.",
+        "teaches": {
+          "word": "kulawarga",
+          "meaning": "keluarga"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789278507919",
+    "npcId": "mbah_kakung",
+    "title": "Kuis Tembung Mbah Kakung",
+    "generatedAt": "2026-09-13T05:48:27.919Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Sugeng rawuh ing balai desa, Nak', tembung 'Nak' gunane kangge sapa apa?",
+        "options": [
+          "Anak",
+          "Orang",
+          "Teman",
+          "Tetangga"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'Nak' yaiku sapaan sopan kanggo anak utawa bocah.",
+        "teaches": {
+          "word": "Nak",
+          "meaning": "anak"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Menapa tegese tembung 'betah' ing ukara 'Mugi-mugi betah ing desa NusaQuest'?",
+        "options": [
+          "Senang",
+          "Sedih",
+          "Marah",
+          "Lega"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'betah' tegese enak, nyaman, utawa seneng.",
+        "teaches": {
+          "word": "betah",
+          "meaning": "senang / nyaman"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing ukara 'Mugi-mugi betah ing desa NusaQuest', tembung 'Mugi-mugi' duwe teges apa ing basa Indonesia?",
+        "options": [
+          "Pasti",
+          "Semoga",
+          "Tetap",
+          "Segera"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'Mugi-mugi' tegese semoga.",
+        "teaches": {
+          "word": "mugi-mugi",
+          "meaning": "semoga"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789295935570",
+    "npcId": "mbah_kakung",
+    "title": "Kuis Tembung Mbah Kakung",
+    "generatedAt": "2026-09-13T10:38:55.570Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Menapa tegese 'balai desa' ing basa Indonesia?",
+        "options": [
+          "Pasar desa",
+          "Balai desa",
+          "Sekolah desa",
+          "Rumah adat"
+        ],
+        "answer": 1,
+        "explanation": "'Balai desa' ing basa Indonesia yaiku balai desa, padha tembang.",
+        "teaches": {
+          "word": "balai desa",
+          "meaning": "balai desa"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Ing ukara 'Kula mriki urip tentrem kaliyan kulawarga', sapa sing diomongake dening Mbah Kakung?",
+        "options": [
+          "Tetangga",
+          "Kulawarga",
+          "Warga desa",
+          "Tamu"
+        ],
+        "answer": 1,
+        "explanation": "Ing ukara kasebut, Mbah Kakung nyebutake 'kulawarga' (keluarga).",
+        "teaches": {
+          "word": "kulawarga",
+          "meaning": "keluarga"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Apa tegese tembung 'sugeng rawuh' ing basa Indonesia?",
+        "options": [
+          "Sugeng dalan",
+          "Sugeng titip",
+          "Selamat datang",
+          "Selamat siang"
+        ],
+        "answer": 2,
+        "explanation": "'Sugeng rawuh' tegese 'Selamat datang'.",
+        "teaches": {
+          "word": "sugeng rawuh",
+          "meaning": "selamat datang"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789301437399",
+    "npcId": "mbah_kakung",
+    "title": "Kuis Tembung Mbah Kakung",
+    "generatedAt": "2026-09-13T12:10:37.399Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Menapa tegese tembung 'uri' ing ukara 'Kula mriki urip tentrem kaliyan kulawarga'?",
+        "options": [
+          "Tidur",
+          "Hidup",
+          "Makan",
+          "Berjalan"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'uri' tegese 'hidup' utawa 'urip' ing basa Indonesia.",
+        "teaches": {
+          "word": "uri",
+          "meaning": "hidup"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Ing ukara 'Mugi-mugi betah ing desa NusaQuest!', sapa sing diingini oleh Mbah Kakung supaya betah?",
+        "options": [
+          "Kulawargane Mbah Kakung",
+          "Tetangga desa",
+          "Wong sing rawuh (Nak)",
+          "Kepala Desa"
+        ],
+        "answer": 2,
+        "explanation": "Mbah Kakung ngucapake 'Mugi-mugi betah' kanggo wong sing rawuh (Nak) supaya nyaman ing desa NusaQuest.",
+        "teaches": {
+          "word": "betah",
+          "meaning": "nyaman / betah"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Kepiye cara ngucapake 'Selamat datang' ing basa Jawa ngoko alus miturut ukara kang diucapake Mbah Kakung?",
+        "options": [
+          "Matur nuwun",
+          "Sugeng rawuh",
+          "Punten",
+          "Monggo"
+        ],
+        "answer": 1,
+        "explanation": "Ing ukara 'Sugeng rawuh ing balai desa, Nak', 'Sugeng rawuh' tegese 'Selamat datang'.",
+        "teaches": {
+          "word": "sugeng rawuh",
+          "meaning": "selamat datang"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789303576813",
+    "npcId": "mbah_kakung",
+    "title": "Kuis Tembung Mbah Kakung",
+    "generatedAt": "2026-09-13T12:46:16.813Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Kula mriki urip tentrem kaliyan kulawarga', tembung 'kaliyan' duwe teges apa?",
+        "options": [
+          "Lawan",
+          "Karo",
+          "Kanggo",
+          "Ing ngisor"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'kaliyan' tegese 'karo' utawa 'beserta'.",
+        "teaches": {
+          "word": "kaliyan",
+          "meaning": "karo"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Menapa tembung 'tentrem' ing ukara 'Kula mriki urip tentrem kaliyan kulawarga' tegese ing basa Indonesia?",
+        "options": [
+          "Sedhih",
+          "Gumun",
+          "Tenteram / Damai",
+          "Sedak"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'tentrem' tegese tenteram utawa damai.",
+        "teaches": {
+          "word": "tentrem",
+          "meaning": "tenteram / damai"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing ukara 'Sugeng rawuh ing balai desa, Nak', tembung 'mriki' (kang diarani dening Mbah Kakung ing ukara sabanjure) nyebutake mangsa apa?",
+        "options": [
+          "Ing kono / Sanalika ing pundi",
+          "Ing ngisor",
+          "Ing luhur",
+          "Ing sacedhake"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'mriki' tegese 'ing kene' utawa 'di sini', nuduhake papan utawa wektu saiki.",
+        "teaches": {
+          "word": "mriki",
+          "meaning": "di sini / di tempat ini"
+        }
+      }
+    ]
   }
 ]

@@ -16,132 +16,243 @@
 
   <script src="/js/sidebar.js"></script>
 
-  <div id="gameWrapper">
-    <header id="topHud">
-      <div class="brand">
-        <h1 class="game-title">NusaQuest</h1>
-        <span class="badge">BAIFEST 2026</span>
-        <span class="badge" style="background: rgba(245,158,11,0.2); color: #f59e0b; border: 1px solid #f59e0b;">Dev Preview</span>
-      </div>
-
-      <div class="control-hint" style="display: flex; align-items: center; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <span style="font-size: 11px; color: #fef08a; font-weight: 700;">Tile Size:</span>
-          <select id="tileSizeSelect" title="Adjust Game Tile Size (px)" style="padding: 2px 6px; font-size: 11px; background: #451a03; color: #fbbf24; border: 1px solid #78350f; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700;">
-            <option value="24">24px</option>
-            <option value="32">32px</option>
-            <option value="48" selected>48px</option>
-            <option value="64">64px</option>
-          </select>
+  <div class="main-wrapper" style="align-items: center; justify-content: center; overflow-y: auto; padding: 20px; width: 100%; height: 100vh;">
+    <div id="gameWrapper">
+      <header id="topHud">
+        <div class="brand">
+          <h1 class="game-title">NusaQuest</h1>
+          <span class="badge">BAIFEST 2026</span>
+          <span class="badge" style="background: rgba(245,158,11,0.2); color: #f59e0b; border: 1px solid #f59e0b;">Dev Preview</span>
         </div>
-        <span><span class="key">WASD</span> / <span class="key">▲▼◄►</span> Pindah &nbsp;•&nbsp; <span class="key">E</span> Bicara &nbsp;•&nbsp; <span class="key">N</span> Buku &nbsp;•&nbsp; <span class="key">Q</span> Misi</span>
-        <button id="soundToggleBtn" title="Suara / Audio (M)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="volume-2" style="width: 14px; height: 14px;"></i> Suara (M)</button>
-        <button id="questHudBtn" title="Buka Quest Log (Q)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="scroll" style="width: 14px; height: 14px;"></i> Misi (Q)</button>
-      </div>
-    </header>
 
-    <div id="canvasContainer">
-      <canvas id="gameCanvas" width="768" height="480"></canvas>
-
-      <!-- Mini Quest Tracker Widget (Top Left HUD Overlay) -->
-      <div id="questTracker" class="rpg-box mini-tracker">
-        <div class="tracker-header">
-          <span class="tracker-icon"><i data-lucide="compass" style="width: 14px; height: 14px;"></i></span>
-          <span id="questTrackerText" class="tracker-text">Misi: Bicara dengan Mbok Sari di Pasar</span>
-        </div>
-      </div>
-
-      <aside id="vocabNotebook" class="rpg-box">
-        <div class="notebook-header">
-          <div class="notebook-title">
-            <span class="icon"><i data-lucide="book-open" style="width: 14px; height: 14px;"></i></span> Buku Tembung
+        <div class="control-hint" style="display: flex; align-items: center; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 11px; color: #fef08a; font-weight: 700;">Tile Size:</span>
+            <select id="tileSizeSelect" title="Adjust Game Tile Size (px)" style="padding: 2px 6px; font-size: 11px; background: #451a03; color: #fbbf24; border: 1px solid #78350f; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700;">
+              <option value="24">24px</option>
+              <option value="32">32px</option>
+              <option value="48" selected>48px</option>
+              <option value="64">64px</option>
+            </select>
           </div>
-          <div class="notebook-controls">
-            <span id="vocabCounter" class="counter">0 kata</span>
-            <button id="toggleNotebookBtn" class="toggle-btn" title="Sembunyikan / Tampilkan Buku (N / Tab)">−</button>
-          </div>
+          <button id="soundToggleBtn" title="Suara / Audio (M)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="volume-2" style="width: 14px; height: 14px;"></i> <span class="btn-text">Suara (M)</span></button>
+          <button id="questHudBtn" title="Buka Quest Log (Q)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="scroll" style="width: 14px; height: 14px;"></i> <span class="btn-text">Misi (Q)</span></button>
         </div>
-        <div class="notebook-body">
-          <ul id="vocabList">
-            <li class="empty-msg">Belum ada kata terbukti. Bicara dengan warga desa!</li>
-          </ul>
-        </div>
-      </aside>
+      </header>
 
-      <div id="dialogueBox" class="rpg-box hidden">
-        <div id="aiLoadingIndicator" class="ai-loading hidden">
-          <span class="spinner"></span> Sedang merangkai kuis baru kanggo panjenengan...
-        </div>
-        <div class="dialogue-content">
-          <div id="npcPortraitFrame" class="portrait-frame">
-            <canvas id="portraitCanvas" width="64" height="64"></canvas>
-          </div>
-          <div class="dialogue-text-area">
-            <div id="npcName" class="npc-name">Warga Desa</div>
-            <div id="javaneseText" class="javanese-line">"Sugeng enjing!"</div>
-            <div id="indonesianText" class="indonesian-line">(Selamat pagi!)</div>
-          </div>
-        </div>
-        <div class="dialogue-footer">
-          <button id="nextBtn" class="rpg-btn">Lanjut <span class="key-badge">E</span> <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
-        </div>
-      </div>
+      <div id="canvasContainer">
+        <canvas id="gameCanvas" width="768" height="480"></canvas>
 
-      <div id="quizModal" class="quiz-modal hidden">
-        <div class="quiz-box rpg-box">
-          <div class="quiz-header">
-            <div class="quiz-npc-badge">
-              <span id="quizNpcIcon"><i data-lucide="help-circle" style="width: 16px; height: 16px;"></i></span>
-              <span id="quizTitle">Kuis Tembung NPC</span>
+        <div id="optionsModal" class="options-modal hidden">
+          <div class="options-box rpg-box">
+            <div class="options-header">
+              <span class="options-title">PENGATURAN</span>
+              <button id="closeOptionsBtn" class="quiz-close-btn">&times;</button>
             </div>
-            <button id="closeQuizBtn" class="quiz-close-btn">&times;</button>
-          </div>
-
-          <div class="quiz-body">
-            <div id="quizProgress" class="quiz-progress">Pertanyaan 1 dari 3</div>
-            <div id="quizQuestion" class="quiz-question-text">Apa tegese tembung "sedasa"?</div>
-            <div id="quizOptions" class="quiz-options-grid"></div>
-            <div id="quizFeedback" class="quiz-feedback hidden"></div>
-          </div>
-
-          <div class="quiz-footer">
-            <button id="nextQuizBtn" class="rpg-btn quiz-btn hidden">Lanjut <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quest Log Drawer / Modal UI Overlay -->
-      <div id="questModal" class="quest-modal hidden">
-        <div class="quest-box rpg-box">
-          <div class="quest-header">
-            <div class="quest-title-area">
-              <span class="quest-icon"><i data-lucide="scroll" style="width: 18px; height: 18px;"></i></span>
-              <h2>Skenario Misi Budaya</h2>
-            </div>
-            <div class="quest-header-stats">
-              <span id="questPlayerXp" class="xp-badge"><i data-lucide="sparkles" style="width: 13px; height: 13px;"></i> 0 XP</span>
-              <button id="closeQuestBtn" class="quiz-close-btn">&times;</button>
+            <div class="options-body">
+              <div class="option-row">
+                <label>Suara / Audio:</label>
+                <button id="optSoundBtn" class="rpg-btn" style="font-size: 11px;"><i data-lucide="volume-2" style="width: 14px; height: 14px;"></i> Suara (M)</button>
+              </div>
+              <div class="option-row">
+                <label for="optTouchControlsSelect">Kontrol Layar Sentuh:</label>
+                <select id="optTouchControlsSelect" class="option-select">
+                  <option value="auto" selected>Otomatis (Auto)</option>
+                  <option value="on">Aktif (On)</option>
+                  <option value="off">Mati (Off)</option>
+                </select>
+              </div>
+              <div class="keybinds-header">
+                <span class="keybinds-title">Tombol Kontrol (Keybinds)</span>
+                <button id="resetKeybindsBtn" class="keybind-reset-btn" title="Reset Default">Reset</button>
+              </div>
+              <div id="keybindsList" class="keybinds-grid"></div>
             </div>
           </div>
+        </div>
 
-          <div class="quest-body">
-            <div id="questList" class="quest-list">
-              <!-- Rendered dynamically -->
+        <!-- Mini Quest Tracker Widget (Top Left HUD Overlay) -->
+        <div id="questTracker" class="rpg-box mini-tracker collapsed">
+          <div class="tracker-header">
+            <div class="tracker-title-area">
+              <span class="tracker-icon"><i data-lucide="compass" style="width: 14px; height: 14px;"></i></span>
+              <span class="tracker-label">Misi Budaya</span>
             </div>
-            <div class="badge-rewards-section">
-              <h3><i data-lucide="trophy" style="width: 16px; height: 16px;"></i> Hadiah & Lencana Budaya</h3>
-              <div id="badgeContainer" class="badge-grid">
+            <button id="toggleQuestTrackerBtn" class="toggle-btn" title="Sembunyikan / Tampilkan Misi">+</button>
+          </div>
+          <div class="tracker-body">
+            <span id="questTrackerText" class="tracker-text">Misi: Bicara dengan Mbok Sari di Pasar</span>
+          </div>
+        </div>
+
+        <!-- Vocab Notebook Overlay Panel (Top Right HUD) -->
+        <aside id="vocabNotebook" class="rpg-box collapsed">
+          <div class="notebook-header">
+            <div class="notebook-title">
+              <span class="icon"><i data-lucide="book-open" style="width: 14px; height: 14px;"></i></span> Buku Tembung
+            </div>
+            <div class="notebook-controls">
+              <span id="vocabCounter" class="counter">0 kata</span>
+              <button id="toggleNotebookBtn" class="toggle-btn" title="Sembunyikan / Tampilkan Buku (N / Tab)">+</button>
+            </div>
+          </div>
+          <div class="notebook-body">
+            <ul id="vocabList">
+              <li class="empty-msg">Belum ada kata terbukti. Bicara dengan warga desa!</li>
+            </ul>
+          </div>
+        </aside>
+
+        <div id="dialogueBox" class="rpg-box hidden">
+          <div id="aiLoadingIndicator" class="ai-loading hidden">
+            <span class="spinner"></span> Sedang merangkai kuis baru kanggo panjenengan...
+          </div>
+          <div class="dialogue-content">
+            <div id="npcPortraitFrame" class="portrait-frame">
+              <canvas id="portraitCanvas" width="64" height="64"></canvas>
+            </div>
+            <div class="dialogue-text-area">
+              <div id="npcName" class="npc-name">Warga Desa</div>
+              <div id="javaneseText" class="javanese-line">"Sugeng enjing!"</div>
+              <div id="indonesianText" class="indonesian-line">(Selamat pagi!)</div>
+            </div>
+          </div>
+          <div class="dialogue-footer">
+            <button id="nextBtn" class="rpg-btn">Lanjut <span class="key-badge">E</span> <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
+          </div>
+        </div>
+
+        <!-- Interactive Quiz Modal UI Overlay -->
+        <div id="quizModal" class="quiz-modal hidden">
+          <div class="quiz-box rpg-box">
+            <div class="quiz-header">
+              <div class="quiz-npc-badge">
+                <span id="quizNpcIcon"><i data-lucide="help-circle" style="width: 16px; height: 16px;"></i></span>
+                <span id="quizTitle">Kuis Tembung NPC</span>
+              </div>
+              <button id="closeQuizBtn" class="quiz-close-btn">&times;</button>
+            </div>
+
+            <div class="quiz-body">
+              <div id="quizProgress" class="quiz-progress">Pertanyaan 1 dari 3</div>
+              <div id="quizQuestion" class="quiz-question-text">Apa tegese tembung "sedasa"?</div>
+              <div id="quizOptions" class="quiz-options-grid"></div>
+              <div id="quizFeedback" class="quiz-feedback hidden"></div>
+            </div>
+
+            <div class="quiz-footer">
+              <button id="nextQuizBtn" class="rpg-btn quiz-btn hidden">Lanjut <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gladhen Micara / Tantangan Wicara (NusaTTSE Pronunciation & Speech Evaluator Modal) -->
+        <div id="pronounceModal" class="pronounce-modal hidden">
+          <div class="pronounce-box rpg-box">
+            <div class="pronounce-header">
+              <div class="pronounce-badge">
+                <span class="pronounce-icon"><i data-lucide="mic" style="width: 18px; height: 18px;"></i></span>
+                <div class="pronounce-title-wrap">
+                  <span id="pronounceTitle">Gladhen Micara (Latihan Pengucapan)</span>
+                  <span class="pronounce-subtitle">Didukung dening AI NusaTTSE</span>
+                </div>
+              </div>
+              <button id="closePronounceBtn" class="quiz-close-btn">&times;</button>
+            </div>
+
+            <div class="pronounce-body">
+              <div class="pronounce-prompt-card">
+                <div class="prompt-header">
+                  <span class="prompt-tag"><i data-lucide="sparkles" style="width: 12px; height: 12px;"></i> Teks Referensi Basa Jawa</span>
+                  <button id="pronounceListenBtn" class="listen-audio-btn" title="Rungokake conto swara">
+                    <i data-lucide="volume-2" style="width: 15px; height: 15px;"></i>
+                    <span>Rungokake Conto</span>
+                  </button>
+                </div>
+                <div id="pronounceTargetText" class="target-javanese-text">"Sugeng enjing sedherek sedaya."</div>
+                <div id="pronounceTranslation" class="target-translation">(Selamat pagi saudara sekalian.)</div>
+              </div>
+
+              <div class="record-studio-section">
+                <div id="micStatusText" class="mic-status">Pencet tombol ing ngisor iki banjur ucapake ukara ing dhuwur kanthi cetha:</div>
+                
+                <div class="record-control-wrap">
+                  <button id="recordMicBtn" class="record-mic-btn" title="Mulai micara">
+                    <div class="mic-pulse-ring"></div>
+                    <i data-lucide="mic" class="mic-icon-main"></i>
+                  </button>
+                  <div id="recordingTimer" class="recording-timer hidden">00:00</div>
+                </div>
+
+                <div id="micLiveWave" class="mic-live-wave hidden">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+
+              <!-- Evaluation Results Card -->
+              <div id="pronounceResultCard" class="pronounce-result-card hidden">
+                <div class="result-score-row">
+                  <div class="score-circle-badge">
+                    <span id="evalOverallScore" class="score-number">95</span>
+                    <span class="score-label">Skor</span>
+                  </div>
+                  <div class="score-details">
+                    <div id="evalRatingBadge" class="eval-rating-badge excellent">Lancar Banget</div>
+                    <div id="evalFeedbackText" class="eval-feedback-text">Pangucapan lan intonasi basa Jawa sampeyan wis lancar lan cetha!</div>
+                  </div>
+                </div>
+
+                <div class="word-breakdown-section">
+                  <div class="breakdown-title">Analisis Saben Tembung:</div>
+                  <div id="wordChipsContainer" class="word-chips-grid">
+                    <!-- Rendered dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pronounce-footer">
+              <button id="skipPronounceBtn" class="rpg-btn-secondary">Lewati</button>
+              <button id="finishPronounceBtn" class="rpg-btn">Terusake Lakumu <i data-lucide="check" style="width: 14px; height: 14px;"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quest Log Drawer / Modal UI Overlay -->
+        <div id="questModal" class="quest-modal hidden">
+          <div class="quest-box rpg-box">
+            <div class="quest-header">
+              <div class="quest-title-area">
+                <span class="quest-icon"><i data-lucide="scroll" style="width: 18px; height: 18px;"></i></span>
+                <h2>Skenario Misi Budaya</h2>
+              </div>
+              <div class="quest-header-stats">
+                <span id="questPlayerXp" class="xp-badge"><i data-lucide="sparkles" style="width: 13px; height: 13px;"></i> 0 XP</span>
+                <button id="closeQuestBtn" class="quiz-close-btn">&times;</button>
+              </div>
+            </div>
+
+            <div class="quest-body">
+              <div id="questList" class="quest-list">
                 <!-- Rendered dynamically -->
+              </div>
+              <div class="badge-rewards-section">
+                <h3><i data-lucide="trophy" style="width: 16px; height: 16px;"></i> Hadiah & Lencana Budaya</h3>
+                <div id="badgeContainer" class="badge-grid">
+                  <!-- Rendered dynamically -->
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div id="toastContainer"></div>
+        <!-- Toast Notification Container -->
+        <div id="toastContainer"></div>
+      </div>
     </div>
   </div>
 
+  <!-- Modular Game Engine Scripts -->
   <script src="/js/data/dialogues.js"></script>
   <script src="/js/data/maps.js"></script>
   <script src="/js/assets.js"></script>
@@ -149,6 +260,7 @@
   <script src="/js/quests.js"></script>
   <script src="/js/player.js"></script>
   <script src="/js/npcs.js"></script>
+  <script src="/js/speech_evaluator.js"></script>
   <script src="/js/ui.js"></script>
   <script src="/js/main.js"></script>
 </body>

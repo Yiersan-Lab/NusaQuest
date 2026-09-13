@@ -3,6 +3,9 @@
     "id": "mbok_sari",
     "name": "Mbok Sari",
     "role": "Penjual Pasar (Market Seller)",
+    "voice": "jv-ID-SitiNeural",
+    "speed": 1,
+    "pitch": 0,
     "charIndex": 1,
     "lines": [
       {
@@ -51,6 +54,9 @@
     "id": "pak_joko",
     "name": "Pak Joko",
     "role": "Petani (Farmer)",
+    "voice": "jv-ID-DimasNeural",
+    "speed": 0.95,
+    "pitch": -2,
     "charIndex": 2,
     "lines": [
       {
@@ -87,6 +93,9 @@
     "id": "dimas",
     "name": "Dimas",
     "role": "Bocah Desa (Village Kid)",
+    "voice": "jv-ID-DimasNeural",
+    "speed": 1.08,
+    "pitch": 4,
     "charIndex": 3,
     "lines": [
       {
@@ -127,6 +136,9 @@
     "id": "mbah_kakung",
     "name": "Mbah Kakung",
     "role": "Sesepuh Joglo (Village Elder)",
+    "voice": "jv-ID-DimasNeural",
+    "speed": 0.88,
+    "pitch": -8,
     "charIndex": 2,
     "lines": [
       {
@@ -159,6 +171,9 @@
     "id": "budi",
     "name": "Budi",
     "role": "Anak Rantau",
+    "voice": "jv-ID-DimasNeural",
+    "speed": 1,
+    "pitch": 0,
     "charIndex": 1,
     "dir": 2,
     "lines": [
@@ -186,6 +201,9 @@
     "id": "raden_atif",
     "name": "Raden Atif",
     "role": "Warga Desa",
+    "voice": "jv-ID-DimasNeural",
+    "speed": 1,
+    "pitch": 0,
     "charIndex": 2,
     "dir": 0,
     "lines": [
@@ -196,9 +214,31 @@
       {
         "javanese": "woi woi woi woi oi oi oi oi oi oi",
         "indonesian": "woi"
+      },
+      {
+        "javanese": "Halo halo bandung",
+        "indonesian": "halo"
       }
     ],
     "col": 6,
+    "row": 4
+  },
+  "pak_tyson": {
+    "id": "pak_tyson",
+    "name": "Pak Tyson",
+    "role": "Pemancing Handal",
+    "voice": "jv-ID-DimasNeural",
+    "speed": 0.95,
+    "pitch": -3,
+    "charIndex": 2,
+    "dir": 0,
+    "lines": [
+      {
+        "javanese": "Sugeng enjing!",
+        "indonesian": "Selamat pagi!"
+      }
+    ],
+    "col": 4,
     "row": 4
   }
 }

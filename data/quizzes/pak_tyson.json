@@ -1,0 +1,283 @@
+[
+  {
+    "id": "quiz_fallback_1789281496106",
+    "npcId": "pak_tyson",
+    "title": "Kuis Tembung — Pak Tyson (Kuis #1)",
+    "generatedAt": "2026-09-13T06:38:16.106Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Apa tegese ukara \"Sugeng enjing!\" ing basa Indonesia?",
+        "options": [
+          "Sepuluh (10)",
+          "Padi",
+          "Selamat pagi!",
+          "Berapa"
+        ],
+        "answer": 2,
+        "explanation": "\"Sugeng enjing!\" artine \"Selamat pagi!\".",
+        "teaches": {
+          "word": "Sugeng enjing!",
+          "meaning": "Selamat pagi!"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Apa tegese tembung \"sugeng\" ing basa Indonesia?",
+        "options": [
+          "Sepuluh (10)",
+          "Keluarga",
+          "Selamat",
+          "Baik / Sehat"
+        ],
+        "answer": 2,
+        "explanation": "\"Sugeng\" tegese selamat.",
+        "teaches": {
+          "word": "sugeng",
+          "meaning": "Selamat"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Kepriye ngandhakake \"Terima kasih\" ing basa Jawa?",
+        "options": [
+          "Tenteram",
+          "Matur nuwun",
+          "Sepuluh (10)",
+          "Harganya"
+        ],
+        "answer": 1,
+        "explanation": "\"Matur nuwun\" tegese terima kasih.",
+        "teaches": {
+          "word": "matur nuwun",
+          "meaning": "Matur nuwun"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789094478886",
+    "npcId": "pak_tyson",
+    "title": "Kuis Tembung Warga Baru 7",
+    "generatedAt": "2026-09-13T06:38:16.109Z",
+    "isCustom": true,
+    "questions": [
+      {
+        "id": 1,
+        "question": "Yen sampeyan arep ngucapake 'Selamat' ing basa Jawa, tembung endi sing paling trep digunakake?",
+        "options": [
+          "Matur nuwun",
+          "Sugeng",
+          "Sae",
+          "Halal"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'Sugeng' tegese 'Selamat'. Tembung 'Matur nuwun' tegese 'Terima kasih'.",
+        "teaches": {
+          "word": "sugeng",
+          "meaning": "selamat"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Warga Desa wis mbantu sampeyan nggawa barang. Sampeyan kudu ngucapake tembung sopan kanggo 'Terima kasih'. Tembung endi sing bener?",
+        "options": [
+          "Sugeng",
+          "Pripun kabare",
+          "Matur nuwun",
+          "Sapa kowe"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'Matur nuwun' digunakake kanggo ngucapake rasa syukur utawa 'Terima kasih'.",
+        "teaches": {
+          "word": "matur nuwun",
+          "meaning": "terima kasih"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Kombinasi ukara endi sing cocog kanggo nyamet lan ngucapake rasa syukur marang Warga Desa ing esuk?",
+        "options": [
+          "Sugeng enjing, matur nuwun.",
+          "Matur nuwun, sugeng enjing.",
+          "Sapa sugeng, matur nuwun.",
+          "Sugeng, sapa kowe."
+        ],
+        "answer": 0,
+        "explanation": "Ukara 'Sugeng enjing' tegese 'Selamat pagi' lan 'matur nuwun' tegese 'Terima kasih'. Gabungane kudu logis: nyamet dhisik, banjur matur nuwun.",
+        "teaches": {
+          "word": "sugeng enjing, matur nuwun",
+          "meaning": "selamat pagi, terima kasih"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789296069931",
+    "npcId": "pak_tyson",
+    "title": "Kuis Tembung Pak Tyson",
+    "generatedAt": "2026-09-13T10:41:09.931Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Pak Tyson ngucapake 'Sugeng enjing!' nalika ketemu sampeyan. Ing wektu endi ukara iki paling trep diucapake?",
+        "options": [
+          "Sore ndalu",
+          "Wengi",
+          "Esuk mlungke",
+          "Mangsa dhawuh"
+        ],
+        "answer": 2,
+        "explanation": "'Sugeng enjing' tegese selamat pagi, mula ukara iki digunakake ing wektu esuk mlungke (pagi hari).",
+        "teaches": {
+          "word": "Sugeng enjing",
+          "meaning": "Selamat pagi"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Tembung 'enjing' ing ukara 'Sugeng enjing!' nduweni teges apa ing basa Indonesia?",
+        "options": [
+          "Malam",
+          "Siang",
+          "Pagi",
+          "Sore"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'enjing' tegese 'pagi' ing basa Indonesia. Dadi 'Sugeng enjing' artine 'Selamat pagi'.",
+        "teaches": {
+          "word": "enjing",
+          "meaning": "pagi"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Sampeyan teka ing Desa NusaQuest esuk-esuk. Pak Tyson, sang pemancing, ngguyu lan ngucapake apa marang sampeyan?",
+        "options": [
+          "\"Matur nuwun!\"",
+          "\"Sugeng enjing!\"",
+          "\"Sugeng rawuh!\"",
+          "\"Pamit dhisik!\""
+        ],
+        "answer": 1,
+        "explanation": "Berdasarkan skrip dialog Pak Tyson, ukara sing diucapaké yaiku 'Sugeng enjing!' kanggo nyamet ing wektu esuk.",
+        "teaches": {
+          "word": "Sugeng enjing",
+          "meaning": "Selamat pagi"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789297765931",
+    "npcId": "pak_tyson",
+    "title": "Kuis Dikara Pak Tyson",
+    "generatedAt": "2026-09-13T11:09:25.931Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Saperde ukara 'Sugeng enjing!' ing basa Indonesia kudu diterjemahakke?",
+        "options": [
+          "Selamat sore!",
+          "Selamat tidur!",
+          "Selamat pagi!",
+          "Selamat siang!"
+        ],
+        "answer": 2,
+        "explanation": "Ukara 'Sugeng enjing!' tegese 'Selamat pagi!' ing basa Indonesia.",
+        "teaches": {
+          "word": "Sugeng enjing!",
+          "meaning": "Selamat pagi!"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Tembung endi ing babagan ukara 'Sugeng enjing!' sing nuduhake wektu esuk?",
+        "options": [
+          "Sugeng",
+          "Enjing",
+          "Tyson",
+          "Pemancing"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'enjing' tegese esuk utawa pagi, dene 'sugeng' tegese selamat.",
+        "teaches": {
+          "word": "enjing",
+          "meaning": "pagi/esuk"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Menawa sampeyan ketemu Pak Tyson ing wektu esuk, ukara endi sing paling sopan lan trep kanggo ngasalake?",
+        "options": [
+          "Sugeng dalu!",
+          "Matur nuwun sanget!",
+          "Sugeng enjing!",
+          "Pamit dhisik!"
+        ],
+        "answer": 2,
+        "explanation": "Kanggo nyamet wong ing wektu esuk, ukara sing bener yaiku 'Sugeng enjing!'.",
+        "teaches": {
+          "word": "Sugeng enjing!",
+          "meaning": "Selamat pagi!"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789301348564",
+    "npcId": "pak_tyson",
+    "title": "Kuis Basa Jawa Pak Tyson #4",
+    "generatedAt": "2026-09-13T12:09:08.564Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Tembung endi ing ukara 'Sugeng enjing!' sing tegese 'Sugeng' utawa 'Selamat'?",
+        "options": [
+          "Enjing",
+          "Sugeng",
+          "Ngucapake",
+          "Pagi"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'Sugeng' duwe teges 'selamat' utawa 'sugeng' ing basa Indonesia.",
+        "teaches": {
+          "word": "Sugeng",
+          "meaning": "Selamat"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen sampeyan ketemu Pak Tyson ing wayah sore, ukara 'Sugeng enjing!' DURUNG trep. Ukara endi ing ngisor iki sing luwih trep digunakake kanggo nyamet ing wayah sore?",
+        "options": [
+          "Sugeng enjing!",
+          "Sugeng dalu!",
+          "Sugeng siyang!",
+          "Sugeng sore!"
+        ],
+        "answer": 3,
+        "explanation": "Ing wayah sore, tembung nyamet sing trep yaiku 'Sugeng sore!'. 'Enjing' tegese esuk.",
+        "teaches": {
+          "word": "Sugeng sore",
+          "meaning": "Selamat sore"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Menawa Pak Tyson ngucapake 'Sugeng enjing!', sampeyan kudu ngjawab kanthi sopan. Ukara endi ing ngisor iki sing paling trep kanggo ngasalahake utawa ngjawab sapa dhewe?",
+        "options": [
+          "Matur nuwun!",
+          "Sugeng enjing, Pak!",
+          "Dudu, Pak!",
+          "Kahanan apa, Pak?"
+        ],
+        "answer": 1,
+        "explanation": "Kanggo ngjawab salam 'Sugeng enjing!', sing trep yaiku ngucapke bali 'Sugeng enjing, Pak!'.",
+        "teaches": {
+          "word": "Sugeng enjing",
+          "meaning": "Selamat pagi"
+        }
+      }
+    ]
+  }
+]

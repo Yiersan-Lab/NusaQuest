@@ -1072,6 +1072,18 @@
       "col": 23,
       "row": 15,
       "color": "#b19376"
+    },
+    "WPW": {
+      "sheet": "roguelike",
+      "col": 53,
+      "row": 17,
+      "color": "#a18971"
+    },
+    "BOAT": {
+      "sheet": "roguelike",
+      "col": 53,
+      "row": 15,
+      "color": "#be9369"
     }
   }
 }

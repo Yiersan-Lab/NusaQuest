@@ -1084,5 +1084,565 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789276830031",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas",
+    "generatedAt": "2026-09-13T05:20:30.031Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing dialog Dimas, menapa tegese tembung 'omen' ing ukara 'diajak omong-omong'?",
+        "options": [
+          "Makan",
+          "Ngobrol / Bicara",
+          "Tidur",
+          "Berlari"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'omong-omong' asale saka 'omong' sing tegese ngobrol utawa bicara.",
+        "teaches": {
+          "word": "omong",
+          "meaning": "ngobrol / bicara"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen kowe takon kabar marang Dimas lan dheweke wangsulan 'sae-sae mawon', menapa tegese tembung 'sae' kasebut?",
+        "options": [
+          "Sakit",
+          "Gelisih",
+          "Baik / Sehat",
+          "Kasor"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'sae' ing konteks iki tegese baik utawa sehat.",
+        "teaches": {
+          "word": "sae",
+          "meaning": "baik / sehat"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing ukara 'Kula remen dolanan bal-balan ing kene', menapa tegese 'Kula' (aku/kula) ing tembung Indonésia sing trep kanggo sapaan sopan utawa resmi?",
+        "options": [
+          "Saya (Kula)",
+          "Kamu (Kowe)",
+          "Dia (Dheweke)",
+          "Kita (Kita)"
+        ],
+        "answer": 0,
+        "explanation": "Wiji 'Kula' ing tembung Indonésia yaiku 'Saya' (sing luwih sopan/nyasar).",
+        "teaches": {
+          "word": "kula",
+          "meaning": "saya (aku)"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789294934895",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas: Bal-Balan lan Sapa-Sapaan",
+    "generatedAt": "2026-09-13T10:22:14.895Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Kula remen dolanan bal-balan ing kene', menapa tegese tembung 'bal-balan' ing tembung Indonésia?",
+        "options": [
+          "Main layangan",
+          "Main bola",
+          "Main skateboard",
+          "Main angklung"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'bal-balan' tegese main bola. Dimas ngenalake alesane seneng dolanan bal-balan ing desane.",
+        "teaches": {
+          "word": "bal-balan",
+          "meaning": "main bola"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen kowe ngobrol karo Dimas lan dheweke wangsulan 'sae-sae mawon', menapa tegese tembung 'mawon' ing konteks ukara kasebut?",
+        "options": [
+          "Aja-aja",
+          "Saja / saja",
+          "Wangun / bentuk",
+          "Mangan / makan"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'mawon' ing ukara 'sae-sae mawon' tegese 'saja', nuduhake yèn kabare alus-alus utawa baik-baik saja.",
+        "teaches": {
+          "word": "mawon",
+          "meaning": "saja"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Dimas ngucapake 'Matur nuwun wis diajak omong-omong!'. Menapa tegese tembung 'diajak' ing ukara kasebut ing tembung Indonésia?",
+        "options": [
+          "Dipaksa / dipaksa",
+          "Dijemput / dijemput",
+          "Dijamu / diajak",
+          "Didik / diajari"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'diajak' tegese 'diajak' (dalam konteks obrolan, bisa diartikan diajak ngobrol atau ditemani bicara).",
+        "teaches": {
+          "word": "diajak",
+          "meaning": "diajak"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789294992635",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas",
+    "generatedAt": "2026-09-13T10:23:12.635Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Kula remen dolanan bal-balan ing kene', menapa tegese tembung 'remen' ing tembung Indonésia?",
+        "options": [
+          "Bosan",
+          "Suka",
+          "Benci",
+          "Lupa"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'remen' tegese suka utawa ngremeni.",
+        "teaches": {
+          "word": "remen",
+          "meaning": "suka"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen kowe takon 'Pripun kabare?' marang Dimas, menapa tegese tembung 'kare' utawa 'kabare' ing konteks ukara kasebut?",
+        "options": [
+          "Kabar / Keadaan",
+          "Wektu / Jam",
+          "Papan / Tempat",
+          "Wangan / Hutan"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'kabare' ing ukara 'Pripun kabare?' tegese kabar utawa keadaan.",
+        "teaches": {
+          "word": "kabare",
+          "meaning": "kabar / keadaan"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing dialog Dimas, menapa tegese tembung 'sae' ing ukara 'jawabe \"sae-sae mawon\"' yen ditakoni babagan kesehatan?",
+        "options": [
+          "Alus / Lembut",
+          "Ras / Manis",
+          "Baik / Sehat",
+          "Cantik / Indah"
+        ],
+        "answer": 2,
+        "explanation": "Ing konteks kesehatan, tembung 'sae' tegese baik utawa sehat.",
+        "teaches": {
+          "word": "sae",
+          "meaning": "baik / sehat"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789296122037",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas",
+    "generatedAt": "2026-09-13T10:42:02.037Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Kula remen dolanan bal-balan ing kene', menapa tegese tembung 'dolanan' ing tembung Indonésia?",
+        "options": [
+          "Makan",
+          "Minum",
+          "Bermain",
+          "Tidur"
+        ],
+        "answer": 2,
+        "explanation": "'Dolanan' tegese main utawa bermain.",
+        "teaches": {
+          "word": "dolanan",
+          "meaning": "bermain"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen kowe takon 'Pripun kabare?' marang Dimas, menapa tegese tembung 'pripun' ing tembung Indonésia?",
+        "options": [
+          "Apa / Bagaimana",
+          "Kapan",
+          "Kenapa",
+          "Di mana"
+        ],
+        "answer": 0,
+        "explanation": "'Pripun' (krama) utawa 'piye' (ngoko) tegese apa utawa bagaimana.",
+        "teaches": {
+          "word": "pripun",
+          "meaning": "apa / bagaimana"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Dimas ngucapake 'Matur nuwun wis diajak omong-omong!'. Menapa tegese tembung 'matur nuwun' ing tembung Indonésia?",
+        "options": [
+          "Permisi",
+          "Maaf",
+          "Terima kasih",
+          "Selamat pagi"
+        ],
+        "answer": 2,
+        "explanation": "'Matur nuwun' tegese terima kasih.",
+        "teaches": {
+          "word": "matur nuwun",
+          "meaning": "terima kasih"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789298681752",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas",
+    "generatedAt": "2026-09-13T11:24:41.752Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing dialog Dimas, menapa tegese tembung 'kanca' ing basa Indonésia?",
+        "options": [
+          "Teman",
+          "Bola",
+          "Sehat",
+          "Suka"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'kanca' tegese teman ing basa Indonésia.",
+        "teaches": {
+          "word": "kanca",
+          "meaning": "teman"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen kowe takon 'Pripun kabare?' marang Dimas, menapa tegese frasa 'pripun kabare' ing basa Indonésia?",
+        "options": [
+          "Terima kasih",
+          "Kapan waktu?",
+          "Apa kabar?",
+          "Di mana kamu?"
+        ],
+        "answer": 2,
+        "explanation": "Frasa 'pripun kabare' tegese 'apa kabar' ing basa Indonésia.",
+        "teaches": {
+          "word": "pripun kabare",
+          "meaning": "apa kabar"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing ukara 'Kula remen dolanan bal-balan ing kene', menapa tegese tembung 'bal-balan' ing basa Indonésia?",
+        "options": [
+          "Sepak bola",
+          "Teman",
+          "Suka",
+          "Sedih"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'bal-balan' tegese main bola utawa sepak bola ing basa Indonésia.",
+        "teaches": {
+          "word": "bal-balan",
+          "meaning": "main bola"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789298789373",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas",
+    "generatedAt": "2026-09-13T11:26:29.373Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Yen sehat, jawabe \"sae-sae mawon\".', menapa tegese frasa 'sae-sae mawon' ing basa Indonésia?",
+        "options": [
+          "Sangat sedih",
+          "Baik-baik saja",
+          "Lelah sekali",
+          "Sibuk bekerja"
+        ],
+        "answer": 1,
+        "explanation": "Frasa 'sae-sae mawon' tegese 'baik-baik saja' ing basa Indonésia, biasane dipanggo kanggo ngladeni pitakonan babagan kesehatan utawa kabagyan.",
+        "teaches": {
+          "word": "sae-sae mawon",
+          "meaning": "baik-baik saja"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Dimas ngucapake 'Kula remen dolanan bal-balan ing kene'. Yen 'remen' tegese 'suka', menapa tegese tembung 'kula' ing ukara kasebut?",
+        "options": [
+          "Kamu",
+          "Kita",
+          "Mereka",
+          "Saya"
+        ],
+        "answer": 3,
+        "explanation": "Tembung 'kula' ing basa Jawa Krama tegese 'saya' ing basa Indonésia.",
+        "teaches": {
+          "word": "kula",
+          "meaning": "saya"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing dialog 'Matur nuwun wis diajak omong-omong!', menapa tegese tembung 'omong-omong' ing basa Indonésia?",
+        "options": [
+          "Ngobrol / Bicara",
+          "Makan bersama",
+          "Tidur lelap",
+          "Berlari cepat"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'omong-omong' tegese 'ngobrol' utawa 'berbicara' ing basa Indonésia.",
+        "teaches": {
+          "word": "omong-omong",
+          "meaning": "ngobrol / berbicara"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789298801081",
+    "npcId": "dimas",
+    "title": "Kuis Dimas Bocah Desa",
+    "generatedAt": "2026-09-13T11:26:41.081Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Kula remen dolanan bal-balan ing kene', menapa tegese tembung 'rame' utawa 'remen' ing tembung Indonésia?",
+        "options": [
+          "Marai",
+          "Suka",
+          "Sedhih",
+          "Takut"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'remen' tegese suka ing basa Indonésia.",
+        "teaches": {
+          "word": "remen",
+          "meaning": "suka"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen Dimas takon 'Pripun kabare?', lan kowe wangsulan 'sae', menapa tegese tembung 'sae' ing tembung Indonésia?",
+        "options": [
+          "Goréng",
+          "Sakit",
+          "Baik / Sehat",
+          "Adoh"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'sae' tegese baik utawa sehat ing basa Indonésia.",
+        "teaches": {
+          "word": "sae",
+          "meaning": "baik / sehat"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing dialog pungkasan, Dimas ngucapake 'Matur nuwun wis diajak omong-omong!'. Menapa tegese tembung 'nuwun' ing konteks 'matur nuwun' ing basa Indonésia?",
+        "options": [
+          "Marang",
+          "Nyuwun",
+          "Tepeng",
+          "Dhunung"
+        ],
+        "answer": 1,
+        "explanation": "Frasa 'matur nuwun' tegese terima kasih. Tembung 'nuwun' asale saka 'nyuwun' (memohon/permisi) nanging ing kene digunakake kanggo ngucapake rasa syukur utawa terima kasih.",
+        "teaches": {
+          "word": "matur nuwun",
+          "meaning": "terima kasih"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789301194808",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas",
+    "generatedAt": "2026-09-13T12:06:34.808Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Kula remen dolanan bal-balan ing kene', menapa tegese tembung 'dolanan' ing basa Indonésia?",
+        "options": [
+          "Makan",
+          "Tidur",
+          "Main/bermain",
+          "Belajar"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'dolanan' tegese main utawa dolanan. Ing ukara kasebut, Dimas ngomong babagan dolanan (main) bal-balan.",
+        "teaches": {
+          "word": "dolanan",
+          "meaning": "main/bermain"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Dimas ngucapake 'Matur nuwun wis diajak omong-omong!'. Yen 'matur nuwun' tegese 'terima kasih', menapa tegese tembung 'diajak' ing ukara kasebut?",
+        "options": [
+          "Dilarang",
+          "Dipaksa",
+          "Dilupakan",
+          "Diajak/Diminta"
+        ],
+        "answer": 3,
+        "explanation": "Tembung 'diajak' tegese diajak utawa diminta. Dimas ucapake matur nuwun amarga wis diajak ngobrol.",
+        "teaches": {
+          "word": "diajak",
+          "meaning": "diajak/diminta"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen kowe takon 'Pripun kabare?' marang Dimas, lan diajawibe 'sae-sae mawon', menapa tegese tembung 'mawon' ing konteks ukara kasebut?",
+        "options": [
+          "Saja/sahaja",
+          "Hanya/biasa saja",
+          "Paling/best",
+          "Lagi/sedang"
+        ],
+        "answer": 1,
+        "explanation": "Ing ukara 'sae-sae mawon', tembung 'mawon' kanggo ngertake yen kondisine biasa-biasa wae utawa sehat-sehat wae.",
+        "teaches": {
+          "word": "mawon",
+          "meaning": "hanya/biasa saja"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789301331656",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas: Dialog Bocah Desa",
+    "generatedAt": "2026-09-13T12:08:51.656Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Halo Kak! Pripun kabare?', menapa tegese tembung 'pripun' ing basa Indonésia?",
+        "options": [
+          "Apa",
+          "Sapa",
+          "Kepiye",
+          "Ing nganga"
+        ],
+        "answer": 2,
+        "explanation": "'Pripun' ing konteks 'pripun kabare' tegese 'kepiye' utawa 'bagaimana'.",
+        "teaches": {
+          "word": "pripun",
+          "meaning": "kepiye / bagaimana"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen Dimas ngomong 'Kula remen dolanan bal-balan', lan kowe arep ngendi 'bal-balan' tegese menapa?",
+        "options": [
+          "Main layangan",
+          "Main layangan / berlayar",
+          "Main sepak bola",
+          "Main bola basket"
+        ],
+        "answer": 2,
+        "explanation": "'Bal-balan' tegese main sepak bola (main bola).",
+        "teaches": {
+          "word": "bal-balan",
+          "meaning": "main bola"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing dialog pungkasan, Dimas ngucapake 'Matur nuwun wis diajak omong-omong!'. Menapa tegese tembung 'omong-omong' ing tembung Indonésia?",
+        "options": [
+          "Makan-makan",
+          "Ngobrol / membicarakan",
+          "Berjalan-jalan",
+          "Belanja"
+        ],
+        "answer": 1,
+        "explanation": "'Omong-omong' tegese ngobrol utawa berbicara/bertukar cerita.",
+        "teaches": {
+          "word": "omong-omong",
+          "meaning": "ngobrol / berbicara"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789302661697",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas #4",
+    "generatedAt": "2026-09-13T12:31:01.697Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing dialog Dimas, 'Yen sehat, jawabe \"sae-sae mawon\"'. Menapa tegese tembung 'sae' ing konteks kasebut?",
+        "options": [
+          "Sedhih (5)",
+          "Baik / Sehat (2)",
+          "Mlathi (6)",
+          "Murung (1)"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'sae' tegese 'baik' utawa 'sehat' ing basa Indonésia.",
+        "teaches": {
+          "word": "sae",
+          "meaning": "baik / sehat"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Dimas ngomong: 'Kula remen dolanan bal-balan ing kene.' Menapa tegese tembung 'bal-balan' ing tembung Indonésia?",
+        "options": [
+          "Main layang-layang (0)",
+          "Main bola (4)",
+          "Main layangan (3)",
+          "Main kapal-kapalan (1)"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'bal-balan' tegese 'main bola' ing basa Indonésia.",
+        "teaches": {
+          "word": "bal-balan",
+          "meaning": "main bola"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Yen kowe seduluran karo Dimas, lan kowe nate takon 'Pripun kabare?', menapa tegese tembung 'pripun' ing tembung Indonésia?",
+        "options": [
+          "Apa (1)",
+          "Kudu (2)",
+          "Kepriye (0)",
+          "Kanggepi (3)"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'pripun' tegese 'apa' ing basa Indonésia nalika kasebutake ing 'pripun kabare' (apa kabar).",
+        "teaches": {
+          "word": "pripun",
+          "meaning": "apa"
+        }
+      }
+    ]
   }
 ]

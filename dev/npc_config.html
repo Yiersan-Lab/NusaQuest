@@ -98,6 +98,38 @@
             </div>
           </div>
 
+          <!-- Voice & Speech Persona Settings -->
+          <div style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border); border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+            <div class="section-title" style="margin-bottom: 8px;">
+              <span><i data-lucide="volume-2" class="icon-inline"></i> Voice & Speech Settings (NusaTTSE)</span>
+            </div>
+            <div class="form-row" style="align-items: flex-end; gap: 10px;">
+              <div class="form-field" style="flex: 2; min-width: 160px;">
+                <label for="npcVoice">Voice Persona:</label>
+                <select id="npcVoice">
+                  <option value="jv-ID-SitiNeural">Siti (Basa Jawa — Wanita / Female)</option>
+                  <option value="jv-ID-DimasNeural">Dimas (Basa Jawa — Pria / Male)</option>
+                  <option value="id-ID-GadisNeural">Gadis (Basa Indonesia — Wanita / Female)</option>
+                  <option value="id-ID-ArdiNeural">Ardi (Basa Indonesia — Pria / Male)</option>
+                  <option value="su-ID-TutiNeural">Tuti (Basa Sunda — Wanita / Female)</option>
+                </select>
+              </div>
+              <div class="form-field" style="flex: 1; min-width: 100px;">
+                <label for="npcVoiceSpeed">Speed: <span id="speedValLabel" style="color: var(--accent-gold); font-weight: 700;">1.0x</span></label>
+                <input type="range" id="npcVoiceSpeed" min="0.5" max="1.5" step="0.05" value="1.0" style="cursor: pointer; width: 100%;">
+              </div>
+              <div class="form-field" style="flex: 1; min-width: 100px;">
+                <label for="npcVoicePitch">Pitch: <span id="pitchValLabel" style="color: var(--accent-gold); font-weight: 700;">0Hz</span></label>
+                <input type="range" id="npcVoicePitch" min="-25" max="25" step="1" value="0" style="cursor: pointer; width: 100%;">
+              </div>
+              <div class="form-field" style="flex: 0 0 auto;">
+                <button type="button" id="previewVoiceBtn" class="btn" style="padding: 7px 12px; font-size: 11px; white-space: nowrap; margin-bottom: 2px;" title="Rungokake conto swara">
+                  <i data-lucide="play" class="icon-inline"></i> Test Swara
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-field">
               <label for="npcCol">Custom Spritesheet Col (Optional):</label>
@@ -328,6 +360,12 @@
     const npcId = document.getElementById('npcId');
     const npcName = document.getElementById('npcName');
     const npcRole = document.getElementById('npcRole');
+    const npcVoice = document.getElementById('npcVoice');
+    const npcVoiceSpeed = document.getElementById('npcVoiceSpeed');
+    const npcVoicePitch = document.getElementById('npcVoicePitch');
+    const speedValLabel = document.getElementById('speedValLabel');
+    const pitchValLabel = document.getElementById('pitchValLabel');
+    const previewVoiceBtn = document.getElementById('previewVoiceBtn');
     const npcCharIndex = document.getElementById('npcCharIndex');
     const npcMapId = document.getElementById('npcMapId');
     const npcTileX = document.getElementById('npcTileX');
@@ -335,6 +373,83 @@
     const npcDir = document.getElementById('npcDir');
     const linesContainer = document.getElementById('linesContainer');
     const codeOutput = document.getElementById('codeOutput');
+
+    if (npcVoiceSpeed && speedValLabel) {
+      npcVoiceSpeed.addEventListener('input', () => {
+        speedValLabel.textContent = `${parseFloat(npcVoiceSpeed.value).toFixed(2)}x`;
+      });
+    }
+    if (npcVoicePitch && pitchValLabel) {
+      npcVoicePitch.addEventListener('input', () => {
+        const val = parseInt(npcVoicePitch.value, 10);
+        pitchValLabel.textContent = `${val >= 0 ? '+' : ''}${val}Hz`;
+      });
+    }
+
+    if (previewVoiceBtn) {
+      let previewAudio = null;
+      previewVoiceBtn.addEventListener('click', async () => {
+        const vId = npcVoice ? npcVoice.value : 'jv-ID-SitiNeural';
+        const spd = npcVoiceSpeed ? parseFloat(npcVoiceSpeed.value) : 1.0;
+        const ptch = npcVoicePitch ? parseInt(npcVoicePitch.value, 10) : 0;
+
+        let sampleText = 'Sugeng rawuh wonten ing desa NusaQuest.';
+        const lines = extractLinesFromForm();
+        if (lines.length > 0 && lines[0].javanese) {
+          sampleText = lines[0].javanese;
+        }
+
+        const originalHtml = previewVoiceBtn.innerHTML;
+        previewVoiceBtn.innerHTML = 'Testing...';
+        previewVoiceBtn.disabled = true;
+
+        try {
+          if (previewAudio) {
+            previewAudio.pause();
+            previewAudio = null;
+          }
+
+          const res = await fetch('/api/tts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: sampleText, voice: vId, speed: spd, pitch: ptch })
+          });
+
+          if (res.ok) {
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            previewAudio = new Audio(url);
+            previewAudio.onended = () => {
+              previewVoiceBtn.innerHTML = originalHtml;
+              previewVoiceBtn.disabled = false;
+              if (typeof lucide !== 'undefined') lucide.createIcons();
+            };
+            await previewAudio.play();
+            previewVoiceBtn.innerHTML = 'Playing...';
+          } else {
+            throw new Error('TTS response not ok');
+          }
+        } catch (e) {
+          console.warn('Preview fallback to speech synthesis:', e);
+          if ('speechSynthesis' in window) {
+            const u = new SpeechSynthesisUtterance(sampleText);
+            u.lang = 'id-ID';
+            u.rate = spd;
+            u.pitch = 1.0 + (ptch / 50);
+            u.onend = () => {
+              previewVoiceBtn.innerHTML = originalHtml;
+              previewVoiceBtn.disabled = false;
+              if (typeof lucide !== 'undefined') lucide.createIcons();
+            };
+            window.speechSynthesis.speak(u);
+          } else {
+            previewVoiceBtn.innerHTML = originalHtml;
+            previewVoiceBtn.disabled = false;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+          }
+        }
+      });
+    }
 
     charImg.onload = () => { renderCharGrid(); };
     charImg.src = '/assets/characters/characters.png';
@@ -737,6 +852,19 @@
       npcId.value = npc.id || id;
       npcName.value = npc.name || id;
       npcRole.value = npc.role || '';
+      if (npcVoice) {
+        npcVoice.value = npc.voice || (id === 'dimas' || id === 'pak_joko' || id === 'mbah_kakung' || id === 'budi' || id === 'pak_tyson' || id === 'raden_atif' ? 'jv-ID-DimasNeural' : 'jv-ID-SitiNeural');
+      }
+      if (npcVoiceSpeed) {
+        const s = npc.speed !== undefined ? parseFloat(npc.speed) : 1.0;
+        npcVoiceSpeed.value = s;
+        if (speedValLabel) speedValLabel.textContent = `${s.toFixed(2)}x`;
+      }
+      if (npcVoicePitch) {
+        const p = npc.pitch !== undefined ? parseInt(npc.pitch, 10) : 0;
+        npcVoicePitch.value = p;
+        if (pitchValLabel) pitchValLabel.textContent = `${p >= 0 ? '+' : ''}${p}Hz`;
+      }
       npcCharIndex.value = npc.charIndex !== undefined ? npc.charIndex : 1;
 
       customCol = npc.col !== undefined ? npc.col : null;
@@ -913,6 +1041,9 @@
         id: newId,
         name: npcName.value.trim(),
         role: npcRole.value.trim(),
+        voice: (npcVoice && npcVoice.value) ? npcVoice.value : 'jv-ID-SitiNeural',
+        speed: npcVoiceSpeed ? parseFloat(npcVoiceSpeed.value) : 1.0,
+        pitch: npcVoicePitch ? parseInt(npcVoicePitch.value, 10) : 0,
         charIndex: parseInt(npcCharIndex.value, 10) || 0,
         dir: parseInt(npcDir.value, 10) || 0,
         lines
@@ -973,6 +1104,9 @@
         id: newId,
         name: `Warga Baru ${count}`,
         role: 'Warga Desa',
+        voice: 'jv-ID-SitiNeural',
+        speed: 1.0,
+        pitch: 0,
         charIndex: 2,
         lines: [
           { javanese: "Sugeng enjing!", indonesian: "Selamat pagi!" }
@@ -1014,6 +1148,9 @@
         code += `    id: '${d.id}',\n`;
         code += `    name: ${JSON.stringify(d.name)},\n`;
         code += `    role: ${JSON.stringify(d.role)},\n`;
+        code += `    voice: ${JSON.stringify(d.voice || 'jv-ID-SitiNeural')},\n`;
+        code += `    speed: ${d.speed !== undefined ? d.speed : 1.0},\n`;
+        code += `    pitch: ${d.pitch !== undefined ? d.pitch : 0},\n`;
         code += `    charIndex: ${d.charIndex},\n`;
         if (d.col !== undefined && d.row !== undefined) {
           code += `    col: ${d.col}, row: ${d.row},\n`;

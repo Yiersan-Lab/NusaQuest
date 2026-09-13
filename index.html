@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>NusaQuest — Petualangan Basa Jawa (BAIFEST 2026)</title>
   <!-- Google Fonts: Retro pixel font + clean readable body font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@500;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
 
+  <!-- Portrait Lock / Rotate Device Screen Overlay -->
+  <div id="rotateScreenOverlay">
+    <div class="rotate-device-box rpg-box">
+      <div class="rotate-phone-anim">
+        <i data-lucide="smartphone" class="phone-icon"></i>
+        <i data-lucide="rotate-cw" class="rotate-arrow"></i>
+      </div>
+      <h2 class="rotate-title">PUTER PIRANTI</h2>
+      <p class="rotate-text-jv">Mangga puter layar panjenengan dados mode lanskap (landscape) kagem mainake game.</p>
+      <p class="rotate-text-id">Harap putar perangkat ke mode lanskap (landscape) untuk bermain.</p>
+    </div>
+  </div>
+
   <div id="gameWrapper">
-    <!-- Header HUD -->
+
     <header id="topHud">
       <div class="brand">
         <h1 class="game-title">NusaQuest</h1>
@@ -23,12 +40,17 @@
       </div>
 
       <div class="control-hint" style="display: flex; align-items: center; gap: 8px;">
-        <button id="soundToggleBtn" title="Suara / Audio (M)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="volume-2" style="width: 14px; height: 14px;"></i> Suara (M)</button>
-        <button id="questHudBtn" title="Buka Quest Log (Q)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="scroll" style="width: 14px; height: 14px;"></i> Misi (Q)</button>
+        <button id="soundToggleBtn" title="Suara / Audio (M)"
+          style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i
+            data-lucide="volume-2" style="width: 14px; height: 14px;"></i> <span class="btn-text">Suara
+            (M)</span></button>
+        <button id="questHudBtn" title="Buka Quest Log (Q)"
+          style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i
+            data-lucide="scroll" style="width: 14px; height: 14px;"></i> <span class="btn-text">Misi (Q)</span></button>
       </div>
     </header>
 
-    <!-- Main Game Area -->
+
     <div id="canvasContainer">
       <canvas id="gameCanvas" width="768" height="480"></canvas>
 
@@ -53,7 +75,16 @@
           <div class="options-body">
             <div class="option-row">
               <label>Suara / Audio:</label>
-              <button id="optSoundBtn" class="rpg-btn" style="font-size: 11px;"><i data-lucide="volume-2" style="width: 14px; height: 14px;"></i> Suara (M)</button>
+              <button id="optSoundBtn" class="rpg-btn" style="font-size: 11px;"><i data-lucide="volume-2"
+                  style="width: 14px; height: 14px;"></i> Suara (M)</button>
+            </div>
+            <div class="option-row">
+              <label for="optTouchControlsSelect">Kontrol Layar Sentuh:</label>
+              <select id="optTouchControlsSelect" class="option-select">
+                <option value="auto" selected>Otomatis (Auto)</option>
+                <option value="on">Aktif (On)</option>
+                <option value="off">Mati (Off)</option>
+              </select>
             </div>
             <div class="keybinds-header">
               <span class="keybinds-title">Tombol Kontrol (Keybinds)</span>
@@ -65,9 +96,15 @@
       </div>
 
       <!-- Mini Quest Tracker Widget (Top Left HUD Overlay) -->
-      <div id="questTracker" class="rpg-box mini-tracker">
+      <div id="questTracker" class="rpg-box mini-tracker collapsed">
         <div class="tracker-header">
-          <span class="tracker-icon"><i data-lucide="compass" style="width: 14px; height: 14px;"></i></span>
+          <div class="tracker-title-area">
+            <span class="tracker-icon"><i data-lucide="compass" style="width: 14px; height: 14px;"></i></span>
+            <span class="tracker-label">Misi Budaya</span>
+          </div>
+          <button id="toggleQuestTrackerBtn" class="toggle-btn" title="Sembunyikan / Tampilkan Misi">+</button>
+        </div>
+        <div class="tracker-body">
           <span id="questTrackerText" class="tracker-text">Misi: Bicara dengan Mbok Sari di Pasar</span>
         </div>
       </div>
@@ -90,7 +127,7 @@
         </div>
       </aside>
 
-      <!-- Floating Dialogue Box UI (Bottom RPG Overlay) -->
+
       <div id="dialogueBox" class="rpg-box hidden">
         <div id="aiLoadingIndicator" class="ai-loading hidden">
           <span class="spinner"></span> Sedang merangkai kuis baru kanggo panjenengan...
@@ -106,7 +143,8 @@
           </div>
         </div>
         <div class="dialogue-footer">
-          <button id="nextBtn" class="rpg-btn">Lanjut <span class="key-badge">E</span> <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
+          <button id="nextBtn" class="rpg-btn">Lanjut <span class="key-badge">E</span> <i data-lucide="chevron-right"
+              style="width: 14px; height: 14px;"></i></button>
         </div>
       </div>
 
@@ -125,18 +163,94 @@
             <div id="quizProgress" class="quiz-progress">Pertanyaan 1 dari 3</div>
             <div id="quizQuestion" class="quiz-question-text">Apa tegese tembung "sedasa"?</div>
             <div id="quizOptions" class="quiz-options-grid">
-             
+
             </div>
             <div id="quizFeedback" class="quiz-feedback hidden"></div>
           </div>
 
           <div class="quiz-footer">
-            <button id="nextQuizBtn" class="rpg-btn quiz-btn hidden">Lanjut <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
+            <button id="nextQuizBtn" class="rpg-btn quiz-btn hidden">Lanjut <i data-lucide="chevron-right"
+                style="width: 14px; height: 14px;"></i></button>
           </div>
         </div>
       </div>
 
-      <!-- Quest Log Drawer / Modal UI Overlay -->
+      <!-- Gladhen Micara / Tantangan Wicara (NusaTTSE Pronunciation & Speech Evaluator Modal) -->
+      <div id="pronounceModal" class="pronounce-modal hidden">
+        <div class="pronounce-box rpg-box">
+          <div class="pronounce-header">
+            <div class="pronounce-badge">
+              <span class="pronounce-icon"><i data-lucide="mic" style="width: 18px; height: 18px;"></i></span>
+              <div class="pronounce-title-wrap">
+                <span id="pronounceTitle">Gladhen Micara (Latihan Pengucapan)</span>
+                <span class="pronounce-subtitle">Didukung dening AI NusaTTSE</span>
+              </div>
+            </div>
+            <button id="closePronounceBtn" class="quiz-close-btn">&times;</button>
+          </div>
+
+          <div class="pronounce-body">
+            <div class="pronounce-prompt-card">
+              <div class="prompt-header">
+                <span class="prompt-tag"><i data-lucide="sparkles" style="width: 12px; height: 12px;"></i> Teks
+                  Referensi Basa Jawa</span>
+                <button id="pronounceListenBtn" class="listen-audio-btn" title="Rungokake conto swara">
+                  <i data-lucide="volume-2" style="width: 15px; height: 15px;"></i>
+                  <span>Rungokake Conto</span>
+                </button>
+              </div>
+              <div id="pronounceTargetText" class="target-javanese-text">"Sugeng enjing sedherek sedaya."</div>
+              <div id="pronounceTranslation" class="target-translation">(Selamat pagi saudara sekalian.)</div>
+            </div>
+
+            <div class="record-studio-section">
+              <div id="micStatusText" class="mic-status">Pencet tombol ing ngisor iki banjur ucapake ukara ing dhuwur
+                kanthi cetha:</div>
+
+              <div class="record-control-wrap">
+                <button id="recordMicBtn" class="record-mic-btn" title="Mulai micara">
+                  <div class="mic-pulse-ring"></div>
+                  <i data-lucide="mic" class="mic-icon-main"></i>
+                </button>
+                <div id="recordingTimer" class="recording-timer hidden">00:00</div>
+              </div>
+
+              <div id="micLiveWave" class="mic-live-wave hidden">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+
+            <!-- Evaluation Results Card -->
+            <div id="pronounceResultCard" class="pronounce-result-card hidden">
+              <div class="result-score-row">
+                <div class="score-circle-badge">
+                  <span id="evalOverallScore" class="score-number">95</span>
+                  <span class="score-label">Skor</span>
+                </div>
+                <div class="score-details">
+                  <div id="evalRatingBadge" class="eval-rating-badge excellent">Lancar Banget</div>
+                  <div id="evalFeedbackText" class="eval-feedback-text">Pangucapan lan intonasi basa Jawa sampeyan wis
+                    lancar lan cetha!</div>
+                </div>
+              </div>
+
+              <div class="word-breakdown-section">
+                <div class="breakdown-title">Analisis Saben Tembung:</div>
+                <div id="wordChipsContainer" class="word-chips-grid">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pronounce-footer">
+            <button id="skipPronounceBtn" class="rpg-btn-secondary">Lewati</button>
+            <button id="finishPronounceBtn" class="rpg-btn">Terusake Lakumu <i data-lucide="check"
+                style="width: 14px; height: 14px;"></i></button>
+          </div>
+        </div>
+      </div>
+
       <div id="questModal" class="quest-modal hidden">
         <div class="quest-box rpg-box">
           <div class="quest-header">
@@ -145,7 +259,8 @@
               <h2>Skenario Misi Budaya</h2>
             </div>
             <div class="quest-header-stats">
-              <span id="questPlayerXp" class="xp-badge"><i data-lucide="sparkles" style="width: 13px; height: 13px;"></i> 0 XP</span>
+              <span id="questPlayerXp" class="xp-badge"><i data-lucide="sparkles"
+                  style="width: 13px; height: 13px;"></i> 0 XP</span>
               <button id="closeQuestBtn" class="quiz-close-btn">&times;</button>
             </div>
           </div>
@@ -167,6 +282,42 @@
       <!-- Toast Notification Container -->
       <div id="toastContainer"></div>
     </div>
+
+    <!-- Mobile On-Screen Virtual Controls -->
+    <div id="mobileControls" class="mobile-controls">
+      <div id="virtualDpad" class="virtual-dpad">
+        <button id="dpadUp" class="dpad-btn dpad-up" aria-label="Maju (Up)"><i data-lucide="chevron-up"></i></button>
+        <div class="dpad-horizontal">
+          <button id="dpadLeft" class="dpad-btn dpad-left" aria-label="Kiri (Left)"><i
+              data-lucide="chevron-left"></i></button>
+          <div class="dpad-center"></div>
+          <button id="dpadRight" class="dpad-btn dpad-right" aria-label="Kanan (Right)"><i
+              data-lucide="chevron-right"></i></button>
+        </div>
+        <button id="dpadDown" class="dpad-btn dpad-down" aria-label="Mundur (Down)"><i
+            data-lucide="chevron-down"></i></button>
+      </div>
+
+      <div id="virtualActions" class="virtual-actions">
+        <div class="action-sub-btns">
+          <button id="touchQuestBtn" class="action-btn action-small" title="Misi (Q)">
+            <i data-lucide="scroll" style="width: 16px; height: 16px;"></i>
+            <span>Misi</span>
+          </button>
+          <button id="touchNotebookBtn" class="action-btn action-small" title="Buku Tembung (N)">
+            <i data-lucide="book-open" style="width: 16px; height: 16px;"></i>
+            <span>Buku</span>
+          </button>
+          <button id="touchSoundBtn" class="action-btn action-small" title="Suara (M)">
+            <i data-lucide="volume-2" style="width: 16px; height: 16px;"></i>
+          </button>
+        </div>
+        <button id="touchInteractBtn" class="action-btn action-primary" title="Bicara / Interaksi (E)">
+          <span class="action-main-label">Bicara</span>
+          <span class="action-sub-label">E</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Modular Game Engine Scripts -->
@@ -174,10 +325,12 @@
   <script src="/js/data/maps.js"></script>
   <script src="/js/assets.js"></script>
   <script src="/js/audio.js"></script>
+  <script src="/js/speech_evaluator.js"></script>
   <script src="/js/quests.js"></script>
   <script src="/js/player.js"></script>
   <script src="/js/npcs.js"></script>
   <script src="/js/ui.js"></script>
   <script src="/js/main.js"></script>
 </body>
+
 </html>

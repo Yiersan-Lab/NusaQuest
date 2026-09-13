@@ -914,6 +914,231 @@ app.post('/api/npc-config', (req, res) => {
   }
 });
 
+// NusaTTSE (Hugging Face Space) Integration Endpoints with detailed logging & HF_TOKEN support
+const HF_SPACE_URL = process.env.HF_SPACE_URL || 'https://maselonn-nusattse.hf.space';
+const HF_TOKEN = process.env.HF_TOKEN || '';
+
+app.post('/api/tts', async (req, res) => {
+  const startTime = Date.now();
+  try {
+    const { text, voice, speed = 1.0, pitch = 0 } = req.body || {};
+    if (!text) {
+      console.warn('[NusaTTSE API] /api/tts called without text payload.');
+      return res.status(400).json({ error: 'text is required' });
+    }
+
+    const voiceId = voice || 'jv-ID-SitiNeural';
+    console.log(`\n========================================`);
+    console.log(`[NusaTTSE API] 🎙️ Requesting TTS from HF Space (${HF_SPACE_URL})`);
+    console.log(`[NusaTTSE API] Text: "${text}" | Voice: ${voiceId} | Speed: ${speed} | Pitch: ${pitch}`);
+    console.log(`[NusaTTSE API] HF_TOKEN: ${HF_TOKEN ? 'Configured (Bearer token present)' : 'Not set (Anonymous - Subject to ZeroGPU free rate limit)'}`);
+
+    const headers = { 'Content-Type': 'application/json' };
+    if (HF_TOKEN) {
+      headers['Authorization'] = `Bearer ${HF_TOKEN}`;
+    }
+
+    const callRes = await fetch(`${HF_SPACE_URL}/gradio_api/call/tts_generate`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ data: [text, voiceId, parseFloat(speed) || 1.0, parseInt(pitch) || 0, null] })
+    });
+
+    console.log(`[NusaTTSE API] Step 1 (Init Job) Status: ${callRes.status} ${callRes.statusText}`);
+
+    if (!callRes.ok) {
+      const errText = await callRes.text();
+      console.error(`[NusaTTSE API] ❌ HF Space rejected job: ${errText}`);
+      return res.status(callRes.status).json({
+        error: `HF Space error (${callRes.status}): ${errText}`,
+        isRateLimit: callRes.status === 429 || errText.includes('quota') || errText.includes('ZeroGPU')
+      });
+    }
+
+    const { event_id } = await callRes.json();
+    if (!event_id) {
+      console.error(`[NusaTTSE API] ❌ No event_id returned from HF Space.`);
+      return res.status(500).json({ error: 'No event_id returned from TTS service' });
+    }
+
+    console.log(`[NusaTTSE API] Step 2: Waiting for stream on event_id: ${event_id}...`);
+    const streamHeaders = {};
+    if (HF_TOKEN) streamHeaders['Authorization'] = `Bearer ${HF_TOKEN}`;
+
+    const eventRes = await fetch(`${HF_SPACE_URL}/gradio_api/call/tts_generate/${event_id}`, {
+      headers: streamHeaders
+    });
+    const streamText = await eventRes.text();
+
+    console.log(`[NusaTTSE API] Stream Response Length: ${streamText.length} bytes`);
+
+    // Check for ZeroGPU rate limit or other errors in stream body
+    if (streamText.includes('ZeroGPU') || streamText.includes('quota exceeded') || streamText.includes('event: error')) {
+      console.warn(`[NusaTTSE API] ⚠️ HF Space ZeroGPU Rate Limit / Error:`);
+      console.warn(streamText.trim());
+      return res.status(429).json({
+        error: 'ZeroGPU quota exceeded on Hugging Face Spaces. Provide HF_TOKEN in .env to increase quota.',
+        isRateLimit: true,
+        rawStream: streamText
+      });
+    }
+
+    const match = streamText.match(/"url":\s*"([^"]+)"/);
+    if (match && match[1]) {
+      const audioUrl = match[1];
+      console.log(`[NusaTTSE API] Step 3: Downloading audio binary from: ${audioUrl}`);
+      const audioRes = await fetch(audioUrl);
+      if (audioRes.ok) {
+        const buffer = await audioRes.arrayBuffer();
+        const durationMs = Date.now() - startTime;
+        console.log(`[NusaTTSE API] ✅ TTS generation succeeded in ${durationMs}ms (${buffer.byteLength} bytes).`);
+        console.log(`========================================\n`);
+        res.setHeader('Content-Type', 'audio/mpeg');
+        return res.send(Buffer.from(buffer));
+      }
+    }
+
+    console.error(`[NusaTTSE API] ❌ Could not extract audio URL from stream.`);
+    return res.status(500).json({ error: 'TTS audio stream URL not found', rawStream: streamText });
+  } catch (err) {
+    console.error(`[NusaTTSE API] ❌ Exception in /api/tts:`, err);
+    return res.status(500).json({ error: err.message, stack: err.stack });
+  }
+});
+
+app.post('/api/evaluate-speech', async (req, res) => {
+  try {
+    console.log(`\n[NusaTTSE API] 🎤 Received speech evaluation request...`);
+
+    const contentType = req.headers['content-type'] || '';
+    const chunks = [];
+    for await (const chunk of req) {
+      chunks.push(chunk);
+    }
+    const rawBuffer = Buffer.concat(chunks);
+
+    // Parse multipart form data
+    const webReq = new Request('http://localhost/api/evaluate-speech', {
+      method: 'POST',
+      headers: { 'content-type': contentType },
+      body: rawBuffer
+    });
+
+    const formData = await webReq.formData();
+    const referenceText = formData.get('reference_text') || 'Sugeng enjing sedherek sedaya.';
+    const audioFile = formData.get('file');
+
+    if (!audioFile) {
+      console.warn('[NusaTTSE API] ⚠️ No audio file in form data.');
+      return res.status(400).json({ error: 'No audio file provided in form data' });
+    }
+
+    console.log(`[NusaTTSE API] Target: "${referenceText}" | Audio Size: ${audioFile.size} bytes`);
+
+    // Step 1: Upload audio file to Gradio Space
+    const uploadForm = new FormData();
+    uploadForm.append('files', audioFile, 'recording.webm');
+
+    const uploadHeaders = {};
+    if (HF_TOKEN) uploadHeaders['Authorization'] = `Bearer ${HF_TOKEN}`;
+
+    const uploadRes = await fetch(`${HF_SPACE_URL}/gradio_api/upload`, {
+      method: 'POST',
+      headers: uploadHeaders,
+      body: uploadForm
+    });
+
+    if (!uploadRes.ok) {
+      const errText = await uploadRes.text();
+      console.warn(`[NusaTTSE API] ⚠️ Gradio upload failed (${uploadRes.status}): ${errText}`);
+      return res.status(uploadRes.status).json({ error: 'Failed to upload audio to HF Space', detail: errText });
+    }
+
+    const uploadedFiles = await uploadRes.json();
+    if (!Array.isArray(uploadedFiles) || !uploadedFiles[0]) {
+      return res.status(500).json({ error: 'Invalid upload response from Space' });
+    }
+
+    const remoteAudioPath = uploadedFiles[0];
+    console.log(`[NusaTTSE API] Uploaded audio path: ${remoteAudioPath}`);
+
+    // Step 2: Call evaluate_audio endpoint
+    const callRes = await fetch(`${HF_SPACE_URL}/gradio_api/call/evaluate_audio`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(HF_TOKEN ? { 'Authorization': `Bearer ${HF_TOKEN}` } : {})
+      },
+      body: JSON.stringify({
+        data: [
+          { path: remoteAudioPath, meta: { _type: 'gradio.FileData' } },
+          referenceText
+        ]
+      })
+    });
+
+    if (!callRes.ok) {
+      const errText = await callRes.text();
+      console.warn(`[NusaTTSE API] ⚠️ evaluate_audio call failed: ${errText}`);
+      return res.status(callRes.status).json({ error: 'HF evaluate_audio call failed', detail: errText });
+    }
+
+    const { event_id } = await callRes.json();
+    if (!event_id) {
+      return res.status(500).json({ error: 'No event_id returned for evaluation' });
+    }
+
+    console.log(`[NusaTTSE API] Step 3: Waiting for evaluation stream on event_id: ${event_id}...`);
+    const streamRes = await fetch(`${HF_SPACE_URL}/gradio_api/call/evaluate_audio/${event_id}`, {
+      headers: HF_TOKEN ? { 'Authorization': `Bearer ${HF_TOKEN}` } : {}
+    });
+
+    const streamText = await streamRes.text();
+    const completeLine = streamText.split('\n').find(l => l.startsWith('data: ['));
+
+    if (completeLine) {
+      const parsedData = JSON.parse(completeLine.slice(5));
+      const html0 = parsedData[0] || '';
+      const html1 = parsedData[1] || '';
+      const html2 = parsedData[2] || '';
+
+      const scoreMatch = html0.match(/(\d+)\s*<span[^>]*>\s*\/\s*100/i);
+      const overallScore = scoreMatch ? parseInt(scoreMatch[1]) : 80;
+
+      const ratingMatch = html0.match(/<div style="font-size: 1\.8rem; font-weight: 800; color: #fff;">([^<]+)<\/div>/i);
+      const fluencyRating = ratingMatch ? ratingMatch[1].trim() : 'Wis Apik';
+
+      const wordAnalysis = [];
+      const chipRegex = /<div style="background:[^"]*" title="([^"]*)"><strong>([^<]+)<\/strong>\s*<span[^>]*>(\d+)%<\/span>/g;
+      let match;
+      while ((match = chipRegex.exec(html1)) !== null) {
+        const tip = match[1];
+        const word = match[2];
+        const score = parseInt(match[3]);
+        let status = 'correct';
+        if (score < 50) status = 'missing';
+        else if (score < 75) status = 'mispronounced';
+
+        wordAnalysis.push({ word, score, status, tip });
+      }
+
+      console.log(`[NusaTTSE API] ✅ Evaluation parsed: Score ${overallScore}/100 (${fluencyRating}), ${wordAnalysis.length} words analyzed.`);
+      return res.json({
+        overall_score: overallScore,
+        fluency_rating: fluencyRating,
+        rating_badge: overallScore >= 80 ? 'excellent' : (overallScore >= 60 ? 'good' : 'needs_practice'),
+        word_analysis: wordAnalysis.length > 0 ? wordAnalysis : undefined,
+        html_report: html0 + html1 + html2
+      });
+    }
+
+    return res.status(500).json({ error: 'Could not parse evaluation result from Space stream', rawStream: streamText });
+  } catch (err) {
+    console.error(`[NusaTTSE API] ❌ Exception in /api/evaluate-speech:`, err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`NusaQuest running at http://localhost:${PORT}`);

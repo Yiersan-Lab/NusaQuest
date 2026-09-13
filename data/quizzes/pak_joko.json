@@ -222,5 +222,229 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789277042269",
+    "npcId": "pak_joko",
+    "title": "Kuis Pak Joko: Sawah lan Pari",
+    "generatedAt": "2026-09-13T05:24:02.269Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Yen wis panen, tak wenehi pari sethithik nggih!', tembung 'wenehi' tegese apa ing basa Indonesia?",
+        "options": [
+          "Minta",
+          "Memberi",
+          "Membeli",
+          "Menanam"
+        ],
+        "answer": 1,
+        "explanation": "'Wenehi' tegese ngasih utawa ngirim barang marang wong liya, yaiku 'memberi'.",
+        "teaches": {
+          "word": "wenehi",
+          "meaning": "memberi"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Apa tegese tembung 'sethithik' ing ukara Pak Joko: 'tak wenehi pari sethithik nggih'?",
+        "options": [
+          "Banyak",
+          "Mahal",
+          "Sedikit",
+          "Manis"
+        ],
+        "answer": 2,
+        "explanation": "'Sethithik' tegese sedhikit utawa jumlahé ora akeh.",
+        "teaches": {
+          "word": "sethithik",
+          "meaning": "sedikit"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Menurut Pacaran Pak Joko, apa sing dibutuhake dening 'pari' supaya bisa tuwuh subur?",
+        "options": [
+          "Akeh toya",
+          "Akeh srengenge",
+          "Akeh angin",
+          "Akeh gula"
+        ],
+        "answer": 0,
+        "explanation": "Ing ukara 'Pari butuh \"toya\" akeh supaya tuwuh subur', katon jelas yen pari butuh akeh toya (air).",
+        "teaches": {
+          "word": "toya",
+          "meaning": "air"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789295858964",
+    "npcId": "pak_joko",
+    "title": "Kuis Tembung Pak Joko",
+    "generatedAt": "2026-09-13T10:37:38.964Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Sugeng rawuh ing sawah kula', sapa sing diundang dening Pak Joko?",
+        "options": [
+          "Tamu utawa wong sing teka",
+          "Hewan ing sawah",
+          "Bapaké Pak Joko",
+          "Petani liyane"
+        ],
+        "answer": 0,
+        "explanation": "Ukara 'Sugeng rawuh' tegese selamat datang, biasane diucapake marang tamu utawa wong sing teka ing papan kasebut.",
+        "teaches": {
+          "word": "sugeng rawuh",
+          "meaning": "selamat datang"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Menurut Pak Joko, 'pari' bakal dadi apa yen wis diolah?",
+        "options": [
+          "Garut",
+          "Beras",
+          "Tepung",
+          "Mie"
+        ],
+        "answer": 1,
+        "explanation": "Ing ukara 'Niki namane \"pari\", dadi beras yen wis diolah', disebutake yen pari (padi) dadi beras yen wis diolah.",
+        "teaches": {
+          "word": "beras",
+          "meaning": "beras"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Apa tegese tembung 'subur' ing ukara 'supaya tuwuh subur'?",
+        "options": [
+          "Garing",
+          "Lemah",
+          "Subur / Sehat",
+          "Ijèn"
+        ],
+        "answer": 2,
+        "explanation": "'Subur' tegese subur, sehat, utawa bagus tuwuhé tanduran amarga dipupuk utawa disirami kanthi apik.",
+        "teaches": {
+          "word": "subur",
+          "meaning": "subur"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789297455732",
+    "npcId": "pak_joko",
+    "title": "Kuis Tembung Pak Joko",
+    "generatedAt": "2026-09-13T11:04:15.732Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Yen wis panen, tak wenehi pari sethithik nggih!', tembung 'panen' nuduhake kegiatan apa?",
+        "options": [
+          "Menanam benih",
+          "Menuai hasil",
+          "Membajak ladang",
+          "Mengairi sawah"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'panen' tegese menuai atau memanen hasil pertanian.",
+        "teaches": {
+          "word": "panen",
+          "meaning": "memanen"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Pasalehane, apa tegese 'tak wenehi' ing basa Indonesia?",
+        "options": [
+          "Saya ambil",
+          "Saya lihat",
+          "Saya simpan",
+          "Saya berikan"
+        ],
+        "answer": 3,
+        "explanation": "Tembung 'tak' (saya) lan 'wenehi' (beri) yen digandhengake dadi 'tak wenehi' tegese 'saya berikan'.",
+        "teaches": {
+          "word": "wenehi",
+          "meaning": "memberi"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing ukara 'Sugeng rawuh ing sawah kula', tembung 'sawah' nuduhake papan apa?",
+        "options": [
+          "Pekarangan rumah",
+          "Ladang atau sawah",
+          "Toko pertanian",
+          "Gudang beras"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'sawah' tegese sawah utawa ladang, yaiku papan rawuh kula (saya).",
+        "teaches": {
+          "word": "sawah",
+          "meaning": "sawah / ladang"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789301490483",
+    "npcId": "pak_joko",
+    "title": "Kuis Tembung Pak Joko: Set 4",
+    "generatedAt": "2026-09-13T12:11:30.483Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Pari butuh toya akeh supaya tuwuh subur', tembung 'kebutuhan' utama sing disebutake dening Pak Joko kanggo pari apa?",
+        "options": [
+          "Cahya srengenge (Matahari)",
+          "Banyu / Toya (Air)",
+          "Tanah alus (Tanah halus)",
+          "Angin sejuk (Angin sejuk)"
+        ],
+        "answer": 1,
+        "explanation": "Pak Joko nyebutake 'Pari butuh toya akeh', tegese pari butuh banyu utawa toya akeh.",
+        "teaches": {
+          "word": "toya",
+          "meaning": "air"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Sapa sing lagi nyapa tamu ing ukara 'Sugeng rawuh ing sawah kula'?",
+        "options": [
+          "Sawah (Ladang)",
+          "Tamu (Tamu)",
+          "Pak Joko (Pak Joko)",
+          "Pari (Padi)"
+        ],
+        "answer": 2,
+        "explanation": "Ukara kasebut diucapake dening Pak Joko kanggo nyapa tamu sing teka ing sawahé.",
+        "teaches": {
+          "word": "sawah",
+          "meaning": "sawah / ladang"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Apa sing dijanjikake Pak Joko bakal diwenehake yen wis 'panen'?",
+        "options": [
+          "Beras (Beras)",
+          "Pari (Padi)",
+          "Toya (Air)",
+          "Sawah (Ladang)"
+        ],
+        "answer": 1,
+        "explanation": "Ing ukara 'tak wenehi pari sethithik', Pak Joko nemokake bakal ngasilne pari (biji padi).",
+        "teaches": {
+          "word": "pari",
+          "meaning": "padi"
+        }
+      }
+    ]
   }
 ]

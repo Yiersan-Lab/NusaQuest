@@ -31,10 +31,11 @@ class GameEngine {
     this.warpDuration = 300;
     this.pendingWarp = null;
     this.warpCooldownArea = null;
-    this.isTitleScreen = true;
+    this.isTitleScreen = !!document.getElementById('startScreen');
 
     this.updateCanvasDimensions();
     this.bindInputs();
+    this.bindTouchControls();
   }
 
   getTileSize() {
@@ -91,13 +92,13 @@ class GameEngine {
   }
 
   showTitleScreen() {
-    this.isTitleScreen = true;
     const startScreen = document.getElementById('startScreen');
-    if (startScreen) {
-      startScreen.classList.remove('start-exit');
-    }
+    if (!startScreen) return;
+    this.isTitleScreen = true;
+    startScreen.classList.remove('start-exit');
     if (this.uiManager) {
       this.uiManager.toggleNotebook(false);
+      this.uiManager.toggleQuestTracker(false);
       this.uiManager.hideDialogue();
       this.uiManager.hideQuizModal();
       this.uiManager.hideQuestModalUI();
@@ -158,6 +159,10 @@ class GameEngine {
         if (this.uiManager) {
           if (this.uiManager.isQuizActive()) {
             this.uiManager.hideQuizModal();
+            return;
+          }
+          if (this.uiManager.isPronounceActive && this.uiManager.isPronounceActive()) {
+            this.uiManager.hidePronounceModal(false);
             return;
           }
           if (this.uiManager.isQuestModalActive()) {
@@ -258,8 +263,141 @@ class GameEngine {
     });
   }
 
+  bindTouchControls() {
+    const dpadButtons = {
+      dpadUp: 'KeyW',
+      dpadDown: 'KeyS',
+      dpadLeft: 'KeyA',
+      dpadRight: 'KeyD'
+    };
+
+    const handleDpadTouch = (e) => {
+      e.preventDefault();
+      const currentActiveKeys = new Set();
+
+      for (let i = 0; i < e.touches.length; i++) {
+        const touch = e.touches[i];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (element) {
+          const btn = element.closest('.dpad-btn');
+          if (btn && btn.id && dpadButtons[btn.id]) {
+            currentActiveKeys.add(dpadButtons[btn.id]);
+          }
+        }
+      }
+
+      for (const [id, key] of Object.entries(dpadButtons)) {
+        const btn = document.getElementById(id);
+        const shouldBePressed = currentActiveKeys.has(key);
+        this.keysPressed[key] = shouldBePressed;
+        if (btn) {
+          if (shouldBePressed) btn.classList.add('pressed');
+          else btn.classList.remove('pressed');
+        }
+      }
+    };
+
+    const dpadContainer = document.getElementById('virtualDpad');
+    if (dpadContainer) {
+      dpadContainer.addEventListener('touchstart', handleDpadTouch, { passive: false });
+      dpadContainer.addEventListener('touchmove', handleDpadTouch, { passive: false });
+      dpadContainer.addEventListener('touchend', handleDpadTouch, { passive: false });
+      dpadContainer.addEventListener('touchcancel', handleDpadTouch, { passive: false });
+    }
+
+    // Pointer/Mouse support on D-Pad buttons
+    for (const [id, key] of Object.entries(dpadButtons)) {
+      const btn = document.getElementById(id);
+      if (btn) {
+        btn.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          this.keysPressed[key] = true;
+          btn.classList.add('pressed');
+        });
+        const stopBtn = (e) => {
+          this.keysPressed[key] = false;
+          btn.classList.remove('pressed');
+        };
+        btn.addEventListener('mouseup', stopBtn);
+        btn.addEventListener('mouseleave', stopBtn);
+      }
+    }
+
+    // Action button (Gunem / Interact / Next)
+    const touchInteractBtn = document.getElementById('touchInteractBtn');
+    if (touchInteractBtn) {
+      const triggerInteract = (e) => {
+        e.preventDefault();
+        touchInteractBtn.classList.add('pressed');
+        this.handleInteractionKey();
+      };
+      const releaseInteract = (e) => {
+        touchInteractBtn.classList.remove('pressed');
+      };
+      touchInteractBtn.addEventListener('touchstart', triggerInteract, { passive: false });
+      touchInteractBtn.addEventListener('touchend', releaseInteract, { passive: false });
+      touchInteractBtn.addEventListener('touchcancel', releaseInteract, { passive: false });
+      touchInteractBtn.addEventListener('mousedown', triggerInteract);
+      touchInteractBtn.addEventListener('mouseup', releaseInteract);
+      touchInteractBtn.addEventListener('mouseleave', releaseInteract);
+    }
+
+    // Quick HUD Action Buttons
+    const touchQuestBtn = document.getElementById('touchQuestBtn');
+    if (touchQuestBtn) {
+      touchQuestBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (this.uiManager) this.uiManager.toggleQuestTracker();
+      });
+    }
+
+    const touchNotebookBtn = document.getElementById('touchNotebookBtn');
+    if (touchNotebookBtn) {
+      touchNotebookBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (this.uiManager) this.uiManager.toggleNotebook();
+      });
+    }
+
+    const touchSoundBtn = document.getElementById('touchSoundBtn');
+    if (touchSoundBtn) {
+      touchSoundBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (window.SoundManager) {
+          const isMuted = window.SoundManager.toggleMute();
+          if (this.uiManager) {
+            this.uiManager.showToast(isMuted ? 'Suara Dipateni (Muted)' : 'Suara Diuripake (Unmuted)');
+          }
+          touchSoundBtn.innerHTML = isMuted ? '<i data-lucide="volume-x" style="width: 16px; height: 16px;"></i>' : '<i data-lucide="volume-2" style="width: 16px; height: 16px;"></i>';
+          if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        }
+      });
+    }
+
+    // Tapping on dialogue box advances dialogue or skips typing
+    const dialogueBox = document.getElementById('dialogueBox');
+    if (dialogueBox) {
+      dialogueBox.addEventListener('click', (e) => {
+        if (!e.target.closest('#nextBtn')) {
+          this.advanceDialogue();
+        }
+      });
+    }
+
+    // Tapping on game canvas can interact with adjacent NPC or dismiss title
+    this.canvas.addEventListener('touchstart', (e) => {
+      if (this.isTitleScreen) {
+        this.hideTitleScreen();
+        return;
+      }
+      if (this.activeDialogueNpc) {
+        this.advanceDialogue();
+      }
+    }, { passive: true });
+  }
+
   handleInteractionKey() {
-    if (this.isTitleScreen || this.isGeneratingQuiz || this.isWarping || (this.uiManager && (this.uiManager.isQuizActive() || this.uiManager.isQuestModalActive()))) return;
+    if (this.isTitleScreen || this.isGeneratingQuiz || this.isWarping || (this.uiManager && (this.uiManager.isQuizActive() || (this.uiManager.isPronounceActive && this.uiManager.isPronounceActive()) || this.uiManager.isQuestModalActive()))) return;
 
     if (this.activeDialogueNpc) {
       this.advanceDialogue();
@@ -346,8 +484,8 @@ class GameEngine {
       const cdW = cdWarp.w || cdWarp.width || 1;
       const cdH = cdWarp.h || cdWarp.height || 1;
       const insideCd = (this.warpCooldownArea.mapId === this.currentMapId) &&
-                       (tileX >= cdWarp.x && tileX < cdWarp.x + cdW &&
-                        tileY >= cdWarp.y && tileY < cdWarp.y + cdH);
+        (tileX >= cdWarp.x && tileX < cdWarp.x + cdW &&
+          tileY >= cdWarp.y && tileY < cdWarp.y + cdH);
       if (!insideCd) {
         this.warpCooldownArea = null;
       }
@@ -361,8 +499,8 @@ class GameEngine {
 
       if (tileX >= warp.x && tileX < warp.x + w && tileY >= warp.y && tileY < warp.y + h) {
         if (this.warpCooldownArea &&
-            this.warpCooldownArea.mapId === this.currentMapId &&
-            this.warpCooldownArea.warp === warp) {
+          this.warpCooldownArea.mapId === this.currentMapId &&
+          this.warpCooldownArea.warp === warp) {
           return;
         }
 
@@ -456,7 +594,7 @@ class GameEngine {
     this.player.update(
       now,
       activeMapContext,
-      this.isTitleScreen || this.activeDialogueNpc || (this.uiManager && (this.uiManager.isQuizActive() || this.uiManager.isQuestModalActive())),
+      this.isTitleScreen || this.activeDialogueNpc || (this.uiManager && (this.uiManager.isQuizActive() || (this.uiManager.isPronounceActive && this.uiManager.isPronounceActive()) || this.uiManager.isQuestModalActive())),
       this.keysPressed,
       (tx, ty) => this.checkWarp(tx, ty),
       ts
@@ -500,7 +638,7 @@ class GameEngine {
           try {
             const parsed = JSON.parse(trimmed);
             if (parsed && parsed.code && parsed.code !== '.') return [parsed];
-          } catch (e) {}
+          } catch (e) { }
         }
         return trimmed.split(',').map(s => s.trim()).filter(s => s && s !== '.');
       }
@@ -574,7 +712,7 @@ class GameEngine {
   }
 
   renderPrompts(now) {
-    if (this.isTitleScreen || this.activeDialogueNpc || this.isWarping || (this.uiManager && this.uiManager.isQuizActive())) return;
+    if (this.isTitleScreen || this.activeDialogueNpc || this.isWarping || (this.uiManager && (this.uiManager.isQuizActive() || (this.uiManager.isPronounceActive && this.uiManager.isPronounceActive())))) return;
 
     const ts = this.getTileSize();
     const adjacentNpc = this.npcManager.getAdjacentNpc(this.player, this.currentMapId);
@@ -587,7 +725,7 @@ class GameEngine {
       this.ctx.font = 'bold 12px "Quicksand", sans-serif';
       this.ctx.textAlign = 'center';
 
-      const text = "Tekan E kanggo gunem";
+      const text = "Tekan E untuk Berbicara";
       const textWidth = this.ctx.measureText(text).width + 16;
 
       this.ctx.fillStyle = '#3a1e08';
@@ -609,10 +747,10 @@ class GameEngine {
 
     const elapsed = Math.max(0, now - this.warpStartTime);
     const rawProgress = Math.min(elapsed / this.warpDuration, 1);
-    
+
     // Smooth quadratic easing (easeInOut)
-    const progress = rawProgress < 0.5 
-      ? 2 * rawProgress * rawProgress 
+    const progress = rawProgress < 0.5
+      ? 2 * rawProgress * rawProgress
       : 1 - Math.pow(-2 * rawProgress + 2, 2) / 2;
 
     let alpha = 0;
@@ -683,7 +821,7 @@ function loadKeybinds() {
       const parsed = JSON.parse(saved);
       return { ...DEFAULT_KEYBINDS, ...parsed };
     }
-  } catch (e) {}
+  } catch (e) { }
   return { ...DEFAULT_KEYBINDS };
 }
 
@@ -703,7 +841,7 @@ function buildActiveKeybinds(binds) {
 function saveKeybinds(binds) {
   try {
     localStorage.setItem('nusaquest_keybinds', JSON.stringify(binds));
-  } catch (e) {}
+  } catch (e) { }
   window.KEYBINDS = buildActiveKeybinds(binds);
 }
 
@@ -712,7 +850,7 @@ window.KEYBINDS = buildActiveKeybinds(window.USER_KEYBINDS);
 
 let activeListeningAction = null;
 
-window.handleKeybindCapture = function(e) {
+window.handleKeybindCapture = function (e) {
   if (!activeListeningAction) return false;
   if (e.code !== 'Escape') {
     window.USER_KEYBINDS[activeListeningAction] = e.code;
@@ -820,6 +958,18 @@ window.addEventListener('load', () => {
     });
   }
 
+  const optTouchControlsSelect = document.getElementById('optTouchControlsSelect');
+  const savedTouchMode = localStorage.getItem('nusaquest_touch_mode') || 'auto';
+  if (optTouchControlsSelect) {
+    optTouchControlsSelect.value = savedTouchMode;
+    applyTouchControlMode(savedTouchMode);
+    optTouchControlsSelect.addEventListener('change', (e) => {
+      applyTouchControlMode(e.target.value);
+    });
+  } else {
+    applyTouchControlMode(savedTouchMode);
+  }
+
   if (optSoundBtn) {
     optSoundBtn.addEventListener('click', () => {
       if (window.SoundManager) {
@@ -832,3 +982,15 @@ window.addEventListener('load', () => {
     });
   }
 });
+
+function applyTouchControlMode(mode) {
+  document.body.classList.remove('show-touch-controls', 'hide-touch-controls');
+  if (mode === 'on') {
+    document.body.classList.add('show-touch-controls');
+  } else if (mode === 'off') {
+    document.body.classList.add('hide-touch-controls');
+  }
+  try {
+    localStorage.setItem('nusaquest_touch_mode', mode);
+  } catch (e) { }
+}
