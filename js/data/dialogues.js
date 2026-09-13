@@ -145,7 +145,7 @@ async function fetchNpcQuiz(npcId) {
 
   return {
     npcId,
-    title: `Kuis Tembung — ${npcName}`,
+    title: `Kuis Kosakata — ${npcName}`,
     questions
   };
 }

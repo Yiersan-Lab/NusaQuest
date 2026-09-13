@@ -25,7 +25,7 @@
         <i data-lucide="smartphone" class="phone-icon"></i>
         <i data-lucide="rotate-cw" class="rotate-arrow"></i>
       </div>
-      <h2 class="rotate-title">PUTER PIRANTI</h2>
+      <h2 class="rotate-title">PUTAR PERANGKAT</h2>
       <p class="rotate-text-jv">Mangga puter layar panjenengan dados mode lanskap (landscape) kagem mainake game.</p>
       <p class="rotate-text-id">Harap putar perangkat ke mode lanskap (landscape) untuk bermain.</p>
     </div>
@@ -44,7 +44,7 @@
           style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i
             data-lucide="volume-2" style="width: 14px; height: 14px;"></i> <span class="btn-text">Suara
             (M)</span></button>
-        <button id="questHudBtn" title="Buka Quest Log (Q)"
+        <button id="questHudBtn" title="Buka Daftar Misi (Q)"
           style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i
             data-lucide="scroll" style="width: 14px; height: 14px;"></i> <span class="btn-text">Misi (Q)</span></button>
       </div>
@@ -61,8 +61,8 @@
         </div>
 
         <div class="start-menu">
-          <button id="startPlayBtn" class="start-menu-item">START GAME</button>
-          <button id="startOptionsBtn" class="start-menu-item">OPTIONS</button>
+          <button id="startPlayBtn" class="start-menu-item">MULAI GAME</button>
+          <button id="startOptionsBtn" class="start-menu-item">PENGATURAN</button>
         </div>
       </div>
 
@@ -83,12 +83,12 @@
               <select id="optTouchControlsSelect" class="option-select">
                 <option value="auto" selected>Otomatis (Auto)</option>
                 <option value="on">Aktif (On)</option>
-                <option value="off">Mati (Off)</option>
+                <option value="off">Nonaktif (Off)</option>
               </select>
             </div>
             <div class="keybinds-header">
-              <span class="keybinds-title">Tombol Kontrol (Keybinds)</span>
-              <button id="resetKeybindsBtn" class="keybind-reset-btn" title="Reset Default">Reset</button>
+              <span class="keybinds-title">Pengaturan Tombol (Keybinds)</span>
+              <button id="resetKeybindsBtn" class="keybind-reset-btn" title="Kembalikan ke Default">Atur Ulang</button>
             </div>
             <div id="keybindsList" class="keybinds-grid"></div>
           </div>
@@ -113,16 +113,16 @@
       <aside id="vocabNotebook" class="rpg-box collapsed">
         <div class="notebook-header">
           <div class="notebook-title">
-            <span class="icon"><i data-lucide="book-open" style="width: 14px; height: 14px;"></i></span> Buku Tembung
+            <span class="icon"><i data-lucide="book-open" style="width: 14px; height: 14px;"></i></span> Buku Kosakata
           </div>
           <div class="notebook-controls">
             <span id="vocabCounter" class="counter">0 kata</span>
-            <button id="toggleNotebookBtn" class="toggle-btn" title="Sembunyikan / Tampilkan Buku (N / Tab)">+</button>
+            <button id="toggleNotebookBtn" class="toggle-btn" title="Sembunyikan / Tampilkan Buku Kosakata (N / Tab)">+</button>
           </div>
         </div>
         <div class="notebook-body">
           <ul id="vocabList">
-            <li class="empty-msg">Belum ada kata terbukti. Bicara dengan warga desa!</li>
+            <li class="empty-msg">Belum ada kata yang dipelajari. Bicara dengan warga desa!</li>
           </ul>
         </div>
       </aside>
@@ -130,7 +130,7 @@
 
       <div id="dialogueBox" class="rpg-box hidden">
         <div id="aiLoadingIndicator" class="ai-loading hidden">
-          <span class="spinner"></span> Sedang merangkai kuis baru kanggo panjenengan...
+          <span class="spinner"></span> Sedang menyiapkan kuis baru untuk Anda...
         </div>
         <div class="dialogue-content">
           <div id="npcPortraitFrame" class="portrait-frame">
@@ -154,14 +154,14 @@
           <div class="quiz-header">
             <div class="quiz-npc-badge">
               <span id="quizNpcIcon"><i data-lucide="help-circle" style="width: 16px; height: 16px;"></i></span>
-              <span id="quizTitle">Kuis Tembung NPC</span>
+              <span id="quizTitle">Kuis Kosakata NPC</span>
             </div>
             <button id="closeQuizBtn" class="quiz-close-btn">&times;</button>
           </div>
 
           <div class="quiz-body">
             <div id="quizProgress" class="quiz-progress">Pertanyaan 1 dari 3</div>
-            <div id="quizQuestion" class="quiz-question-text">Apa tegese tembung "sedasa"?</div>
+            <div id="quizQuestion" class="quiz-question-text">Apa arti kata "sedasa"?</div>
             <div id="quizOptions" class="quiz-options-grid">
 
             </div>
@@ -182,8 +182,8 @@
             <div class="pronounce-badge">
               <span class="pronounce-icon"><i data-lucide="mic" style="width: 18px; height: 18px;"></i></span>
               <div class="pronounce-title-wrap">
-                <span id="pronounceTitle">Gladhen Micara (Latihan Pengucapan)</span>
-                <span class="pronounce-subtitle">Didukung dening AI NusaTTSE</span>
+                <span id="pronounceTitle">Latihan Pengucapan (Gladhen Micara)</span>
+                <span class="pronounce-subtitle">Didukung oleh AI NusaTTSE</span>
               </div>
             </div>
             <button id="closePronounceBtn" class="quiz-close-btn">&times;</button>
@@ -193,10 +193,10 @@
             <div class="pronounce-prompt-card">
               <div class="prompt-header">
                 <span class="prompt-tag"><i data-lucide="sparkles" style="width: 12px; height: 12px;"></i> Teks
-                  Referensi Basa Jawa</span>
-                <button id="pronounceListenBtn" class="listen-audio-btn" title="Rungokake conto swara">
+                  Referensi Bahasa Jawa</span>
+                <button id="pronounceListenBtn" class="listen-audio-btn" title="Dengarkan contoh suara">
                   <i data-lucide="volume-2" style="width: 15px; height: 15px;"></i>
-                  <span>Rungokake Conto</span>
+                  <span>Dengarkan Contoh</span>
                 </button>
               </div>
               <div id="pronounceTargetText" class="target-javanese-text">"Sugeng enjing sedherek sedaya."</div>
@@ -204,11 +204,11 @@
             </div>
 
             <div class="record-studio-section">
-              <div id="micStatusText" class="mic-status">Pencet tombol ing ngisor iki banjur ucapake ukara ing dhuwur
-                kanthi cetha:</div>
+              <div id="micStatusText" class="mic-status">Tekan tombol mikrofon di bawah ini lalu ucapkan kalimat di atas
+                dengan jelas:</div>
 
               <div class="record-control-wrap">
-                <button id="recordMicBtn" class="record-mic-btn" title="Mulai micara">
+                <button id="recordMicBtn" class="record-mic-btn" title="Mulai berbicara">
                   <div class="mic-pulse-ring"></div>
                   <i data-lucide="mic" class="mic-icon-main"></i>
                 </button>
@@ -228,14 +228,14 @@
                   <span class="score-label">Skor</span>
                 </div>
                 <div class="score-details">
-                  <div id="evalRatingBadge" class="eval-rating-badge excellent">Lancar Banget</div>
-                  <div id="evalFeedbackText" class="eval-feedback-text">Pangucapan lan intonasi basa Jawa sampeyan wis
-                    lancar lan cetha!</div>
+                  <div id="evalRatingBadge" class="eval-rating-badge excellent">Sangat Lancar</div>
+                  <div id="evalFeedbackText" class="eval-feedback-text">Pengucapan dan intonasi bahasa Jawa Anda sudah
+                    lancar dan jelas!</div>
                 </div>
               </div>
 
               <div class="word-breakdown-section">
-                <div class="breakdown-title">Analisis Saben Tembung:</div>
+                <div class="breakdown-title">Analisis Setiap Kata:</div>
                 <div id="wordChipsContainer" class="word-chips-grid">
                   <!-- Rendered dynamically -->
                 </div>
@@ -245,7 +245,7 @@
 
           <div class="pronounce-footer">
             <button id="skipPronounceBtn" class="rpg-btn-secondary">Lewati</button>
-            <button id="finishPronounceBtn" class="rpg-btn">Terusake Lakumu <i data-lucide="check"
+            <button id="finishPronounceBtn" class="rpg-btn">Lanjutkan Perjalanan <i data-lucide="check"
                 style="width: 14px; height: 14px;"></i></button>
           </div>
         </div>
@@ -256,7 +256,7 @@
           <div class="quest-header">
             <div class="quest-title-area">
               <span class="quest-icon"><i data-lucide="scroll" style="width: 18px; height: 18px;"></i></span>
-              <h2>Skenario Misi Budaya</h2>
+              <h2>Daftar Misi Budaya</h2>
             </div>
             <div class="quest-header-stats">
               <span id="questPlayerXp" class="xp-badge"><i data-lucide="sparkles"
@@ -286,15 +286,15 @@
     <!-- Mobile On-Screen Virtual Controls -->
     <div id="mobileControls" class="mobile-controls">
       <div id="virtualDpad" class="virtual-dpad">
-        <button id="dpadUp" class="dpad-btn dpad-up" aria-label="Maju (Up)"><i data-lucide="chevron-up"></i></button>
+        <button id="dpadUp" class="dpad-btn dpad-up" aria-label="Maju (Atas)"><i data-lucide="chevron-up"></i></button>
         <div class="dpad-horizontal">
-          <button id="dpadLeft" class="dpad-btn dpad-left" aria-label="Kiri (Left)"><i
+          <button id="dpadLeft" class="dpad-btn dpad-left" aria-label="Kiri"><i
               data-lucide="chevron-left"></i></button>
           <div class="dpad-center"></div>
-          <button id="dpadRight" class="dpad-btn dpad-right" aria-label="Kanan (Right)"><i
+          <button id="dpadRight" class="dpad-btn dpad-right" aria-label="Kanan"><i
               data-lucide="chevron-right"></i></button>
         </div>
-        <button id="dpadDown" class="dpad-btn dpad-down" aria-label="Mundur (Down)"><i
+        <button id="dpadDown" class="dpad-btn dpad-down" aria-label="Mundur (Bawah)"><i
             data-lucide="chevron-down"></i></button>
       </div>
 
@@ -304,7 +304,7 @@
             <i data-lucide="scroll" style="width: 16px; height: 16px;"></i>
             <span>Misi</span>
           </button>
-          <button id="touchNotebookBtn" class="action-btn action-small" title="Buku Tembung (N)">
+          <button id="touchNotebookBtn" class="action-btn action-small" title="Buku Kosakata (N)">
             <i data-lucide="book-open" style="width: 16px; height: 16px;"></i>
             <span>Buku</span>
           </button>

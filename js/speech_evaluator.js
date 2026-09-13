@@ -336,19 +336,19 @@ class SpeechEvaluatorService {
 
       let status = 'correct';
       let score = Math.round(bestSim * 100);
-      let tip = 'Pangucapan bener lan cetha!';
+      let tip = 'Pengucapan benar dan jelas!';
 
       if (bestSim >= 0.75) {
         status = 'correct';
         matchedWordsCount++;
       } else if (bestSim >= 0.45) {
         status = 'mispronounced';
-        tip = `Rungokake maneh tembung "${word}"`;
+        tip = `Dengarkan lagi kata "${word}"`;
         score = Math.max(50, Math.round(bestSim * 100));
         matchedWordsCount += 0.5;
       } else {
         status = 'missing';
-        tip = `Tembung "${word}" durung pati keprungu cetha`;
+        tip = `Kata "${word}" belum terdengar jelas`;
         score = 25;
       }
 
@@ -373,27 +373,27 @@ class SpeechEvaluatorService {
 
     const overallScore = Math.min(100, Math.round((accuracyScore * 0.6) + (fluencyScore * 0.4)));
 
-    let fluencyRating = 'Perlu Latihan Maneh';
+    let fluencyRating = 'Perlu Latihan Lagi';
     let ratingBadge = 'needs_practice';
 
     if (overallScore >= 88) {
-      fluencyRating = 'Lancar Banget (Sangat Fasih)';
+      fluencyRating = 'Sangat Fasih';
       ratingBadge = 'excellent';
     } else if (overallScore >= 70) {
-      fluencyRating = 'Wis Apik lan Cetha';
+      fluencyRating = 'Bagus dan Jelas';
       ratingBadge = 'good';
     } else if (overallScore >= 50) {
-      fluencyRating = 'Lumayan Apik';
+      fluencyRating = 'Cukup Bagus';
       ratingBadge = 'fair';
     }
 
     const feedback = [];
     if (overallScore >= 88) {
-      feedback.push('Apik banget! Pangucapan lan intonasi basa Jawa sampeyan wis lancar lan cetha.');
+      feedback.push('Luar biasa! Pengucapan dan intonasi bahasa Jawa Anda sudah lancar dan jelas.');
     } else if (overallScore >= 70) {
-      feedback.push('Wis apik! Ana sawetara tembung sing bisa disampurnakake kanthi luwih cetha.');
+      feedback.push('Sudah bagus! Ada beberapa kata yang masih bisa disempurnakan dengan lebih jelas.');
     } else {
-      feedback.push('Ayo coba latihan maneh! Rungokake swara conto dhisik banjur baleni.');
+      feedback.push('Ayo coba latihan lagi! Dengarkan contoh suara terlebih dahulu lalu ulangi.');
     }
 
     return {

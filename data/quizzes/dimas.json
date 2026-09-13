@@ -1644,5 +1644,61 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789307368318",
+    "npcId": "dimas",
+    "title": "Kuis Tembung Dimas",
+    "generatedAt": "2026-09-13T13:49:28.318Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Kula remen dolanan bal-balan ing kene', menapa tegese tembung 'remen' ing basa Indonésia?",
+        "options": [
+          "Muda",
+          "Suka",
+          "Sakit",
+          "Teman"
+        ],
+        "answer": 1,
+        "explanation": "'Remen' tegese suka utawa seneng.",
+        "teaches": {
+          "word": "remen",
+          "meaning": "suka"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen kowe takon 'Pripun kabare?' marang Dimas, lan dheweke njawab 'sae-sae mawon', menapa tegese tembung 'sae' ing ukara kasebut?",
+        "options": [
+          "Buruk",
+          "Panjang",
+          "Baik / Sehat",
+          "Cepat"
+        ],
+        "answer": 2,
+        "explanation": "'Sae' tegese baik utawa sehat.",
+        "teaches": {
+          "word": "sae",
+          "meaning": "baik / sehat"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing dialog pungkasan, Dimas ngucapake 'Matur nuwun wis diajak omong-omong!'. Menapa tegese tembung 'matur nuwun' ing basa Indonésia?",
+        "options": [
+          "Maaf",
+          "Selamat",
+          "Terima kasih",
+          "Sampai jumpa"
+        ],
+        "answer": 2,
+        "explanation": "'Matur nuwun' tegese terima kasih.",
+        "teaches": {
+          "word": "matur nuwun",
+          "meaning": "terima kasih"
+        }
+      }
+    ]
   }
 ]

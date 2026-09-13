@@ -182,7 +182,7 @@ class GameEngine {
         if (matches('sound') && window.SoundManager) {
           e.preventDefault();
           const isMuted = window.SoundManager.toggleMute();
-          this.uiManager.showToast(isMuted ? 'Suara Dipateni (Muted)' : 'Suara Diuripake (Unmuted)');
+          this.uiManager.showToast(isMuted ? 'Suara Dimatikan (Muted)' : 'Suara Diaktifkan (Unmuted)');
         }
         if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) {
           e.preventDefault();
@@ -202,7 +202,7 @@ class GameEngine {
         e.preventDefault();
         if (window.SoundManager) {
           const isMuted = window.SoundManager.toggleMute();
-          this.uiManager.showToast(isMuted ? 'Suara Dipateni (Muted)' : 'Suara Diuripake (Unmuted)');
+          this.uiManager.showToast(isMuted ? 'Suara Dimatikan (Muted)' : 'Suara Diaktifkan (Unmuted)');
         }
       }
 
@@ -366,7 +366,7 @@ class GameEngine {
         if (window.SoundManager) {
           const isMuted = window.SoundManager.toggleMute();
           if (this.uiManager) {
-            this.uiManager.showToast(isMuted ? 'Suara Dipateni (Muted)' : 'Suara Diuripake (Unmuted)');
+            this.uiManager.showToast(isMuted ? 'Suara Dimatikan (Muted)' : 'Suara Diaktifkan (Unmuted)');
           }
           touchSoundBtn.innerHTML = isMuted ? '<i data-lucide="volume-x" style="width: 16px; height: 16px;"></i>' : '<i data-lucide="volume-2" style="width: 16px; height: 16px;"></i>';
           if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
@@ -792,12 +792,12 @@ const DEFAULT_KEYBINDS = {
 };
 
 const KEYBIND_LABELS = {
-  up: 'Maju / Munggah',
-  down: 'Mundur / Mudhun',
-  left: 'Ngiwa (Kiri)',
-  right: 'Nengen (Kanan)',
-  interact: 'Bicara / Gunem',
-  notebook: 'Buku Tembung',
+  up: 'Maju / Atas',
+  down: 'Mundur / Bawah',
+  left: 'Kiri',
+  right: 'Kanan',
+  interact: 'Bicara / Interaksi',
+  notebook: 'Buku Kosakata',
   quest: 'Misi Budaya',
   sound: 'Suara / Audio'
 };

@@ -430,7 +430,7 @@ class UIManager {
     this.score = 0;
     this.onQuizComplete = onComplete;
 
-    this.quizTitle.innerText = quizData.title || 'Kuis Tembung NPC';
+    this.quizTitle.innerText = quizData.title || 'Kuis Kosakata NPC';
     this.quizModal.classList.remove('hidden');
 
     this.renderQuestion();
@@ -507,7 +507,7 @@ class UIManager {
       }
 
       this.quizFeedback.className = 'quiz-feedback success';
-      this.quizFeedback.innerHTML = `<span class="feedback-badge"><i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Bener!</span> <span>${q.explanation || ''}</span>`;
+      this.quizFeedback.innerHTML = `<span class="feedback-badge"><i data-lucide="sparkles" style="width: 14px; height: 14px;"></i> Benar!</span> <span>${q.explanation || ''}</span>`;
 
       if (q.teaches && q.teaches.word) {
         this.addVocab(q.teaches.word, q.teaches.meaning);
@@ -683,7 +683,7 @@ class UIManager {
       this.recordingTimer.innerText = '00:00';
     }
     if (this.micStatusText) {
-      this.micStatusText.innerText = 'Pencet tombol ing ngisor iki banjur ucapake ukara ing dhuwur kanthi cetha:';
+      this.micStatusText.innerText = 'Tekan tombol mikrofon di bawah ini lalu ucapkan kalimat di atas dengan jelas:';
     }
 
     if (this.pronounceModal) {
@@ -714,7 +714,7 @@ class UIManager {
     }
 
     if (completed) {
-      this.showToast('+50 XP Bonus Micara Basa Jawa!');
+      this.showToast('+50 XP Bonus Latihan Pengucapan!');
       if (this.questEngine) {
         this.questEngine.playerXP = (this.questEngine.playerXP || 0) + 50;
         this.questEngine.saveState();
@@ -772,7 +772,7 @@ class UIManager {
           this.recordingTimer.classList.remove('hidden');
         }
         if (this.micStatusText) {
-          this.micStatusText.innerText = '🎙️ Lagi ngrekam... Ucapake ukara kasebut saiki!';
+          this.micStatusText.innerText = '🎙️ Sedang merekam... Ucapkan kalimat tersebut sekarang!';
         }
 
         let seconds = 0;
@@ -789,7 +789,7 @@ class UIManager {
           }
         }, 1000);
       } catch (err) {
-        this.showToast('Izin mikrofon dibutuhake kanggo gladhen micara.');
+        this.showToast('Izin mikrofon diperlukan untuk latihan pengucapan.');
       }
     } else {
       // Stop recording and evaluate
@@ -806,7 +806,7 @@ class UIManager {
         this.micLiveWave.classList.add('hidden');
       }
       if (this.micStatusText) {
-        this.micStatusText.innerText = '⏳ Lagi ngevaluasi swara sampeyan...';
+        this.micStatusText.innerText = '⏳ Sedang mengevaluasi suara Anda...';
       }
 
       const recordedData = await window.SpeechEvaluator.stopRecording();
@@ -823,7 +823,7 @@ class UIManager {
     if (!evalResult) return;
 
     if (this.micStatusText) {
-      this.micStatusText.innerText = 'Asil Evaluasi Gladhen Micara:';
+      this.micStatusText.innerText = 'Hasil Evaluasi Pengucapan:';
     }
 
     if (this.evalOverallScore) {
@@ -832,16 +832,16 @@ class UIManager {
 
     if (this.evalRatingBadge) {
       this.evalRatingBadge.className = `eval-rating-badge ${evalResult.rating_badge || 'good'}`;
-      this.evalRatingBadge.innerText = evalResult.fluency_rating || 'Wis Apik';
+      this.evalRatingBadge.innerText = evalResult.fluency_rating || 'Sudah Bagus';
     }
 
     if (this.evalFeedbackText) {
       const fb = (evalResult.feedback && evalResult.feedback[0]) ||
         (evalResult.overall_score >= 80
-          ? 'Apik banget! Pangucapan lan intonasi basa Jawa sampeyan wis lancar lan cetha.'
+          ? 'Luar biasa! Pengucapan dan intonasi bahasa Jawa Anda sudah lancar dan jelas.'
           : (evalResult.overall_score >= 60
-              ? 'Wis apik! Ana sawetara tembung sing bisa disampurnakake maneh.'
-              : 'Ayo coba latihan maneh! Rungokake conto swara dhisik banjur baleni.'));
+              ? 'Sudah bagus! Ada beberapa kata yang masih bisa disempurnakan lagi.'
+              : 'Ayo coba latihan lagi! Dengarkan contoh suara terlebih dahulu lalu ulangi.'));
       this.evalFeedbackText.innerText = fb;
     }
 
@@ -945,9 +945,9 @@ class UIManager {
       const statusHyphen = statusClass.replace('_', '-');
       card.className = `quest-card ${statusClass} ${statusHyphen}`;
 
-      let statusLabel = 'Durung Diwiwiti';
-      if (quest.status === 'IN_PROGRESS') statusLabel = 'Lumaku';
-      if (quest.status === 'COMPLETED') statusLabel = 'Rampung';
+      let statusLabel = 'Belum Dimulai';
+      if (quest.status === 'IN_PROGRESS') statusLabel = 'Sedang Berjalan';
+      if (quest.status === 'COMPLETED') statusLabel = 'Selesai';
 
       const stepsHtml = quest.steps.map((step, idx) => {
         let stepStatusClass = '';
@@ -979,7 +979,7 @@ class UIManager {
           ${stepsHtml}
         </ul>
         <div class="quest-card-reward">
-          <i data-lucide="gift" style="width: 13px; height: 13px;"></i> Ganjaran: +${quest.reward.xp} XP | <i data-lucide="${rewardIcon}" class="badge-icon"></i> ${quest.reward.badge}
+          <i data-lucide="gift" style="width: 13px; height: 13px;"></i> Hadiah: +${quest.reward.xp} XP | <i data-lucide="${rewardIcon}" class="badge-icon"></i> ${quest.reward.badge}
         </div>
       `;
 

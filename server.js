@@ -514,7 +514,7 @@ function generateFallbackQuiz(npcId, attemptIndex = 1, previousQuestions = []) {
   return {
     id: `quiz_fallback_${Date.now()}`,
     npcId,
-    title: `Kuis Tembung — ${npc.name} (Kuis #${attemptIndex})`,
+    title: `Kuis Kosakata — ${npc.name} (Kuis #${attemptIndex})`,
     generatedAt: new Date().toISOString(),
     questions: finalQuestions
   };
@@ -593,7 +593,7 @@ INSTRUCTIONS:
 4. Add a "teaches" object with "word" and "meaning" for the vocabulary word or phrase tested in each question.
 5. Output MUST be strict valid JSON matching this schema:
 {
-  "title": "Kuis Tembung ${npcMeta.name}",
+  "title": "Kuis Kosakata ${npcMeta.name}",
   "questions": [
     {
       "id": 1,
@@ -626,7 +626,7 @@ INSTRUCTIONS:
           generatedQuiz = {
             id: `quiz_${Date.now()}`,
             npcId,
-            title: parsed.title || `Kuis Tembung — ${npcMeta.name}`,
+            title: parsed.title || `Kuis Kosakata — ${npcMeta.name}`,
             generatedAt: new Date().toISOString(),
             questions: parsed.questions
           };

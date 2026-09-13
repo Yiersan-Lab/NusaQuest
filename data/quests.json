@@ -1,8 +1,8 @@
 [
   {
     "id": "quest_1",
-    "title": "Bab I: Pitepangan ing Tengah Desa",
-    "description": "Miwiti lakumu ing Desa NusaQuest kanthi nyapa Dimas lan nyinaoni unggah-ungguh takon kabar.",
+    "title": "Bab I: Perkenalan di Tengah Desa",
+    "description": "Mulai perjalananmu di Desa NusaQuest dengan menyapa Dimas dan mempelajari tata krama menanyakan kabar.",
     "npcId": "dimas",
     "npcName": "Dimas",
     "reward": {
@@ -13,19 +13,19 @@
     "steps": [
       {
         "id": "step_1",
-        "description": "Sapa Dimas sing lagi dolanan ing tengah desa.",
+        "description": "Sapa Dimas yang sedang bermain di tengah desa.",
         "type": "TALK_NPC",
         "targetNpc": "dimas"
       },
       {
         "id": "step_2",
-        "description": "Cathet tembung pitepangan ('pripun kabare' & 'sae') ing buku tembung.",
+        "description": "Catat kata perkenalan ('pripun kabare' & 'sae') di buku kosakata.",
         "type": "LEARN_VOCAB",
         "targetWords": ["pripun kabare", "sae"]
       },
       {
         "id": "step_3",
-        "description": "Bales pitakon Dimas kanthi ngrampungake Kuis Pitepangan.",
+        "description": "Jawab pertanyaan Dimas dengan menyelesaikan Kuis Perkenalan.",
         "type": "PERFECT_QUIZ",
         "targetNpc": "dimas"
       }
@@ -33,8 +33,8 @@
   },
   {
     "id": "quest_2",
-    "title": "Bab II: Blanja ing Pasar Gede",
-    "description": "Mbok Sari ing pasar butuh bantuan kanggo ngitung pesenan sayur lan sinau basa Jawa seputar angka & rega.",
+    "title": "Bab II: Belanja di Pasar Gede",
+    "description": "Mbok Sari di pasar butuh bantuan untuk menghitung pesanan sayur dan belajar bahasa Jawa seputar angka & harga.",
     "npcId": "mbok_sari",
     "npcName": "Mbok Sari",
     "reward": {
@@ -45,19 +45,19 @@
     "steps": [
       {
         "id": "step_1",
-        "description": "Temoni Mbok Sari ing kios pasar sisih wetan.",
+        "description": "Temui Mbok Sari di kios pasar sebelah timur.",
         "type": "TALK_NPC",
         "targetNpc": "mbok_sari"
       },
       {
         "id": "step_2",
-        "description": "Kuasai tembung angka lan rega ('sedasa', 'pinten', 'regine').",
+        "description": "Kuasai kata angka dan harga ('sedasa', 'pinten', 'regine').",
         "type": "LEARN_VOCAB",
         "targetWords": ["sedasa", "pinten", "regine"]
       },
       {
         "id": "step_3",
-        "description": "Rampungake Kuis Pasar Gede kanthi sampurna.",
+        "description": "Selesaikan Kuis Pasar Gede dengan sempurna.",
         "type": "PERFECT_QUIZ",
         "targetNpc": "mbok_sari"
       }
@@ -65,8 +65,8 @@
   },
   {
     "id": "quest_3",
-    "title": "Bab III: Subure Sawah Kidul",
-    "description": "Parani Pak Joko ing sawah sisih kidul kanggo nyinaoni kawruh tetanen, toya irigasi, lan wiji pari pinilih.",
+    "title": "Bab III: Suburnya Sawah Selatan",
+    "description": "Kunjungi Pak Joko di sawah sebelah selatan untuk mempelajari pengetahuan pertanian, air irigasi, dan bibit padi unggul.",
     "npcId": "pak_joko",
     "npcName": "Pak Joko",
     "reward": {
@@ -77,19 +77,19 @@
     "steps": [
       {
         "id": "step_1",
-        "description": "Parani Pak Joko sing lagi nggarap sawah ing kidul.",
+        "description": "Kunjungi Pak Joko yang sedang menggarap sawah di selatan.",
         "type": "TALK_NPC",
         "targetNpc": "pak_joko"
       },
       {
         "id": "step_2",
-        "description": "Sinau istilah tetanen ('sawah', 'pari', 'toya') saka Pak Joko.",
+        "description": "Pelajari istilah pertanian ('sawah', 'pari', 'toya') dari Pak Joko.",
         "type": "LEARN_VOCAB",
         "targetWords": ["sawah", "pari", "toya"]
       },
       {
         "id": "step_3",
-        "description": "Buktikake kawruh tetanenmu ing Kuis Pak Joko.",
+        "description": "Buktikan pengetahuan pertanianmu di Kuis Pak Joko.",
         "type": "PERFECT_QUIZ",
         "targetNpc": "pak_joko"
       }
@@ -97,8 +97,8 @@
   },
   {
     "id": "quest_4",
-    "title": "Bab IV: Sowan marang Sesepuh Joglo",
-    "description": "Sawise ngerti kahanan desa, sowan marang Mbah Kakung ing Balai Joglo kanggo nyinaoni tata krama Krama Alus.",
+    "title": "Bab IV: Bertamu ke Sesepuh Joglo",
+    "description": "Setelah mengenal lingkungan desa, bertamulah ke Mbah Kakung di Balai Joglo untuk mempelajari tata krama Krama Alus.",
     "npcId": "mbah_kakung",
     "npcName": "Mbah Kakung",
     "reward": {
@@ -109,19 +109,19 @@
     "steps": [
       {
         "id": "step_1",
-        "description": "Mlebu menyang njero Balai Desa Joglo.",
+        "description": "Masuk ke dalam Balai Desa Joglo.",
         "type": "VISIT_MAP",
         "targetMap": "balai_indoor"
       },
       {
         "id": "step_2",
-        "description": "Sowan marang Mbah Kakung lan sinau tembung Krama ('sugeng rawuh', 'kulawarga', 'tentrem').",
+        "description": "Bertamu ke Mbah Kakung dan pelajari kosakata Krama ('sugeng rawuh', 'kulawarga', 'tentrem').",
         "type": "LEARN_VOCAB",
         "targetWords": ["sugeng rawuh", "kulawarga", "tentrem"]
       },
       {
         "id": "step_3",
-        "description": "Rampungake Ujian Basa Krama marang Mbah Kakung kanthi skor sampurna.",
+        "description": "Selesaikan Ujian Bahasa Krama dari Mbah Kakung dengan skor sempurna.",
         "type": "PERFECT_QUIZ",
         "targetNpc": "mbah_kakung"
       }
