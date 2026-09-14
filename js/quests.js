@@ -408,10 +408,15 @@ class QuestEngine {
 
     const xpEarned = (quest.reward && quest.reward.xp) || 100;
     const badgeEarned = (quest.reward && quest.reward.badge) || 'Lencana Budaya';
+    const badgeIcon = (quest.reward && quest.reward.icon) || 'trophy';
 
     this.playerXP += xpEarned;
     if (!this.badges.includes(badgeEarned)) {
       this.badges.push(badgeEarned);
+    }
+
+    if (window.LearningStats) {
+      window.LearningStats.recordQuestCompletion(quest.id, quest.title, xpEarned, badgeEarned);
     }
 
     if (this.uiManager) {
@@ -432,6 +437,14 @@ class QuestEngine {
     if (this.uiManager) {
       this.uiManager.updateQuestTracker();
       this.uiManager.renderQuestLog();
+      this.uiManager.showActivitySummary('QUEST', {
+        title: quest.title,
+        description: quest.description,
+        xpEarned: xpEarned,
+        badgeEarned: badgeEarned,
+        badgeIcon: badgeIcon,
+        nextQuestTitle: nextQuest ? nextQuest.title : null
+      });
     }
   }
 

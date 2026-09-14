@@ -765,5 +765,61 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789384114227",
+    "npcId": "mbah_kakung",
+    "title": "Kuis Kosakata Mbah Kakung",
+    "generatedAt": "2026-09-14T11:08:34.227Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Mugi-mugi betah ing desa NusaQuest!', menapa tegese tembung 'mugi-mugi' ing basa Indonesia?",
+        "options": [
+          "Sudah",
+          "Semoga",
+          "Tolong",
+          "Ayo"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'mugi-mugi' ing basa Jawa tegese 'semoga' ing basa Indonesia, digunakake kanggo ngarep-arep utawa nyuwun do'a.",
+        "teaches": {
+          "word": "mugi-mugi",
+          "meaning": "semoga"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Menapa tembung 'betah' ing ukara 'Mugi-mugi betah ing desa NusaQuest!' tegese ing basa Indonesia?",
+        "options": [
+          "Sakit",
+          "Bosan",
+          "Senang/Suasana nyaman",
+          "Lelah"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'betah' tegese nyaman, tenang, utawa krasa enak ati ing panggonan tartamtu.",
+        "teaches": {
+          "word": "betah",
+          "meaning": "nyaman/tenang"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Dumadakan ana tampan anyar teka, Mbah Kakung ngandika: '__ rawuh ing alas, Nak'. Menapa tembung sing trep kanggo nggantos papan kosong kasebut supaya tegese 'Selamat datang'?",
+        "options": [
+          "Sugeng",
+          "Mangga",
+          "Tawur",
+          "Paimpo"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'Sugeng' digabungake karo 'rawuh' dadi 'Sugeng rawuh' kanggo ngucapake 'Selamat datang'.",
+        "teaches": {
+          "word": "sugeng rawuh",
+          "meaning": "selamat datang"
+        }
+      }
+    ]
   }
 ]

@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.js" },
+    { "source": "/map_maker", "destination": "/dev/map_maker.html" },
+    { "source": "/map_maker.html", "destination": "/dev/map_maker.html" },
+    { "source": "/tile_viewer", "destination": "/dev/tile_viewer.html" },
+    { "source": "/tile_viewer.html", "destination": "/dev/tile_viewer.html" },
+    { "source": "/npc_config", "destination": "/dev/npc_config.html" },
+    { "source": "/npc_config.html", "destination": "/dev/npc_config.html" }
+  ]
+}

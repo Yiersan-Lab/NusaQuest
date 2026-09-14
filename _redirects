@@ -1,0 +1,7 @@
+# Cloudflare Pages Redirects
+/map_maker      /dev/map_maker.html  301
+/map_maker.html /dev/map_maker.html  301
+/tile_viewer    /dev/tile_viewer.html 301
+/tile_viewer.html /dev/tile_viewer.html 301
+/npc_config     /dev/npc_config.html 301
+/npc_config.html /dev/npc_config.html 301

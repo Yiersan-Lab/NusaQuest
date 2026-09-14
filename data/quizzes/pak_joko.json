@@ -446,5 +446,61 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789384186047",
+    "npcId": "pak_joko",
+    "title": "Kuis Kosakata Pak Joko",
+    "generatedAt": "2026-09-14T11:09:46.047Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Pari butuh \"toya\" akeh supaya tuwuh subur', tembung 'toya' tegese apa ing basa Indonesia?",
+        "options": [
+          "Tanah",
+          "Air",
+          "Matahari",
+          "Angin"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'toya' ing basa Jawi tegese 'air' ing basa Indonesia.",
+        "teaches": {
+          "word": "toya",
+          "meaning": "air"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Menurut Pak Joko, 'pari' iku jinis tumbuhan apa sing diolah dadi beras?",
+        "options": [
+          "Gandum",
+          "Jagung",
+          "Padi",
+          "Kedelai"
+        ],
+        "answer": 2,
+        "explanation": "Ing dialog dijenengake 'pari' yaiku jarene tegese 'padi'.",
+        "teaches": {
+          "word": "pari",
+          "meaning": "padi"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Apa tegese 'sawah' ing ukara 'Sugeng rawuh ing sawah kula'?",
+        "options": [
+          "Sawah / Ladang",
+          "Hutan",
+          "Sungai",
+          "Gurun"
+        ],
+        "answer": 0,
+        "explanation": "Tembung 'sawah' nuduhake papan urip pari utawa ladang.",
+        "teaches": {
+          "word": "sawah",
+          "meaning": "sawah / ladang"
+        }
+      }
+    ]
   }
 ]

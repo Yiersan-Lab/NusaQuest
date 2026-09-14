@@ -36,7 +36,8 @@
             </select>
           </div>
           <button id="soundToggleBtn" title="Suara / Audio (M)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="volume-2" style="width: 14px; height: 14px;"></i> <span class="btn-text">Suara (M)</span></button>
-          <button id="questHudBtn" title="Buka Daftar Misi (Q)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="scroll" style="width: 14px; height: 14px;"></i> <span class="btn-text">Misi (Q)</span></button>
+          <button id="questHudBtn" class="hidden" title="Buka Daftar Misi (Q)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="scroll" style="width: 14px; height: 14px;"></i> <span class="btn-text">Misi (Q)</span></button>
+          <button id="statsHudBtn" class="hidden" title="Statistik & Progres Belajar (L)" style="padding: 3px 10px; font-size: 11px; background: #78350f; color: #fef08a; border: 1px solid #fbbf24; border-radius: 4px; cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700; display: flex; align-items: center; gap: 4px;"><i data-lucide="bar-chart-2" style="width: 14px; height: 14px;"></i> <span class="btn-text">Statistik (L)</span></button>
         </div>
       </header>
 
@@ -72,7 +73,7 @@
         </div>
 
         <!-- Mini Quest Tracker Widget (Top Left HUD Overlay) -->
-        <div id="questTracker" class="rpg-box mini-tracker collapsed">
+        <div id="questTracker" class="rpg-box mini-tracker collapsed hidden">
           <div class="tracker-header">
             <div class="tracker-title-area">
               <span class="tracker-icon"><i data-lucide="compass" style="width: 14px; height: 14px;"></i></span>
@@ -86,7 +87,7 @@
         </div>
 
         <!-- Vocab Notebook Overlay Panel (Top Right HUD) -->
-        <aside id="vocabNotebook" class="rpg-box collapsed">
+        <aside id="vocabNotebook" class="rpg-box collapsed hidden">
           <div class="notebook-header">
             <div class="notebook-title">
               <span class="icon"><i data-lucide="book-open" style="width: 14px; height: 14px;"></i></span> Buku Kosakata
@@ -153,7 +154,7 @@
               <div class="pronounce-badge">
                 <span class="pronounce-icon"><i data-lucide="mic" style="width: 18px; height: 18px;"></i></span>
                 <div class="pronounce-title-wrap">
-                  <span id="pronounceTitle">Latihan Pengucapan (Gladhen Micara)</span>
+                  <span id="pronounceTitle">Latihan Pengucapan</span>
                   <span class="pronounce-subtitle">Didukung oleh AI NusaTTSE</span>
                 </div>
               </div>
@@ -246,6 +247,291 @@
           </div>
         </div>
 
+        <!-- Comprehensive Learning Progress & Statistics Modal -->
+        <div id="learningStatsModal" class="learning-stats-modal hidden">
+          <div class="stats-box rpg-box">
+            <div class="stats-header">
+              <div class="stats-title-area">
+                <span class="stats-icon"><i data-lucide="bar-chart-2" style="width: 20px; height: 20px;"></i></span>
+                <div class="stats-title-group">
+                  <span class="stats-main-title">CAPAIAN & STATISTIK BELAJAR</span>
+                  <span class="stats-sub-title">Laporan Progres Pembelajaran Bahasa Jawa</span>
+                </div>
+              </div>
+              <div class="stats-header-actions">
+                <span id="statsHeaderXp" class="xp-badge"><i data-lucide="sparkles" style="width: 13px; height: 13px;"></i> 0 XP</span>
+                <button id="closeStatsBtn" class="quiz-close-btn" title="Tutup (Esc)">&times;</button>
+              </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="stats-tabs-nav">
+              <button class="stats-tab-btn active" data-tab="overview">
+                <i data-lucide="layout-dashboard" style="width: 15px; height: 15px;"></i>
+                <span>Ikhtisar</span>
+              </button>
+              <button class="stats-tab-btn" data-tab="pronunciation">
+                <i data-lucide="mic" style="width: 15px; height: 15px;"></i>
+                <span>Latihan Pengucapan</span>
+              </button>
+              <button class="stats-tab-btn" data-tab="quiz">
+                <i data-lucide="help-circle" style="width: 15px; height: 15px;"></i>
+                <span>Latihan Kuis</span>
+              </button>
+              <button class="stats-tab-btn" data-tab="quests">
+                <i data-lucide="trophy" style="width: 15px; height: 15px;"></i>
+                <span>Misi & Lencana</span>
+              </button>
+              <button class="stats-tab-btn" data-tab="vocab">
+                <i data-lucide="book-open" style="width: 15px; height: 15px;"></i>
+                <span>Kamus Kosakata</span>
+              </button>
+            </div>
+
+            <!-- Tab Contents Body -->
+            <div class="stats-body">
+              <!-- Tab 1: Overview / Ikhtisar -->
+              <div id="statsTabOverview" class="stats-tab-pane active">
+                <div class="level-banner-card">
+                  <div class="level-icon-wrap">
+                    <i id="playerRankIcon" data-lucide="award" class="level-icon"></i>
+                  </div>
+                  <div class="level-info-wrap">
+                    <div class="level-top-row">
+                      <span id="playerLevelNumber" class="level-tag">LEVEL 1</span>
+                      <span id="playerRankTitle" class="level-title">Siswa Pemula</span>
+                    </div>
+                    <div class="level-progress-bar-container">
+                      <div id="levelProgressBar" class="level-progress-fill" style="width: 15%;"></div>
+                    </div>
+                    <div class="level-xp-text-row">
+                      <span id="levelXpRatio" class="xp-ratio-text">0 / 150 XP</span>
+                      <span id="levelXpRemaining" class="xp-remaining-text">150 XP lagi menuju Level 2</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="metric-cards-grid">
+                  <div class="stat-metric-card">
+                    <div class="metric-icon-box quest-color">
+                      <i data-lucide="scroll" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <div class="metric-val-wrap">
+                      <span id="metricQuestsCompleted" class="metric-number">0 / 4</span>
+                      <span class="metric-label">Misi Diselesaikan</span>
+                    </div>
+                    <div id="metricQuestsPercent" class="metric-sub-tag">0% Selesai</div>
+                  </div>
+
+                  <div class="stat-metric-card">
+                    <div class="metric-icon-box vocab-color">
+                      <i data-lucide="book-marked" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <div class="metric-val-wrap">
+                      <span id="metricVocabMastered" class="metric-number">0</span>
+                      <span class="metric-label">Kosakata Dipelajari</span>
+                    </div>
+                    <div class="metric-sub-tag highlight">Koleksi Kosakata</div>
+                  </div>
+
+                  <div class="stat-metric-card">
+                    <div class="metric-icon-box pronounce-color">
+                      <i data-lucide="mic" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <div class="metric-val-wrap">
+                      <span id="metricAvgPronounce" class="metric-number">0%</span>
+                      <span class="metric-label">Rata-rata Pengucapan</span>
+                    </div>
+                    <div id="metricPronounceCount" class="metric-sub-tag">0 Sesi Latihan</div>
+                  </div>
+
+                  <div class="stat-metric-card">
+                    <div class="metric-icon-box quiz-color">
+                      <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <div class="metric-val-wrap">
+                      <span id="metricQuizAccuracy" class="metric-number">0%</span>
+                      <span class="metric-label">Akurasi Soal</span>
+                    </div>
+                    <div id="metricQuizCount" class="metric-sub-tag">0 Kuis Diikuti</div>
+                  </div>
+                </div>
+
+                <div class="summary-learning-tips">
+                  <div class="tips-header">
+                    <i data-lucide="sparkles" style="width: 15px; height: 15px; color: #f59e0b;"></i>
+                    <span>Tips Belajar Bahasa Jawa</span>
+                  </div>
+                  <p id="learningTipsText" class="tips-body">Sering-seringlah menyapa warga desa, mendengarkan contoh pengucapan pada fitur Latihan Pengucapan, dan catat setiap kosakata baru untuk meningkatkan level bahasamu!</p>
+                </div>
+              </div>
+
+              <!-- Tab 2: Pronunciation / Latihan Pengucapan -->
+              <div id="statsTabPronunciation" class="stats-tab-pane">
+                <div class="pronounce-summary-hero">
+                  <div class="pronounce-score-radial">
+                    <span id="tabPronounceAvgScore" class="radial-number">0</span>
+                    <span class="radial-label">Skor Rata-Rata</span>
+                  </div>
+                  <div class="pronounce-hero-stats">
+                    <div class="hero-stat-row">
+                      <span class="stat-name"><i data-lucide="activity" style="width: 14px; height: 14px;"></i> Total Latihan Pengucapan:</span>
+                      <span id="tabPronounceTotalSessions" class="stat-val">0 kali</span>
+                    </div>
+                    <div class="hero-stat-row">
+                      <span class="stat-name"><i data-lucide="award" style="width: 14px; height: 14px;"></i> Skor Tertinggi:</span>
+                      <span id="tabPronounceBestScore" class="stat-val highlight">0 / 100</span>
+                    </div>
+                    <div class="fluency-distribution-bars">
+                      <div class="dist-bar-item">
+                        <span class="dist-label">Sangat Fasih (88-100)</span>
+                        <div class="dist-track"><div id="distBarExcellent" class="dist-fill excellent" style="width: 0%;"></div></div>
+                        <span id="distCountExcellent" class="dist-count">0</span>
+                      </div>
+                      <div class="dist-bar-item">
+                        <span class="dist-label">Bagus & Jelas (70-87)</span>
+                        <div class="dist-track"><div id="distBarGood" class="dist-fill good" style="width: 0%;"></div></div>
+                        <span id="distCountGood" class="dist-count">0</span>
+                      </div>
+                      <div class="dist-bar-item">
+                        <span class="dist-label">Cukup Bagus (50-69)</span>
+                        <div class="dist-track"><div id="distBarFair" class="dist-fill fair" style="width: 0%;"></div></div>
+                        <span id="distCountFair" class="dist-count">0</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="recent-list-section">
+                  <h4 class="section-title"><i data-lucide="history" style="width: 15px; height: 15px;"></i> Riwayat Latihan Pengucapan Terakhir</h4>
+                  <div id="recentPronounceList" class="recent-items-container">
+                    <!-- Rendered dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 3: Quiz / Gladhen Soal -->
+              <div id="statsTabQuiz" class="stats-tab-pane">
+                <div class="quiz-summary-grid">
+                  <div class="quiz-stat-card">
+                    <span class="q-label">Akurasi Jawaban</span>
+                    <span id="tabQuizAccuracy" class="q-value">0%</span>
+                    <span class="q-desc">Tingkat ketepatan menjawab</span>
+                  </div>
+                  <div class="quiz-stat-card">
+                    <span class="q-label">Total Soal Dijawab</span>
+                    <span id="tabQuizQuestionsCount" class="q-value">0</span>
+                    <span id="tabQuizCorrectCount" class="q-desc">0 benar</span>
+                  </div>
+                  <div class="quiz-stat-card">
+                    <span class="q-label">Kuis Sempurna (100%)</span>
+                    <span id="tabQuizPerfectCount" class="q-value highlight">0</span>
+                    <span class="q-desc">Nilai maksimal tanpa salah</span>
+                  </div>
+                </div>
+
+                <div class="recent-list-section">
+                  <h4 class="section-title"><i data-lucide="list-checks" style="width: 15px; height: 15px;"></i> Riwayat Kuis Terakhir</h4>
+                  <div id="recentQuizList" class="recent-items-container">
+                    <!-- Rendered dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 4: Quests & Badges -->
+              <div id="statsTabQuests" class="stats-tab-pane">
+                <div class="quest-summary-header">
+                  <div class="quest-stat-summary">
+                    <span id="tabQuestsSummaryText">Selesaikan semua bab cerita untuk membuka seluruh lencana budaya Jawa!</span>
+                  </div>
+                </div>
+                <div id="tabQuestsList" class="tab-quests-list">
+                  <!-- Rendered dynamically -->
+                </div>
+                <div class="tab-badges-wrapper">
+                  <h4 class="section-title"><i data-lucide="award" style="width: 15px; height: 15px;"></i> Koleksi Lencana Budaya</h4>
+                  <div id="tabBadgesGrid" class="tab-badges-grid">
+                    <!-- Rendered dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 5: Vocabulary Glossary -->
+              <div id="statsTabVocab" class="stats-tab-pane">
+                <div class="vocab-tab-toolbar">
+                  <div class="vocab-search-wrap">
+                    <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+                    <input type="text" id="vocabSearchInput" placeholder="Cari kata atau arti..." class="vocab-search-input">
+                  </div>
+                  <span id="vocabTabTotalCounter" class="vocab-tab-counter">0 Kata Dikuasai</span>
+                </div>
+                <div id="tabVocabCardsContainer" class="tab-vocab-grid">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <div class="stats-footer">
+              <button id="closeStatsFooterBtn" class="rpg-btn">Kembali ke Petualangan <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post-Activity Celebration / Summary Modal Popup -->
+        <div id="activitySummaryModal" class="activity-summary-modal hidden">
+          <div class="summary-popup-box rpg-box">
+            <div class="summary-confetti-effect"></div>
+            
+            <div class="summary-header">
+              <div id="summaryHeroIconWrap" class="summary-hero-icon quest-mode">
+                <i id="summaryHeroIcon" data-lucide="trophy" style="width: 32px; height: 32px;"></i>
+              </div>
+              <div class="summary-title-wrap">
+                <h2 id="summaryMainTitle">MISI SELESAI!</h2>
+                <p id="summarySubTitle">Kerja bagus! Kamu telah menyelesaikan langkah budaya ini.</p>
+              </div>
+            </div>
+
+            <div class="summary-body">
+              <div class="summary-xp-gain-badge">
+                <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+                <span id="summaryXpEarnedText">+100 XP Diberikan!</span>
+              </div>
+
+              <div id="summaryBadgeUnlockCard" class="summary-badge-unlock-card hidden">
+                <div class="badge-icon-glow">
+                  <i id="summaryBadgeIcon" data-lucide="award" style="width: 24px; height: 24px;"></i>
+                </div>
+                <div class="badge-unlock-text">
+                  <span class="unlocked-tag">LENCANA DIBUKA!</span>
+                  <span id="summaryBadgeName" class="badge-name">Lencana Budaya</span>
+                </div>
+              </div>
+
+              <div id="summaryStatsDetailsCard" class="summary-details-card">
+                <div id="summaryStatRow1" class="sum-row">
+                  <span id="summaryStatLabel1">Skor Evaluasi:</span>
+                  <span id="summaryStatVal1" class="sum-val highlight">95 / 100</span>
+                </div>
+                <div id="summaryStatRow2" class="sum-row">
+                  <span id="summaryStatLabel2">Tingkat Kelancaran:</span>
+                  <span id="summaryStatVal2" class="sum-val">Sangat Fasih</span>
+                </div>
+              </div>
+
+              <div id="summaryFeedbackBox" class="summary-feedback-box">
+                <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
+                <span id="summaryFeedbackText">Pengucapan dan intonasi bahasa Jawa Anda sudah sangat baik!</span>
+              </div>
+            </div>
+
+            <div class="summary-footer">
+              <button id="summaryViewFullStatsBtn" class="rpg-btn-secondary"><i data-lucide="bar-chart-2" style="width: 14px; height: 14px;"></i> Lihat Statistik</button>
+              <button id="summaryContinueBtn" class="rpg-btn">Lanjut Bermain <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
+            </div>
+          </div>
+        </div>
+
         <!-- Toast Notification Container -->
         <div id="toastContainer"></div>
       </div>
@@ -257,10 +543,11 @@
   <script src="/js/data/maps.js"></script>
   <script src="/js/assets.js"></script>
   <script src="/js/audio.js"></script>
+  <script src="/js/speech_evaluator.js"></script>
+  <script src="/js/learning_stats.js"></script>
   <script src="/js/quests.js"></script>
   <script src="/js/player.js"></script>
   <script src="/js/npcs.js"></script>
-  <script src="/js/speech_evaluator.js"></script>
   <script src="/js/ui.js"></script>
   <script src="/js/main.js"></script>
 </body>

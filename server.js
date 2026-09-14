@@ -1146,4 +1146,11 @@ if (require.main === module) {
   });
 }
 
-module.exports = { app, getNpcMeta, generateFallbackQuiz, readNpcQuiz, writeNpcQuiz, ensureNpcQuizFile };
+app.getNpcMeta = getNpcMeta;
+app.generateFallbackQuiz = generateFallbackQuiz;
+app.readNpcQuiz = readNpcQuiz;
+app.writeNpcQuiz = writeNpcQuiz;
+app.ensureNpcQuizFile = ensureNpcQuizFile;
+app.app = app;
+
+module.exports = app;

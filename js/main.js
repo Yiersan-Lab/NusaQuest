@@ -14,6 +14,7 @@ class GameEngine {
     this.tileSize = this.currentMap.tileSize || 48;
 
     this.player = new Player(this.currentMap.spawnX || 7, this.currentMap.spawnY || 4, this.getTileSize());
+    this.player.onPositionChange = () => this.savePlayerPosition();
     this.npcManager = new NpcManager();
     this.uiManager = new UIManager();
     this.questEngine = new QuestEngine(this.uiManager);
@@ -36,6 +37,64 @@ class GameEngine {
     this.updateCanvasDimensions();
     this.bindInputs();
     this.bindTouchControls();
+  }
+
+  savePlayerPosition() {
+    if (!this.player || !this.currentMapId) return;
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const data = {
+          mapId: this.currentMapId,
+          tileX: this.player.tileX,
+          tileY: this.player.tileY,
+          dir: this.player.dir
+        };
+        localStorage.setItem('NUSAQUEST_PLAYER_POSITION', JSON.stringify(data));
+      }
+    } catch (e) {
+      console.warn('[GameEngine] Failed to save player position to localStorage:', e);
+    }
+  }
+
+  loadPlayerPosition() {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const saved = localStorage.getItem('NUSAQUEST_PLAYER_POSITION');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && typeof parsed.mapId === 'string' && MAPS[parsed.mapId]) {
+            const map = MAPS[parsed.mapId];
+            const tx = typeof parsed.tileX === 'number' ? parsed.tileX : (map.spawnX !== undefined ? map.spawnX : 7);
+            const ty = typeof parsed.tileY === 'number' ? parsed.tileY : (map.spawnY !== undefined ? map.spawnY : 4);
+            const dir = typeof parsed.dir === 'number' ? parsed.dir : (map.spawnDir !== undefined ? map.spawnDir : 0);
+
+            if (tx >= 0 && tx < map.width && ty >= 0 && ty < map.height) {
+              if (!map.collision || !map.collision[ty] || map.collision[ty][tx] !== 1) {
+                return {
+                  mapId: parsed.mapId,
+                  tileX: tx,
+                  tileY: ty,
+                  dir: dir
+                };
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('[GameEngine] Failed to load player position from localStorage:', e);
+    }
+    return null;
+  }
+
+  clearPlayerPosition() {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem('NUSAQUEST_PLAYER_POSITION');
+      }
+    } catch (e) {
+      console.warn('[GameEngine] Failed to clear player position:', e);
+    }
   }
 
   getTileSize() {
@@ -71,7 +130,7 @@ class GameEngine {
     }
   }
 
-  initMap(mapId = 'village') {
+  initMap(mapId = 'village', spawnX = null, spawnY = null, spawnDir = null) {
     if (MAPS[mapId]) {
       this.currentMapId = mapId;
       this.currentMap = MAPS[mapId];
@@ -79,15 +138,20 @@ class GameEngine {
         this.tileSize = this.currentMap.tileSize;
       }
       this.updateCanvasDimensions();
+      const targetX = (spawnX !== null && spawnX !== undefined) ? spawnX : (this.currentMap.spawnX !== undefined ? this.currentMap.spawnX : 7);
+      const targetY = (spawnY !== null && spawnY !== undefined) ? spawnY : (this.currentMap.spawnY !== undefined ? this.currentMap.spawnY : 4);
+      const targetDir = (spawnDir !== null && spawnDir !== undefined) ? spawnDir : (this.currentMap.spawnDir !== undefined ? this.currentMap.spawnDir : 0);
+
       this.player.setPosition(
-        this.currentMap.spawnX !== undefined ? this.currentMap.spawnX : 7,
-        this.currentMap.spawnY !== undefined ? this.currentMap.spawnY : 4,
-        this.currentMap.spawnDir !== undefined ? this.currentMap.spawnDir : 0,
+        targetX,
+        targetY,
+        targetDir,
         this.getTileSize()
       );
       if (window.SoundManager) {
         window.SoundManager.updateAmbientForMap(this.currentMapId, this.currentMap ? this.currentMap.name : '');
       }
+      this.savePlayerPosition();
     }
   }
 
@@ -97,11 +161,20 @@ class GameEngine {
     this.isTitleScreen = true;
     startScreen.classList.remove('start-exit');
     if (this.uiManager) {
+      if (typeof this.uiManager.hideHudPanels === 'function') {
+        this.uiManager.hideHudPanels();
+      }
       this.uiManager.toggleNotebook(false);
       this.uiManager.toggleQuestTracker(false);
       this.uiManager.hideDialogue();
       this.uiManager.hideQuizModal();
       this.uiManager.hideQuestModalUI();
+      if (typeof this.uiManager.hideStatsModal === 'function') {
+        this.uiManager.hideStatsModal();
+      }
+      if (typeof this.uiManager.hideActivitySummary === 'function') {
+        this.uiManager.hideActivitySummary();
+      }
     }
   }
 
@@ -114,7 +187,11 @@ class GameEngine {
       }
     }
     if (this.uiManager) {
-      this.uiManager.toggleNotebook(true);
+      if (typeof this.uiManager.showHudPanels === 'function') {
+        this.uiManager.showHudPanels();
+      }
+      this.uiManager.toggleNotebook(false);
+      this.uiManager.toggleQuestTracker(false);
     }
     const startScreen = document.getElementById('startScreen');
     if (startScreen) {
@@ -137,6 +214,7 @@ class GameEngine {
         interact: ['KeyE'],
         notebook: ['KeyN', 'Tab'],
         quest: ['KeyQ'],
+        stats: ['KeyL', 'KeyP'],
         sound: ['KeyM']
       };
 
@@ -157,6 +235,14 @@ class GameEngine {
           return;
         }
         if (this.uiManager) {
+          if (this.uiManager.isActivitySummaryActive && this.uiManager.isActivitySummaryActive()) {
+            this.uiManager.hideActivitySummary();
+            return;
+          }
+          if (this.uiManager.isStatsModalActive && this.uiManager.isStatsModalActive()) {
+            this.uiManager.hideStatsModal();
+            return;
+          }
           if (this.uiManager.isQuizActive()) {
             this.uiManager.hideQuizModal();
             return;
@@ -198,6 +284,9 @@ class GameEngine {
       } else if (matches('quest')) {
         e.preventDefault();
         this.uiManager.toggleQuestModal();
+      } else if (matches('stats')) {
+        e.preventDefault();
+        this.uiManager.toggleStatsModal();
       } else if (matches('sound')) {
         e.preventDefault();
         if (window.SoundManager) {
@@ -343,10 +432,20 @@ class GameEngine {
     }
 
     // Quick HUD Action Buttons
+    const touchStatsBtn = document.getElementById('touchStatsBtn');
+    if (touchStatsBtn) {
+      touchStatsBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (this.isTitleScreen) return;
+        if (this.uiManager) this.uiManager.toggleStatsModal();
+      });
+    }
+
     const touchQuestBtn = document.getElementById('touchQuestBtn');
     if (touchQuestBtn) {
       touchQuestBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        if (this.isTitleScreen) return;
         if (this.uiManager) this.uiManager.toggleQuestTracker();
       });
     }
@@ -355,6 +454,7 @@ class GameEngine {
     if (touchNotebookBtn) {
       touchNotebookBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        if (this.isTitleScreen) return;
         if (this.uiManager) this.uiManager.toggleNotebook();
       });
     }
@@ -534,6 +634,7 @@ class GameEngine {
     }
     this.updateCanvasDimensions();
     this.player.setPosition(targetX, targetY, targetDir, this.getTileSize());
+    this.savePlayerPosition();
 
     this.warpCooldownArea = null;
     if (this.currentMap.warps) {
@@ -788,6 +889,7 @@ const DEFAULT_KEYBINDS = {
   interact: 'KeyE',
   notebook: 'KeyN',
   quest: 'KeyQ',
+  stats: 'KeyL',
   sound: 'KeyM'
 };
 
@@ -799,6 +901,7 @@ const KEYBIND_LABELS = {
   interact: 'Bicara / Interaksi',
   notebook: 'Buku Kosakata',
   quest: 'Misi Budaya',
+  stats: 'Statistik Belajar (L)',
   sound: 'Suara / Audio'
 };
 
@@ -904,7 +1007,12 @@ window.addEventListener('load', () => {
   const optSoundBtn = document.getElementById('optSoundBtn');
 
   mapsPromise.then(() => {
-    window.game.initMap('village');
+    const savedPos = window.game.loadPlayerPosition();
+    if (savedPos) {
+      window.game.initMap(savedPos.mapId, savedPos.tileX, savedPos.tileY, savedPos.dir);
+    } else {
+      window.game.initMap('village');
+    }
     window.game.start();
     if (typeof lucide !== 'undefined' && lucide.createIcons) {
       lucide.createIcons();

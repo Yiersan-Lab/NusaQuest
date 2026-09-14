@@ -10,11 +10,11 @@
 [![Node.js](https://img.shields.io/badge/Node.js-v18+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-4.19-000000?logo=express&logoColor=white)](https://expressjs.com/)
 [![Groq SDK](https://img.shields.io/badge/Groq_SDK-qwen3.8--27b-F05A28)](https://groq.com/)
-[![NusaTTSE](https://img.shields.io/badge/AI_Voice-NusaTTSE_HuggingFace-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/spaces/maselonn-nusattse)
+[![NusaTTSE](https://img.shields.io/badge/AI_Voice-NusaTTSE_HuggingFace-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/spaces/MasElonn/NusaTTSE)
 [![Canvas API](https://img.shields.io/badge/Engine-HTML5_Canvas_2D-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 [![Web Audio API](https://img.shields.io/badge/Audio-Web_Audio_Synth-8A2BE2)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 [![Status](https://img.shields.io/badge/Status-Active_Prototype-success.svg)]()
-[![License](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 </div>
 
@@ -124,7 +124,7 @@ graph TD
 | **Styling & UI** | CSS3 Modern, Retro Glassmorphism, CSS Grid | Tema retro RPG, responsive layout, anim visual |
 | **Icons & Typography** | [Lucide Icons](https://lucide.dev/), [Google Fonts (Press Start 2P & Quicksand)](https://fonts.google.com/) | Ikon vektor jernih dan font ramah piksel |
 | **Back-End Server** | [Node.js](https://nodejs.org/) & [Express.js](https://expressjs.com/) | REST API, static asset server, token manager |
-| **Voice & Speech AI** | [NusaTTSE](https://huggingface.co/spaces/maselonn-nusattse) (Gradio API via HF Spaces) | Sintesis audio Basa Jawa & evaluasi pengucapan |
+| **Voice & Speech AI** | [NusaTTSE](https://huggingface.co/spaces/MasElonn/NusaTTSE) (Gradio API via HF Spaces) | Sintesis audio Basa Jawa & evaluasi pengucapan |
 | **Generative LLM** | [Groq Cloud SDK](https://groq.com/) (`qwen/qwen3.8-27b`) | Generator soal kuis interaktif tanpa pengulangan |
 | **Audio Synthesizer** | Web Audio API (OscillatorNode, GainNode) | Generator efek suara 8-bit (*click, quest finish, fanfare*) |
 | **Data Storage** | Native JSON Storage (`data/`, `data/quizzes/`) | Penyimpanan konfigurasi peta, dialog, quest, dan riwayat kuis |

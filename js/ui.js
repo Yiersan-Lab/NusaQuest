@@ -81,6 +81,35 @@ class UIManager {
     this.badgeContainer = document.getElementById('badgeContainer');
     this.soundToggleBtn = document.getElementById('soundToggleBtn');
 
+    // Learning Progress & Statistics Modal Elements
+    this.statsModal = document.getElementById('learningStatsModal');
+    this.statsHudBtn = document.getElementById('statsHudBtn');
+    this.closeStatsBtn = document.getElementById('closeStatsBtn');
+    this.closeStatsFooterBtn = document.getElementById('closeStatsFooterBtn');
+    this.statsHeaderXp = document.getElementById('statsHeaderXp');
+    this.statsTabBtns = document.querySelectorAll('.stats-tab-btn');
+    this.vocabSearchInput = document.getElementById('vocabSearchInput');
+    this.activeStatsTab = 'overview';
+
+    // Activity Celebration / Summary Modal Elements
+    this.activitySummaryModal = document.getElementById('activitySummaryModal');
+    this.summaryContinueBtn = document.getElementById('summaryContinueBtn');
+    this.summaryViewFullStatsBtn = document.getElementById('summaryViewFullStatsBtn');
+    this.summaryMainTitle = document.getElementById('summaryMainTitle');
+    this.summarySubTitle = document.getElementById('summarySubTitle');
+    this.summaryHeroIconWrap = document.getElementById('summaryHeroIconWrap');
+    this.summaryHeroIcon = document.getElementById('summaryHeroIcon');
+    this.summaryXpEarnedText = document.getElementById('summaryXpEarnedText');
+    this.summaryBadgeUnlockCard = document.getElementById('summaryBadgeUnlockCard');
+    this.summaryBadgeIcon = document.getElementById('summaryBadgeIcon');
+    this.summaryBadgeName = document.getElementById('summaryBadgeName');
+    this.summaryStatLabel1 = document.getElementById('summaryStatLabel1');
+    this.summaryStatVal1 = document.getElementById('summaryStatVal1');
+    this.summaryStatLabel2 = document.getElementById('summaryStatLabel2');
+    this.summaryStatVal2 = document.getElementById('summaryStatVal2');
+    this.summaryFeedbackText = document.getElementById('summaryFeedbackText');
+
+    this.lastPronounceEvalResult = null;
     this.questEngine = null;
 
     if (window.SoundManager) {
@@ -150,6 +179,7 @@ class UIManager {
       this.questHudBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         e.preventDefault();
+        if (window.game && window.game.isTitleScreen) return;
         this.toggleQuestModal();
       });
     }
@@ -162,6 +192,69 @@ class UIManager {
       this.questModal.addEventListener('click', (e) => {
         if (e.target === this.questModal) {
           this.hideQuestModalUI();
+        }
+      });
+    }
+
+    // Learning Stats Modal events
+    if (this.statsHudBtn) {
+      this.statsHudBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (window.game && window.game.isTitleScreen) return;
+        this.toggleStatsModal();
+      });
+    }
+
+    if (this.closeStatsBtn) {
+      this.closeStatsBtn.addEventListener('click', () => this.hideStatsModal());
+    }
+
+    if (this.closeStatsFooterBtn) {
+      this.closeStatsFooterBtn.addEventListener('click', () => this.hideStatsModal());
+    }
+
+    if (this.statsModal) {
+      this.statsModal.addEventListener('click', (e) => {
+        if (e.target === this.statsModal) {
+          this.hideStatsModal();
+        }
+      });
+    }
+
+    // Tabs switching
+    if (this.statsTabBtns && this.statsTabBtns.length > 0) {
+      this.statsTabBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const tabName = btn.getAttribute('data-tab');
+          this.switchStatsTab(tabName);
+        });
+      });
+    }
+
+    // Vocab search filter in Stats Modal
+    if (this.vocabSearchInput) {
+      this.vocabSearchInput.addEventListener('input', (e) => {
+        this.renderVocabGlossary(e.target.value.trim());
+      });
+    }
+
+    // Activity Celebration Modal events
+    if (this.summaryContinueBtn) {
+      this.summaryContinueBtn.addEventListener('click', () => this.hideActivitySummary());
+    }
+
+    if (this.summaryViewFullStatsBtn) {
+      this.summaryViewFullStatsBtn.addEventListener('click', () => {
+        this.hideActivitySummary();
+        this.showStatsModal('overview');
+      });
+    }
+
+    if (this.activitySummaryModal) {
+      this.activitySummaryModal.addEventListener('click', (e) => {
+        if (e.target === this.activitySummaryModal) {
+          this.hideActivitySummary();
         }
       });
     }
@@ -195,13 +288,35 @@ class UIManager {
     }
   }
 
+  hideHudPanels() {
+    if (this.vocabNotebook) this.vocabNotebook.classList.add('hidden');
+    if (this.questTracker) this.questTracker.classList.add('hidden');
+    if (window.game && window.game.isTitleScreen) {
+      if (this.questHudBtn) this.questHudBtn.classList.add('hidden');
+      if (this.statsHudBtn) this.statsHudBtn.classList.add('hidden');
+    }
+  }
+
+  showHudPanels() {
+    if (this.vocabNotebook) this.vocabNotebook.classList.remove('hidden');
+    if (this.questTracker) this.questTracker.classList.remove('hidden');
+    if (this.questHudBtn) this.questHudBtn.classList.remove('hidden');
+    if (this.statsHudBtn) this.statsHudBtn.classList.remove('hidden');
+  }
+
   toggleNotebook(forceOpen = null) {
+    if (window.game && window.game.isTitleScreen) return;
+    if (this.isStatsModalActive && this.isStatsModalActive()) return;
+    if (this.isQuestModalActive && this.isQuestModalActive()) return;
+    if (this.isActivitySummaryActive && this.isActivitySummaryActive()) return;
+
     if (forceOpen !== null) {
       this.isNotebookCollapsed = !forceOpen;
     } else {
       this.isNotebookCollapsed = !this.isNotebookCollapsed;
     }
     if (this.vocabNotebook) {
+      this.vocabNotebook.classList.remove('hidden');
       if (this.isNotebookCollapsed) {
         this.vocabNotebook.classList.add('collapsed');
         if (this.toggleNotebookBtn) this.toggleNotebookBtn.innerText = '+';
@@ -216,12 +331,18 @@ class UIManager {
   }
 
   toggleQuestTracker(forceOpen = null) {
+    if (window.game && window.game.isTitleScreen) return;
+    if (this.isStatsModalActive && this.isStatsModalActive()) return;
+    if (this.isQuestModalActive && this.isQuestModalActive()) return;
+    if (this.isActivitySummaryActive && this.isActivitySummaryActive()) return;
+
     if (forceOpen !== null) {
       this.isQuestTrackerCollapsed = !forceOpen;
     } else {
       this.isQuestTrackerCollapsed = !this.isQuestTrackerCollapsed;
     }
     if (this.questTracker) {
+      this.questTracker.classList.remove('hidden');
       if (this.isQuestTrackerCollapsed) {
         this.questTracker.classList.add('collapsed');
         if (this.toggleQuestTrackerBtn) this.toggleQuestTrackerBtn.innerText = '+';
@@ -594,6 +715,10 @@ class UIManager {
       const finishedQuiz = this.currentQuiz;
       
       this.showToast(`Kuis Selesai! Skor: ${quizFinalScore} / ${total}`);
+
+      if (window.LearningStats && finishedQuiz) {
+        window.LearningStats.recordQuizResult(finishedQuiz.npcId, quizFinalScore, total, 25);
+      }
       
       // Extract target phrase for pronunciation practice
       let targetPhrase = 'Sugeng enjing sedherek sedaya.';
@@ -661,6 +786,7 @@ class UIManager {
     };
     this.onPronounceComplete = onComplete;
     this.isRecordingPronounce = false;
+    this.lastPronounceEvalResult = null;
 
     if (this.pronounceTargetText) {
       this.pronounceTargetText.innerText = `"${this.currentPronounceTarget.text}"`;
@@ -719,6 +845,25 @@ class UIManager {
         this.questEngine.playerXP = (this.questEngine.playerXP || 0) + 50;
         this.questEngine.saveState();
         this.updateQuestTracker();
+      }
+
+      if (window.LearningStats && this.lastPronounceEvalResult && this.currentPronounceTarget) {
+        window.LearningStats.recordPronunciationResult(
+          this.currentPronounceTarget.text,
+          this.currentPronounceTarget.translation,
+          this.lastPronounceEvalResult,
+          50
+        );
+
+        this.showActivitySummary('PRONOUNCE', {
+          score: this.lastPronounceEvalResult.overall_score || 85,
+          fluencyRating: this.lastPronounceEvalResult.fluency_rating || 'Sangat Fasih',
+          ratingBadge: this.lastPronounceEvalResult.rating_badge || 'excellent',
+          targetText: this.currentPronounceTarget.text,
+          translation: this.currentPronounceTarget.translation,
+          xpEarned: 50,
+          feedback: (this.lastPronounceEvalResult.feedback && this.lastPronounceEvalResult.feedback[0]) || 'Pengucapan bahasa Jawa Anda sudah jelas!'
+        });
       }
     }
 
@@ -821,6 +966,7 @@ class UIManager {
 
   displayPronunciationResults(evalResult) {
     if (!evalResult) return;
+    this.lastPronounceEvalResult = evalResult;
 
     if (this.micStatusText) {
       this.micStatusText.innerText = 'Hasil Evaluasi Pengucapan:';
@@ -894,6 +1040,7 @@ class UIManager {
 
   toggleQuestModal() {
     if (!this.questModal) return;
+    if (window.game && window.game.isTitleScreen) return;
     const isHidden = this.questModal.classList.contains('hidden');
     if (isHidden) {
       this.showQuestModalUI();
@@ -904,6 +1051,8 @@ class UIManager {
 
   showQuestModalUI() {
     if (!this.questModal) return;
+    if (window.game && window.game.isTitleScreen) return;
+    this.hideHudPanels();
     this.questModal.classList.remove('hidden');
     this.renderQuestLog();
   }
@@ -911,6 +1060,9 @@ class UIManager {
   hideQuestModalUI() {
     if (!this.questModal) return;
     this.questModal.classList.add('hidden');
+    if (window.game && !window.game.isTitleScreen && !this.isStatsModalActive()) {
+      this.showHudPanels();
+    }
   }
 
   isQuestModalActive() {
@@ -1010,5 +1162,429 @@ class UIManager {
     if (typeof lucide !== 'undefined' && lucide.createIcons) {
       lucide.createIcons();
     }
+  }
+
+  // =========================================================================
+  // Learning Stats Modal & Activity Celebration Methods
+  // =========================================================================
+
+  toggleStatsModal() {
+    if (!this.statsModal) return;
+    if (window.game && window.game.isTitleScreen) return;
+    const isHidden = this.statsModal.classList.contains('hidden');
+    if (isHidden) {
+      this.showStatsModal();
+    } else {
+      this.hideStatsModal();
+    }
+  }
+
+  showStatsModal(initialTab = 'overview') {
+    if (!this.statsModal) return;
+    if (window.game && window.game.isTitleScreen) return;
+    this.hideHudPanels();
+    this.statsModal.classList.remove('hidden');
+    this.switchStatsTab(initialTab);
+    this.renderStatsDashboard();
+  }
+
+  hideStatsModal() {
+    if (!this.statsModal) return;
+    this.statsModal.classList.add('hidden');
+    if (window.game && !window.game.isTitleScreen && !this.isQuestModalActive()) {
+      this.showHudPanels();
+    }
+  }
+
+  isStatsModalActive() {
+    return this.statsModal && !this.statsModal.classList.contains('hidden');
+  }
+
+  switchStatsTab(tabName) {
+    if (!tabName) return;
+    this.activeStatsTab = tabName;
+
+    if (this.statsTabBtns) {
+      this.statsTabBtns.forEach(btn => {
+        if (btn.getAttribute('data-tab') === tabName) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    const panes = {
+      overview: document.getElementById('statsTabOverview'),
+      pronunciation: document.getElementById('statsTabPronunciation'),
+      quiz: document.getElementById('statsTabQuiz'),
+      quests: document.getElementById('statsTabQuests'),
+      vocab: document.getElementById('statsTabVocab')
+    };
+
+    Object.entries(panes).forEach(([name, el]) => {
+      if (el) {
+        if (name === tabName) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      }
+    });
+
+    if (tabName === 'vocab') {
+      this.renderVocabGlossary(this.vocabSearchInput ? this.vocabSearchInput.value.trim() : '');
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  renderStatsDashboard() {
+    if (!window.LearningStats) return;
+
+    const statsSummary = window.LearningStats.getSummaryStats(this.questEngine, this);
+    const { levelInfo, xp, quests, quiz, pronunciation, vocab } = statsSummary;
+
+    // Header XP
+    if (this.statsHeaderXp) {
+      this.statsHeaderXp.innerHTML = `<i data-lucide="sparkles" style="width: 13px; height: 13px;"></i> ${xp} XP`;
+    }
+
+    // Tab 1: Overview
+    const playerRankIcon = document.getElementById('playerRankIcon');
+    const playerLevelNumber = document.getElementById('playerLevelNumber');
+    const playerRankTitle = document.getElementById('playerRankTitle');
+    const levelProgressBar = document.getElementById('levelProgressBar');
+    const levelXpRatio = document.getElementById('levelXpRatio');
+    const levelXpRemaining = document.getElementById('levelXpRemaining');
+
+    if (playerRankIcon) {
+      playerRankIcon.setAttribute('data-lucide', levelInfo.icon || 'award');
+    }
+    if (playerLevelNumber) {
+      playerLevelNumber.innerText = `LEVEL ${levelInfo.level}`;
+    }
+    if (playerRankTitle) {
+      playerRankTitle.innerText = levelInfo.title;
+    }
+    if (levelProgressBar) {
+      levelProgressBar.style.width = `${levelInfo.progressPercent}%`;
+    }
+    if (levelXpRatio) {
+      levelXpRatio.innerText = `${xp} / ${levelInfo.nextLevelMinXp} XP`;
+    }
+    if (levelXpRemaining) {
+      levelXpRemaining.innerText = levelInfo.isMaxLevel
+        ? 'Level Maksimal Tercapai!'
+        : `${levelInfo.xpNeededForNext} XP lagi menuju Level ${levelInfo.level + 1}`;
+    }
+
+    // Metric Grid
+    const metricQuestsCompleted = document.getElementById('metricQuestsCompleted');
+    const metricQuestsPercent = document.getElementById('metricQuestsPercent');
+    const metricVocabMastered = document.getElementById('metricVocabMastered');
+    const metricAvgPronounce = document.getElementById('metricAvgPronounce');
+    const metricPronounceCount = document.getElementById('metricPronounceCount');
+    const metricQuizAccuracy = document.getElementById('metricQuizAccuracy');
+    const metricQuizCount = document.getElementById('metricQuizCount');
+
+    if (metricQuestsCompleted) metricQuestsCompleted.innerText = `${quests.completed} / ${quests.total}`;
+    if (metricQuestsPercent) metricQuestsPercent.innerText = `${quests.percent}% Selesai`;
+    if (metricVocabMastered) metricVocabMastered.innerText = vocab.count;
+    if (metricAvgPronounce) metricAvgPronounce.innerText = `${pronunciation.avgScore}%`;
+    if (metricPronounceCount) metricPronounceCount.innerText = `${pronunciation.sessions} Sesi Latihan`;
+    if (metricQuizAccuracy) metricQuizAccuracy.innerText = `${quiz.accuracy}%`;
+    if (metricQuizCount) metricQuizCount.innerText = `${quiz.attempted} Kuis Diikuti`;
+
+    // Tab 2: Pronunciation
+    const tabPronounceAvgScore = document.getElementById('tabPronounceAvgScore');
+    const tabPronounceTotalSessions = document.getElementById('tabPronounceTotalSessions');
+    const tabPronounceBestScore = document.getElementById('tabPronounceBestScore');
+    const distBarExcellent = document.getElementById('distBarExcellent');
+    const distCountExcellent = document.getElementById('distCountExcellent');
+    const distBarGood = document.getElementById('distBarGood');
+    const distCountGood = document.getElementById('distCountGood');
+    const distBarFair = document.getElementById('distBarFair');
+    const distCountFair = document.getElementById('distCountFair');
+    const recentPronounceList = document.getElementById('recentPronounceList');
+
+    if (tabPronounceAvgScore) tabPronounceAvgScore.innerText = pronunciation.avgScore;
+    if (tabPronounceTotalSessions) tabPronounceTotalSessions.innerText = `${pronunciation.sessions} kali`;
+    if (tabPronounceBestScore) tabPronounceBestScore.innerText = `${pronunciation.bestScore} / 100`;
+
+    const totalFluency = Math.max(1, pronunciation.sessions);
+    if (distBarExcellent && distCountExcellent) {
+      const cnt = pronunciation.breakdown.excellent || 0;
+      distCountExcellent.innerText = cnt;
+      distBarExcellent.style.width = `${Math.round((cnt / totalFluency) * 100)}%`;
+    }
+    if (distBarGood && distCountGood) {
+      const cnt = pronunciation.breakdown.good || 0;
+      distCountGood.innerText = cnt;
+      distBarGood.style.width = `${Math.round((cnt / totalFluency) * 100)}%`;
+    }
+    if (distBarFair && distCountFair) {
+      const cnt = pronunciation.breakdown.fair || 0;
+      distCountFair.innerText = cnt;
+      distBarFair.style.width = `${Math.round((cnt / totalFluency) * 100)}%`;
+    }
+
+    if (recentPronounceList) {
+      if (!pronunciation.recent || pronunciation.recent.length === 0) {
+        recentPronounceList.innerHTML = `<div class="recent-item-card" style="justify-content: center; color: #78716c; font-size: 11px;">Belum ada riwayat latihan pengucapan. Selesaikan kuis untuk mulai berbicara!</div>`;
+      } else {
+        recentPronounceList.innerHTML = pronunciation.recent.map(item => `
+          <div class="recent-item-card">
+            <div class="recent-item-left">
+              <span class="recent-item-text">"${item.text}"</span>
+              <span class="recent-item-sub">(${item.translation}) • ${item.fluencyRating || 'Bagus'}</span>
+            </div>
+            <div class="recent-item-right">
+              <span class="score-chip ${item.ratingBadge || 'good'}">${item.score}%</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Tab 3: Quiz
+    const tabQuizAccuracy = document.getElementById('tabQuizAccuracy');
+    const tabQuizQuestionsCount = document.getElementById('tabQuizQuestionsCount');
+    const tabQuizCorrectCount = document.getElementById('tabQuizCorrectCount');
+    const tabQuizPerfectCount = document.getElementById('tabQuizPerfectCount');
+    const recentQuizList = document.getElementById('recentQuizList');
+
+    if (tabQuizAccuracy) tabQuizAccuracy.innerText = `${quiz.accuracy}%`;
+    if (tabQuizQuestionsCount) tabQuizQuestionsCount.innerText = quiz.totalQuestions;
+    if (tabQuizCorrectCount) tabQuizCorrectCount.innerText = `${quiz.correctAnswers} benar`;
+    if (tabQuizPerfectCount) tabQuizPerfectCount.innerText = quiz.perfectCount;
+
+    if (recentQuizList) {
+      if (!quiz.recent || quiz.recent.length === 0) {
+        recentQuizList.innerHTML = `<div class="recent-item-card" style="justify-content: center; color: #78716c; font-size: 11px;">Belum ada riwayat kuis. Bicara dengan warga desa untuk mengikuti kuis!</div>`;
+      } else {
+        recentQuizList.innerHTML = quiz.recent.map(item => `
+          <div class="recent-item-card">
+            <div class="recent-item-left">
+              <span class="recent-item-text">Kuis Bersama ${item.npcId ? item.npcId.replace('_', ' ').toUpperCase() : 'Warga'}</span>
+              <span class="recent-item-sub">Skor: ${item.score} / ${item.totalQuestions} (${item.accuracy}%)</span>
+            </div>
+            <div class="recent-item-right">
+              <span class="score-chip ${item.accuracy >= 80 ? 'excellent' : (item.accuracy >= 50 ? 'good' : 'fair')}">${item.accuracy}%</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Tab 4: Quests & Badges
+    const tabQuestsList = document.getElementById('tabQuestsList');
+    const tabBadgesGrid = document.getElementById('tabBadgesGrid');
+    if (this.questEngine && tabQuestsList) {
+      const allQuests = this.questEngine.getAllQuests();
+      tabQuestsList.innerHTML = allQuests.map(q => {
+        let statusBadge = `<span class="score-chip fair">Belum Dimulai</span>`;
+        if (q.status === 'IN_PROGRESS') statusBadge = `<span class="score-chip good">Sedang Berjalan</span>`;
+        if (q.status === 'COMPLETED') statusBadge = `<span class="score-chip excellent">Selesai ✓</span>`;
+
+        return `
+          <div class="tab-quest-item ${q.status.toLowerCase()}">
+            <div>
+              <div class="tab-quest-title">${q.title}</div>
+              <div style="font-size: 10px; color: #78716c;">${q.description}</div>
+            </div>
+            <div>${statusBadge}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    if (this.questEngine && tabBadgesGrid) {
+      const playerBadges = this.questEngine.getPlayerBadges();
+      const allPossibleBadges = (typeof this.questEngine.getAllBadges === 'function')
+        ? this.questEngine.getAllBadges()
+        : [
+            { name: 'Lencana Pitepangan', icon: 'compass' },
+            { name: 'Lencana Pasar Gede', icon: 'shopping-bag' },
+            { name: 'Lencana Tani Makmur', icon: 'sprout' },
+            { name: 'Lencana Tata Krama', icon: 'landmark' }
+          ];
+
+      tabBadgesGrid.innerHTML = allPossibleBadges.map(b => {
+        const isUnlocked = playerBadges.includes(b.name);
+        const iconName = this.getLucideIconForBadge(b.icon);
+        return `
+          <div class="tab-badge-card ${isUnlocked ? 'unlocked' : ''}">
+            <i data-lucide="${iconName}" style="width: 24px; height: 24px;"></i>
+            <span class="tab-badge-name">${b.name}</span>
+            <span style="font-size: 8px; color: ${isUnlocked ? '#047857' : '#a8a29e'}; font-weight: bold;">
+              ${isUnlocked ? 'Terbuka' : 'Terkunci'}
+            </span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Tab 5: Vocab Glossary
+    this.renderVocabGlossary();
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  renderVocabGlossary(query = '') {
+    const container = document.getElementById('tabVocabCardsContainer');
+    const counter = document.getElementById('vocabTabTotalCounter');
+    if (!container) return;
+
+    const vocabEntries = [];
+    if (this.learnedVocab && this.learnedVocab.size > 0) {
+      for (const [word, meaning] of this.learnedVocab.entries()) {
+        vocabEntries.push({ word, meaning });
+      }
+    }
+
+    if (counter) {
+      counter.innerText = `${vocabEntries.length} Kata Dikuasai`;
+    }
+
+    const cleanQuery = (query || '').toLowerCase().trim();
+    const filtered = cleanQuery
+      ? vocabEntries.filter(v => v.word.toLowerCase().includes(cleanQuery) || v.meaning.toLowerCase().includes(cleanQuery))
+      : vocabEntries;
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 24px 12px; color: #78716c; font-size: 11px;">
+          ${vocabEntries.length === 0 ? 'Belum ada kosakata yang dipelajari. Bicara dengan warga desa untuk mulai mengoleksi kata!' : 'Tidak ada kosakata yang cocok dengan pencarian.'}
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(item => `
+      <div class="vocab-card-item">
+        <div>
+          <div class="vocab-card-word">"${item.word}"</div>
+          <div class="vocab-card-meaning">${item.meaning}</div>
+        </div>
+        <button class="vocab-listen-audio-btn" data-word="${item.word}" title="Dengarkan pengucapan">
+          <i data-lucide="volume-2" style="width: 14px; height: 14px;"></i>
+        </button>
+      </div>
+    `).join('');
+
+    // Attach TTS audio triggers to vocab cards
+    container.querySelectorAll('.vocab-listen-audio-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const word = btn.getAttribute('data-word');
+        if (word && window.SpeechEvaluator) {
+          window.SpeechEvaluator.playTts(word, 'jv-ID-SitiNeural', 1.0, 0);
+        }
+      });
+    });
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  // =========================================================================
+  // Activity Celebration Popup Modal
+  // =========================================================================
+
+  showActivitySummary(type, data = {}) {
+    if (!this.activitySummaryModal) return;
+    this.hideHudPanels();
+
+    const heroWrap = this.summaryHeroIconWrap;
+    const heroIcon = this.summaryHeroIcon;
+    const mainTitle = this.summaryMainTitle;
+    const subTitle = this.summarySubTitle;
+    const xpText = this.summaryXpEarnedText;
+    const badgeCard = this.summaryBadgeUnlockCard;
+    const badgeName = this.summaryBadgeName;
+    const badgeIcon = this.summaryBadgeIcon;
+    const row1Label = this.summaryStatLabel1;
+    const row1Val = this.summaryStatVal1;
+    const row2Label = this.summaryStatLabel2;
+    const row2Val = this.summaryStatVal2;
+    const feedbackBox = this.summaryFeedbackText;
+
+    if (type === 'QUEST') {
+      if (heroWrap) heroWrap.className = 'summary-hero-icon quest-mode';
+      if (heroIcon) heroIcon.setAttribute('data-lucide', 'trophy');
+      if (mainTitle) mainTitle.innerText = 'MISI BUDAYA SELESAI!';
+      if (subTitle) subTitle.innerText = data.title || 'Kerja luar biasa! Kamu telah menuntaskan misi ini.';
+      if (xpText) xpText.innerText = `+${data.xpEarned || 100} XP Diberikan!`;
+
+      if (badgeCard && data.badgeEarned) {
+        badgeCard.classList.remove('hidden');
+        if (badgeName) badgeName.innerText = data.badgeEarned;
+        if (badgeIcon) badgeIcon.setAttribute('data-lucide', this.getLucideIconForBadge(data.badgeIcon));
+      } else if (badgeCard) {
+        badgeCard.classList.add('hidden');
+      }
+
+      if (row1Label) row1Label.innerText = 'Status Misi:';
+      if (row1Val) row1Val.innerText = 'Tuntas 100%';
+      if (row2Label) row2Label.innerText = 'Misi Berikutnya:';
+      if (row2Val) row2Val.innerText = data.nextQuestTitle || 'Semua Selesai';
+      if (feedbackBox) feedbackBox.innerText = 'Pengetahuan budaya dan tata krama bahasa Jawa Anda semakin meningkat!';
+
+    } else if (type === 'PRONOUNCE') {
+      if (heroWrap) heroWrap.className = 'summary-hero-icon pronounce-mode';
+      if (heroIcon) heroIcon.setAttribute('data-lucide', 'mic');
+      if (mainTitle) mainTitle.innerText = 'LATIHAN PENGUCAPAN SELESAI!';
+      if (subTitle) subTitle.innerText = `"${data.targetText || 'Sugeng enjing'}" (${data.translation || ''})`;
+      if (xpText) xpText.innerText = `+${data.xpEarned || 50} XP Bonus Pengucapan!`;
+      if (badgeCard) badgeCard.classList.add('hidden');
+
+      if (row1Label) row1Label.innerText = 'Skor Pengucapan:';
+      if (row1Val) row1Val.innerText = `${data.score || 85} / 100`;
+      if (row2Label) row2Label.innerText = 'Kelancaran:';
+      if (row2Val) row2Val.innerText = data.fluencyRating || 'Sangat Fasih';
+      if (feedbackBox) feedbackBox.innerText = data.feedback || 'Luar biasa! Pengucapan bahasa Jawa Anda terdengar sangat natural.';
+
+    } else if (type === 'QUIZ') {
+      if (heroWrap) heroWrap.className = 'summary-hero-icon quiz-mode';
+      if (heroIcon) heroIcon.setAttribute('data-lucide', 'help-circle');
+      if (mainTitle) mainTitle.innerText = 'KUIS SELESAI!';
+      if (subTitle) subTitle.innerText = `Kamu telah menyelesaikan kuis kosakata dengan baik.`;
+      if (xpText) xpText.innerText = `+${data.xpEarned || 25} XP Diperoleh!`;
+      if (badgeCard) badgeCard.classList.add('hidden');
+
+      if (row1Label) row1Label.innerText = 'Skor Jawaban:';
+      if (row1Val) row1Val.innerText = `${data.score || 0} / ${data.total || 3}`;
+      if (row2Label) row2Label.innerText = 'Akurasi:';
+      if (row2Val) row2Val.innerText = `${Math.round(((data.score || 0) / Math.max(1, data.total || 3)) * 100)}%`;
+      if (feedbackBox) feedbackBox.innerText = 'Pertahankan prestasimu dan terus perkaya kosakata bahasa Jawa!';
+    }
+
+    if (window.SoundManager) {
+      window.SoundManager.playCorrect();
+    }
+
+    this.activitySummaryModal.classList.remove('hidden');
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  hideActivitySummary() {
+    if (!this.activitySummaryModal) return;
+    this.activitySummaryModal.classList.add('hidden');
+    if (window.game && !window.game.isTitleScreen && !this.isStatsModalActive() && !this.isQuestModalActive()) {
+      this.showHudPanels();
+    }
+  }
+
+  isActivitySummaryActive() {
+    return this.activitySummaryModal && !this.activitySummaryModal.classList.contains('hidden');
   }
 }

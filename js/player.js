@@ -12,6 +12,7 @@ class Player {
     this.moveDuration = 180;
     this.animFrame = 0;
     this.charIndex = 0;
+    this.onPositionChange = null;
   }
 
   setPosition(tx, ty, dir = 0, tileSize = 48) {
@@ -59,6 +60,10 @@ class Player {
         this.pixelY = this.tileY * tileSize;
         this.animFrame = 0;
 
+        if (typeof this.onPositionChange === 'function') {
+          this.onPositionChange(this.tileX, this.tileY, this.dir);
+        }
+
         if (checkWarpCallback) {
           checkWarpCallback(this.tileX, this.tileY);
         }
@@ -102,6 +107,7 @@ class Player {
     }
 
     if (keyHit) {
+      const dirChanged = this.dir !== newDir;
       this.dir = newDir;
 
       if (this.isWalkable(nextX, nextY, currentMap)) {
@@ -109,6 +115,8 @@ class Player {
         this.targetTileX = nextX;
         this.targetTileY = nextY;
         this.moveStartTime = now;
+      } else if (dirChanged && typeof this.onPositionChange === 'function') {
+        this.onPositionChange(this.tileX, this.tileY, this.dir);
       }
     }
   }
