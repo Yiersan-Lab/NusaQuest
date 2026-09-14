@@ -1799,7 +1799,15 @@
         });
 
         Promise.all([p1, p2])
-          .then(() => {
+          .then(async ([r1, r2]) => {
+            if (r1.status === 401 || r2.status === 401) {
+              if (syncText) syncText.textContent = 'Auth Expired';
+              showToast('Sesi Dev Suite berakhir. Silakan login kembali di tab baru.', true);
+              return;
+            }
+            if (!r1.ok || !r2.ok) {
+              throw new Error('Save failed');
+            }
             if (syncText) syncText.textContent = 'Auto-Sync Active';
             if (!isAuto) showToast('Saved maps & NPC placements to data/maps.json!');
           })
@@ -1808,6 +1816,7 @@
             if (!isAuto) showToast('Could not save map. Is node server.js running?', true);
           });
       }
+
 
       function bindEvents() {
         document.querySelectorAll('.tool-tab').forEach(tab => {

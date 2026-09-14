@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NusaQuest — Dev Suite Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/dev/dev.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: #070d19;
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(30, 58, 138, 0.2) 0%, transparent 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Quicksand', sans-serif;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+      padding: 20px;
+      box-sizing: border-box;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-card {
+      background: #0f172a;
+      border: 3px solid #78350f;
+      border-radius: 12px;
+      padding: 32px 28px;
+      box-shadow: 
+        0 0 0 2px #f59e0b,
+        0 20px 35px -5px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(245, 158, 11, 0.15);
+      position: relative;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .login-icon-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 2px solid #f59e0b;
+      color: #fbbf24;
+      margin-bottom: 14px;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .login-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 14px;
+      color: #fbbf24;
+      margin: 0 0 8px 0;
+      letter-spacing: 0.5px;
+      text-shadow: 2px 2px 0px #000;
+    }
+
+    .login-subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .password-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-input {
+      width: 100%;
+      background: #0b1120;
+      border: 2px solid #334155;
+      border-radius: 8px;
+      padding: 12px 44px 12px 14px;
+      color: #f8fafc;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      outline: none;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+
+    .password-input:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+      background: #0f172a;
+    }
+
+    .toggle-pw-btn {
+      position: absolute;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 4px;
+      transition: color 0.2s;
+    }
+
+    .toggle-pw-btn:hover {
+      color: #fbbf24;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(180deg, #d97706 0%, #b45309 100%);
+      color: #ffffff;
+      border: 2px solid #fef08a;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+      box-shadow: 0 4px 12px rgba(180, 83, 9, 0.4);
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.5);
+    }
+
+    .submit-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      filter: grayscale(0.5);
+    }
+
+    .alert-banner {
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: shake 0.3s ease-in-out;
+    }
+
+    .alert-banner.error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+    }
+
+    .alert-banner.success {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid #22c55e;
+      color: #86efac;
+    }
+
+    .alert-banner.info {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid #3b82f6;
+      color: #93c5fd;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    .login-footer {
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    .back-link {
+      color: #94a3b8;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #fbbf24;
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #10b981;
+      font-weight: 700;
+    }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-icon-badge">
+          <i data-lucide="shield-alert" style="width: 28px; height: 28px;"></i>
+        </div>
+        <h1 class="login-title">DEV SUITE</h1>
+        <p class="login-subtitle">Restricted Access Area &bull; NusaQuest</p>
+      </div>
+
+      <div id="alertBox" class="alert-banner error" style="display: none;">
+        <i data-lucide="alert-triangle" style="width: 16px; height: 16px; flex-shrink: 0;"></i>
+        <span id="alertMsg">Invalid password</span>
+      </div>
+
+      <form id="devLoginForm" autocomplete="off">
+        <div class="form-group">
+          <label class="form-label" for="devPassword">Dev Password</label>
+          <div class="password-input-wrapper">
+            <input 
+              type="password" 
+              id="devPassword" 
+              class="password-input" 
+              placeholder="Masukkan password Dev Suite..." 
+              required 
+              autofocus
+            >
+            <button type="button" id="togglePwBtn" class="toggle-pw-btn" title="Show / Hide Password">
+              <i data-lucide="eye" style="width: 16px; height: 16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn" class="submit-btn">
+          <span id="btnIcon"><i data-lucide="key" style="width: 14px; height: 14px;"></i></span>
+          <span id="btnText">UNLOCK ACCESS</span>
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <a href="/" class="back-link">
+          <i data-lucide="arrow-left" style="width: 12px; height: 12px;"></i> Kembali ke Game
+        </a>
+        <div class="security-badge" title="Protected with Rate Limiting & HMAC Tokens">
+          <i data-lucide="lock" style="width: 12px; height: 12px;"></i> Secure Guard
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+
+    const form = document.getElementById('devLoginForm');
+    const passwordInput = document.getElementById('devPassword');
+    const togglePwBtn = document.getElementById('togglePwBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
+    const alertBox = document.getElementById('alertBox');
+    const alertMsg = document.getElementById('alertMsg');
+
+    // Toggle password visibility
+    togglePwBtn.addEventListener('click', () => {
+      const isPassword = passwordInput.type === 'password';
+      passwordInput.type = isPassword ? 'text' : 'password';
+      togglePwBtn.innerHTML = isPassword 
+        ? '<i data-lucide="eye-off" style="width: 16px; height: 16px;"></i>' 
+        : '<i data-lucide="eye" style="width: 16px; height: 16px;"></i>';
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    });
+
+    // Extract redirect parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('redirect') || '/dev/';
+
+    function showAlert(message, type = 'error') {
+      alertBox.className = `alert-banner ${type}`;
+      alertMsg.textContent = message;
+      alertBox.style.display = 'flex';
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    }
+
+    function hideAlert() {
+      alertBox.style.display = 'none';
+    }
+
+    let lockoutTimer = null;
+    function startLockoutCountdown(seconds) {
+      if (lockoutTimer) clearInterval(lockoutTimer);
+      let remaining = seconds;
+      submitBtn.disabled = true;
+
+      const update = () => {
+        if (remaining <= 0) {
+          clearInterval(lockoutTimer);
+          submitBtn.disabled = false;
+          btnText.textContent = 'UNLOCK ACCESS';
+          btnIcon.innerHTML = '<i data-lucide="key" style="width: 14px; height: 14px;"></i>';
+          showAlert('Waktu penguncian selesai. Anda dapat mencoba lagi.', 'info');
+          if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        } else {
+          btnText.textContent = `LOCKED (${remaining}s)`;
+          showAlert(`Terlalu banyak percobaan gagal. Silakan tunggu ${remaining} detik.`, 'error');
+          remaining--;
+        }
+      };
+
+      update();
+      lockoutTimer = setInterval(update, 1000);
+    }
+
+    // Check if already authenticated
+    fetch('/api/dev/auth-status')
+      .then(res => res.json())
+      .then(data => {
+        if (data.authenticated) {
+          showAlert('Anda sudah terautentikasi. Mengarahkan...', 'success');
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 600);
+        }
+      })
+      .catch(() => {});
+
+    // Handle Login Submit
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAlert();
+
+      const password = passwordInput.value;
+      if (!password) return;
+
+      submitBtn.disabled = true;
+      btnIcon.innerHTML = '<span class="spinner"></span>';
+      btnText.textContent = 'VERIFYING...';
+
+      try {
+        const response = await fetch('/api/dev/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === 'ok') {
+          showAlert('Akses Dev Suite Diterima! Mengarahkan...', 'success');
+          btnText.textContent = 'SUCCESS!';
+          btnIcon.innerHTML = '<i data-lucide="check" style="width: 14px; height: 14px;"></i>';
+          if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 500);
+        } else if (response.status === 429) {
+          startLockoutCountdown(data.lockedRemainingSeconds || 60);
+        } else {
+          showAlert(data.error || 'Password Dev Suite salah.', 'error');
+          submitBtn.disabled = false;
+          btnText.textContent = 'UNLOCK ACCESS';
+          btnIcon.innerHTML = '<i data-lucide="key" style="width: 14px; height: 14px;"></i>';
+          passwordInput.value = '';
+          passwordInput.focus();
+          if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        }
+      } catch (err) {
+        showAlert('Gagal menghubungi server. Periksa koneksi Anda.', 'error');
+        submitBtn.disabled = false;
+        btnText.textContent = 'UNLOCK ACCESS';
+        btnIcon.innerHTML = '<i data-lucide="key" style="width: 14px; height: 14px;"></i>';
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>

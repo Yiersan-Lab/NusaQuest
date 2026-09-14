@@ -219,6 +219,10 @@ HF_SPACE_URL=https://maselonn-nusattse.hf.space
 
 # Hugging Face Access Token (opsional, meningkatkan kuota ZeroGPU)
 HF_TOKEN=hf_your_huggingface_token_here
+
+# Dev Suite Security Password (wajib untuk akses /dev/* & editor game)
+DEV_SUITE_PASSWORD=your_dev_password_here
+DEV_SESSION_SECRET=your_dev_session_secret_here
 ```
 
 ### 4. Menjalankan Server
@@ -229,9 +233,12 @@ npm start
 
 Buka peramban (*browser*) Anda dan akses:
 - **Game Utama**: [`http://localhost:3000`](http://localhost:3000)
-- **Dev Suite Hub**: [`http://localhost:3000/dev`](http://localhost:3000/dev)
+- **Dev Suite Hub (Dilindungi Password)**: [`http://localhost:3000/dev`](http://localhost:3000/dev)
+- **Dev Login**: [`http://localhost:3000/dev/login.html`](http://localhost:3000/dev/login.html)
 - **Map Maker**: [`http://localhost:3000/dev/map_maker.html`](http://localhost:3000/dev/map_maker.html)
 - **NPC Configurator**: [`http://localhost:3000/dev/npc_config.html`](http://localhost:3000/dev/npc_config.html)
+
+
 
 ---
 

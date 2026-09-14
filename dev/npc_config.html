@@ -333,8 +333,12 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dialogues, npcPlacements })
-      }).then(() => {
+      }).then(res => {
         const syncText = document.getElementById('syncText');
+        if (res.status === 401) {
+          if (syncText) syncText.textContent = 'Auth Expired (Login Dev)';
+          return;
+        }
         if (syncText) {
           syncText.textContent = `Auto-Saved to JSON (${new Date().toLocaleTimeString()})`;
           setTimeout(() => { syncText.textContent = 'Auto-Synced to Game'; }, 3000);
@@ -345,6 +349,7 @@
         if (syncText) syncText.textContent = `Synced Local (${new Date().toLocaleTimeString()})`;
       });
     }
+
 
     const charCanvas = document.getElementById('charCanvas');
     const charCtx = charCanvas.getContext('2d');

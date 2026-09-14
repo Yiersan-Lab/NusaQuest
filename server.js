@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 let Groq;
 try {
   Groq = require('groq-sdk');
@@ -16,16 +17,238 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Redirect legacy root dev page URLs to exclusive /dev/{pages}
-app.get(['/map_maker', '/map_maker.html'], (req, res) => res.redirect(301, '/dev/map_maker.html'));
-app.get(['/tile_viewer', '/tile_viewer.html'], (req, res) => res.redirect(301, '/dev/tile_viewer.html'));
-app.get(['/npc_config', '/npc_config.html'], (req, res) => res.redirect(301, '/dev/npc_config.html'));
 
-// Dev Suite exclusive static route & extension handling
-app.use('/dev', express.static(path.join(__dirname, 'dev')));
-app.get('/dev/:page', (req, res, next) => {
+const DEV_PASSWORD = process.env.DEV_SUITE_PASSWORD ? String(process.env.DEV_SUITE_PASSWORD).trim() : '';
+const DEV_SESSION_SECRET = process.env.DEV_SESSION_SECRET || crypto.randomBytes(32).toString('hex');
+const SESSION_COOKIE_NAME = 'nq_dev_session';
+const SESSION_DURATION_MS = 12 * 60 * 60 * 1000; // 12 hours
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
+
+
+// In-memory rate limiting map: ip -> { count, resetAt, lockedUntil }
+const loginAttempts = new Map();
+
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+  return req.ip || req.connection?.remoteAddress || '127.0.0.1';
+}
+
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const entry = loginAttempts.get(ip);
+  if (!entry) return { isLocked: false, remainingAttempts: MAX_LOGIN_ATTEMPTS };
+
+  if (entry.lockedUntil && entry.lockedUntil > now) {
+    const remainingSeconds = Math.ceil((entry.lockedUntil - now) / 1000);
+    return { isLocked: true, lockedRemainingSeconds: remainingSeconds };
+  }
+
+  if (entry.resetAt && entry.resetAt <= now) {
+    loginAttempts.delete(ip);
+    return { isLocked: false, remainingAttempts: MAX_LOGIN_ATTEMPTS };
+  }
+
+  const remaining = Math.max(0, MAX_LOGIN_ATTEMPTS - entry.count);
+  return { isLocked: false, remainingAttempts: remaining };
+}
+
+function recordLoginFailure(ip) {
+  const now = Date.now();
+  let entry = loginAttempts.get(ip);
+  if (!entry || (entry.resetAt && entry.resetAt <= now)) {
+    entry = { count: 1, resetAt: now + LOCKOUT_DURATION_MS, lockedUntil: 0 };
+  } else {
+    entry.count += 1;
+  }
+
+  if (entry.count >= MAX_LOGIN_ATTEMPTS) {
+    entry.lockedUntil = now + LOCKOUT_DURATION_MS;
+  }
+
+  loginAttempts.set(ip, entry);
+  return checkRateLimit(ip);
+}
+
+function resetLoginAttempts(ip) {
+  loginAttempts.delete(ip);
+}
+
+// Timing-safe password verification using SHA-256 fixed hashes
+function verifyDevPassword(inputPassword) {
+  if (!DEV_PASSWORD || typeof inputPassword !== 'string' || inputPassword.length === 0) return false;
+  const inputHash = crypto.createHash('sha256').update(inputPassword).digest();
+  const targetHash = crypto.createHash('sha256').update(DEV_PASSWORD).digest();
+  return crypto.timingSafeEqual(inputHash, targetHash);
+}
+
+
+// Cryptographic HMAC-SHA256 Token Generator & Validator
+function createDevSessionToken() {
+  const payload = {
+    auth: true,
+    iat: Date.now(),
+    exp: Date.now() + SESSION_DURATION_MS,
+    nonce: crypto.randomBytes(16).toString('hex')
+  };
+  const payloadB64 = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const signature = crypto.createHmac('sha256', DEV_SESSION_SECRET).update(payloadB64).digest('base64url');
+  return `${payloadB64}.${signature}`;
+}
+
+function verifyDevSessionToken(token) {
+  if (!token || typeof token !== 'string') return false;
+  const parts = token.split('.');
+  if (parts.length !== 2) return false;
+
+  const [payloadB64, signature] = parts;
+  const expectedSignature = crypto.createHmac('sha256', DEV_SESSION_SECRET).update(payloadB64).digest('base64url');
+
+  if (signature.length !== expectedSignature.length) return false;
+  const sigBuf = Buffer.from(signature);
+  const expBuf = Buffer.from(expectedSignature);
+  if (!crypto.timingSafeEqual(sigBuf, expBuf)) return false;
+
+  try {
+    const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString('utf8'));
+    if (!payload || !payload.auth || !payload.exp) return false;
+    if (Date.now() > payload.exp) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function parseCookies(cookieHeader) {
+  const cookies = {};
+  if (!cookieHeader) return cookies;
+  cookieHeader.split(';').forEach(cookie => {
+    const parts = cookie.split('=');
+    if (parts.length >= 2) {
+      cookies[parts[0].trim()] = decodeURIComponent(parts.slice(1).join('=').trim());
+    }
+  });
+  return cookies;
+}
+
+function isDevAuthenticated(req) {
+  const authHeader = req.headers['authorization'];
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.substring(7).trim();
+    if (verifyDevSessionToken(token)) return true;
+  }
+
+  const cookies = parseCookies(req.headers.cookie);
+  const sessionToken = cookies[SESSION_COOKIE_NAME];
+  if (sessionToken && verifyDevSessionToken(sessionToken)) {
+    return true;
+  }
+
+  return false;
+}
+
+function requireDevAuth(req, res, next) {
+  if (isDevAuthenticated(req)) {
+    return next();
+  }
+
+  if (req.path.startsWith('/api/') || req.xhr || (req.headers.accept && req.headers.accept.includes('application/json'))) {
+    return res.status(401).json({
+      error: 'Dev Suite Access Denied: Authentication required.',
+      code: 'UNAUTHORIZED_DEV_ACCESS'
+    });
+  }
+
+  const redirectTarget = req.originalUrl || '/dev/';
+  return res.redirect(302, `/dev/login.html?redirect=${encodeURIComponent(redirectTarget)}`);
+}
+
+// Dev Suite Authentication APIs (Public)
+app.post('/api/dev/login', (req, res) => {
+  const ip = getClientIp(req);
+  const rateLimit = checkRateLimit(ip);
+
+  if (rateLimit.isLocked) {
+    return res.status(429).json({
+      error: `Terlalu banyak percobaan gagal. Akses dikunci selama ${rateLimit.lockedRemainingSeconds} detik.`,
+      lockedRemainingSeconds: rateLimit.lockedRemainingSeconds
+    });
+  }
+
+  const { password } = req.body || {};
+  if (!password || !verifyDevPassword(password)) {
+    const failureStatus = recordLoginFailure(ip);
+    if (failureStatus.isLocked) {
+      return res.status(429).json({
+        error: `Password salah. Terlalu banyak percobaan, akses dikunci selama ${failureStatus.lockedRemainingSeconds} detik.`,
+        lockedRemainingSeconds: failureStatus.lockedRemainingSeconds
+      });
+    }
+    return res.status(401).json({
+      error: `Password Dev Suite salah. Sisa percobaan: ${failureStatus.remainingAttempts}`,
+      remainingAttempts: failureStatus.remainingAttempts
+    });
+  }
+
+  resetLoginAttempts(ip);
+  const token = createDevSessionToken();
+
+  res.setHeader(
+    'Set-Cookie',
+    `${SESSION_COOKIE_NAME}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=43200`
+  );
+
+  return res.json({
+    status: 'ok',
+    message: 'Dev Suite unlocked successfully',
+    token
+  });
+});
+
+app.post('/api/dev/logout', (req, res) => {
+  res.setHeader(
+    'Set-Cookie',
+    `${SESSION_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`
+  );
+  return res.json({
+    status: 'ok',
+    message: 'Dev Suite session cleared'
+  });
+});
+
+app.get('/api/dev/auth-status', (req, res) => {
+  return res.json({
+    authenticated: isDevAuthenticated(req)
+  });
+});
+
+// Whitelist login page and dev styles before the auth barrier
+app.get(['/dev/login', '/dev/login.html'], (req, res) => res.sendFile(path.join(__dirname, 'dev', 'login.html')));
+app.get('/dev/dev.css', (req, res) => res.sendFile(path.join(__dirname, 'dev', 'dev.css')));
+
+// Intercept all requests under /dev to enforce authentication
+app.use('/dev', (req, res, next) => {
+  const reqPath = (req.path || '').toLowerCase();
+  if (reqPath === '/login.html' || reqPath === '/login' || reqPath === '/dev.css') {
+    return next();
+  }
+  return requireDevAuth(req, res, next);
+});
+
+// Redirect legacy root dev page URLs to exclusive /dev/{pages} with auth check
+app.get(['/map_maker', '/map_maker.html'], requireDevAuth, (req, res) => res.redirect(301, '/dev/map_maker.html'));
+app.get(['/tile_viewer', '/tile_viewer.html'], requireDevAuth, (req, res) => res.redirect(301, '/dev/tile_viewer.html'));
+app.get(['/npc_config', '/npc_config.html'], requireDevAuth, (req, res) => res.redirect(301, '/dev/npc_config.html'));
+
+// Dev Suite Hub & Protected HTML Pages
+app.get(['/dev', '/dev/'], requireDevAuth, (req, res) => res.sendFile(path.join(__dirname, 'dev', 'index.html')));
+
+app.get('/dev/:page', requireDevAuth, (req, res, next) => {
   let page = req.params.page;
-  if (!page.endsWith('.html')) page += '.html';
+  if (!page.endsWith('.html') && !page.includes('.')) page += '.html';
   const targetPath = path.join(__dirname, 'dev', page);
   if (fs.existsSync(targetPath)) {
     return res.sendFile(targetPath);
@@ -33,8 +256,18 @@ app.get('/dev/:page', (req, res, next) => {
   next();
 });
 
-// Serve main game and static files
-app.use(express.static(__dirname));
+// Dev Suite static files (accessible only when authenticated)
+app.use('/dev', requireDevAuth, express.static(path.join(__dirname, 'dev')));
+
+// Serve main game static files (exclude /dev directory to prevent bypassing auth)
+app.use((req, res, next) => {
+  if (req.path === '/dev' || req.path.startsWith('/dev/')) {
+    return next();
+  }
+  express.static(__dirname)(req, res, next);
+});
+
+
 
 const QUIZZES_DIR = path.join(__dirname, 'data', 'quizzes');
 const LEGACY_QUIZZES_FILE = path.join(__dirname, 'data', 'quizzes.json');
@@ -683,7 +916,7 @@ app.get('/api/npc/quiz/get', (req, res) => {
   }
 });
 
-app.post('/api/npc/quiz/save', (req, res) => {
+app.post('/api/npc/quiz/save', requireDevAuth, (req, res) => {
   try {
     const { npcId, quiz } = req.body || {};
     if (!npcId || !quiz || !Array.isArray(quiz.questions)) {
@@ -719,7 +952,7 @@ app.post('/api/npc/quiz/save', (req, res) => {
 
 
 
-app.get('/api/database/view', (req, res) => {
+app.get('/api/database/view', requireDevAuth, (req, res) => {
   ensureQuizDir();
   const quizFiles = fs.readdirSync(QUIZZES_DIR).filter(f => f.endsWith('.json'));
   const quizzes = {};
@@ -739,7 +972,7 @@ app.get('/api/tile-map', (req, res) => {
   res.json(tileMap);
 });
 
-app.post('/api/tile-map', (req, res) => {
+app.post('/api/tile-map', requireDevAuth, (req, res) => {
   const data = req.body;
   if (!data || typeof data !== 'object') {
     return res.status(400).json({ error: 'Invalid payload' });
@@ -759,7 +992,7 @@ app.get('/api/tilesheets', (req, res) => {
   res.json(tilesheets);
 });
 
-app.post('/api/tilesheets', (req, res) => {
+app.post('/api/tilesheets', requireDevAuth, (req, res) => {
   const data = req.body;
   if (!data || typeof data !== 'object') {
     return res.status(400).json({ error: 'Invalid payload' });
@@ -778,7 +1011,7 @@ app.get('/api/dialogues', (req, res) => {
   res.json(dialogues);
 });
 
-app.post('/api/dialogues', (req, res) => {
+app.post('/api/dialogues', requireDevAuth, (req, res) => {
   const data = req.body;
   if (!data || typeof data !== 'object') {
     return res.status(400).json({ error: 'Invalid payload' });
@@ -800,7 +1033,7 @@ app.get('/api/quests', (req, res) => {
   res.json(quests);
 });
 
-app.post('/api/quests', (req, res) => {
+app.post('/api/quests', requireDevAuth, (req, res) => {
   const data = req.body;
   if (!data || !Array.isArray(data)) {
     return res.status(400).json({ error: 'Invalid payload' });
@@ -851,7 +1084,7 @@ app.get('/api/npc-placements', (req, res) => {
   res.json(placements);
 });
 
-app.post('/api/npc-placements', (req, res) => {
+app.post('/api/npc-placements', requireDevAuth, (req, res) => {
   const data = req.body;
   if (!data || typeof data !== 'object') {
     return res.status(400).json({ error: 'Invalid payload' });
@@ -871,7 +1104,7 @@ app.get('/api/maps', (req, res) => {
   res.json(maps);
 });
 
-app.post('/api/maps', (req, res) => {
+app.post('/api/maps', requireDevAuth, (req, res) => {
   const data = req.body;
   if (!data || typeof data !== 'object') {
     return res.status(400).json({ error: 'Invalid payload' });
@@ -892,7 +1125,7 @@ app.get('/api/npc-config', (req, res) => {
   res.json({ dialogues, npcPlacements });
 });
 
-app.post('/api/npc-config', (req, res) => {
+app.post('/api/npc-config', requireDevAuth, (req, res) => {
   const { dialogues, npcPlacements } = req.body || {};
   let ok = true;
   if (dialogues) {
@@ -913,6 +1146,7 @@ app.post('/api/npc-config', (req, res) => {
     res.status(500).json({ error: 'Failed to save NPC configuration' });
   }
 });
+
 
 // NusaTTSE (Hugging Face Space) Integration Endpoints with detailed logging & HF_TOKEN support
 const HF_SPACE_URL = process.env.HF_SPACE_URL || 'https://maselonn-nusattse.hf.space';
@@ -1141,10 +1375,15 @@ app.post('/api/evaluate-speech', async (req, res) => {
 
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`NusaQuest running at http://localhost:${PORT}`);
-    console.log(`====================================================`);
+    console.log(`\n====================================================`);
+    console.log(`🏰 NusaQuest Server running at http://localhost:${PORT}`);
+    console.log(`🛠️ Dev Suite: http://localhost:${PORT}/dev/`);
+    console.log(`🔒 Dev Suite Security: ${DEV_PASSWORD ? 'Active (Password loaded from .env)' : 'Locked (DEV_SUITE_PASSWORD not set)'}`);
+    console.log(`====================================================\n`);
   });
 }
+
+
 
 app.getNpcMeta = getNpcMeta;
 app.generateFallbackQuiz = generateFallbackQuiz;

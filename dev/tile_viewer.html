@@ -290,8 +290,12 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(tilesheetConfigs)
         })
-      ]).then(() => {
+      ]).then(([r1, r2]) => {
         const syncText = document.getElementById('syncStatusText');
+        if (r1.status === 401 || r2.status === 401) {
+          if (syncText) syncText.textContent = 'Auth Expired (Login Dev)';
+          return;
+        }
         if (syncText) {
           syncText.textContent = `Auto-Saved to JSON (${new Date().toLocaleTimeString()})`;
           setTimeout(() => { syncText.textContent = 'Auto-Synced to Game'; }, 3000);
@@ -302,6 +306,7 @@
         if (syncText) syncText.textContent = `Synced Local (${new Date().toLocaleTimeString()})`;
       });
     }
+
 
     function saveCurrentSheetConfig() {
       const src = sheetSelect.value;

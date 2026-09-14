@@ -1,9 +1,26 @@
 (function() {
   const pathname = window.location.pathname;
+  const isLogin = pathname.includes('/dev/login');
+
+  // Defense-in-depth: client-side auth verification on dev pages
+  if (!isLogin && (pathname.startsWith('/dev') || pathname.includes('map_maker') || pathname.includes('npc_config') || pathname.includes('tile_viewer'))) {
+    fetch('/api/dev/auth-status', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.authenticated) {
+          window.location.replace('/dev/login.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search));
+        }
+      })
+      .catch(() => {
+        window.location.replace('/dev/login.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search));
+      });
+  }
+
   const isMapMaker = pathname.includes('/dev/map_maker');
   const isTileViewer = pathname.includes('/dev/tile_viewer');
   const isNpcConfig = pathname.includes('/dev/npc_config');
   const isDevHub = pathname === '/dev' || pathname === '/dev/' || pathname.endsWith('/dev/index.html');
+
 
   const sidebarHtml = `
     <aside id="nqDevSidebar" class="nq-sidebar">
@@ -36,19 +53,24 @@
           <span class="nq-label">NPC Configurator</span>
         </a>
         <a href="/" class="nq-nav-item" style="margin-top: 8px; border-top: 1px solid #1e293b; padding-top: 10px;">
-          <span class="nq-icon"><i data-lucide="log-out" style="width: 16px; height: 16px;"></i></span>
-          <span class="nq-label">Exit Dev Suite</span>
+          <span class="nq-icon"><i data-lucide="play" style="width: 16px; height: 16px;"></i></span>
+          <span class="nq-label">Main Game</span>
         </a>
+        <button id="nqDevLogoutBtn" class="nq-nav-item nq-logout-item" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer; color: #f87171;">
+          <span class="nq-icon"><i data-lucide="log-out" style="width: 16px; height: 16px;"></i></span>
+          <span class="nq-label">Lock Dev Suite</span>
+        </button>
       </nav>
 
       <div class="nq-sidebar-footer">
-        <div class="nq-sync-badge">
+        <div class="nq-sync-badge" title="Protected with HMAC session token">
           <span class="nq-dot"></span>
-          <span>Auto-Sync Active</span>
+          <span>Dev Auth Active</span>
         </div>
       </div>
     </aside>
   `;
+
 
   const style = document.createElement('style');
   style.textContent = `
@@ -162,11 +184,16 @@
       background: #1e293b;
       color: #f8fafc;
     }
+    .nq-logout-item:hover {
+      background: rgba(239, 68, 68, 0.15) !important;
+      color: #fca5a5 !important;
+    }
     .nq-nav-item.active {
       background: rgba(245, 158, 11, 0.15);
       color: #f59e0b;
       border: 1px solid rgba(245, 158, 11, 0.3);
     }
+
     .nq-icon {
       font-size: 16px;
     }
@@ -226,6 +253,16 @@
       lucide.createIcons();
     }
 
+    const logoutBtn = sidebarEl.querySelector('#nqDevLogoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async () => {
+        try {
+          await fetch('/api/dev/logout', { method: 'POST' });
+        } catch (e) {}
+        window.location.href = '/dev/login.html';
+      });
+    }
+
     sidebarEl.querySelector('#nqToggleSidebarBtn').addEventListener('click', () => {
       sidebarEl.classList.toggle('collapsed');
       const collapsedNow = sidebarEl.classList.contains('collapsed');
@@ -239,6 +276,7 @@
       }
     });
   }
+
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSidebar);

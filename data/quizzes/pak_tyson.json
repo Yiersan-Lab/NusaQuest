@@ -279,5 +279,61 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789384484179",
+    "npcId": "pak_tyson",
+    "title": "Kuis Kosakata Pak Tyson",
+    "generatedAt": "2026-09-14T11:14:44.179Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing ukara 'Sugeng enjing!', tembung 'Sugeng' dumunung ing posisi sing pira?",
+        "options": [
+          "Posisi pisanan",
+          "Posisi kadua",
+          "Posisi katelu",
+          "Posisi kaping papat"
+        ],
+        "answer": 0,
+        "explanation": "Ing ukara 'Sugeng enjing!', tembung 'Sugeng' iku tembung pisanan.",
+        "teaches": {
+          "word": "Sugeng",
+          "meaning": "Selamat"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Yen Pak Tyson nglakonake ukara 'Sugeng enjing!', apa sampeyan bakal ngucapake 'Sugeng enjing' menawa lagi jam 10 bengi?",
+        "options": [
+          "Ya, kudu diucapake",
+          "Dudu, amarga wektu iku wengi",
+          "Ya, nanging mung kanggo anak cilik",
+          "Dudu, amarga wektu iku esuk"
+        ],
+        "answer": 1,
+        "explanation": "Ukara 'Sugeng enjing' mung trep digunakake ing wektu esuk/pagi. Ing jam 10 bengi, trep ngucapake 'Sugeng wengi'.",
+        "teaches": {
+          "word": "Sugeng enjing",
+          "meaning": "Selamat pagi"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Tembung endi ing ngisor iki sing ASALINGKONE (padanane) karo 'enjing' ing basa Indonesia?",
+        "options": [
+          "Siang",
+          "Malam",
+          "Pagi",
+          "Sore"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'enjing' ing basa Jawa tegese 'pagi' ing basa Indonesia.",
+        "teaches": {
+          "word": "enjing",
+          "meaning": "pagi"
+        }
+      }
+    ]
   }
 ]
