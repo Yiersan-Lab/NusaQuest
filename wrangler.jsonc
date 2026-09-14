@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nusaquest",
+  "compatibility_date": "2026-09-11",
+  "pages_build_output_dir": ".",
+  "kv_namespaces": [
+    {
+      "binding": "NUSAQUEST_STORAGE",
+      "id": "362eef80441f42af8d8765aee6b4c981"
+    }
+  ],
+  "vars": {
+    "HF_SPACE_URL": "https://maselonn-nusattse.hf.space"
+  }
+}

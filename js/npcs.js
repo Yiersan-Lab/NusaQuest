@@ -5,8 +5,12 @@ class NpcManager {
 
   initNpcs() {
     if (typeof fetch !== 'undefined') {
-      fetch('/data/npc_placements.json')
-        .then(res => res.json())
+      fetch('/api/npc-placements')
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.json();
+        })
+        .catch(() => fetch('/data/npc_placements.json').then(r => r.json()))
         .then(data => {
           if (data && typeof data === 'object') {
             for (const [mapId, list] of Object.entries(data)) {

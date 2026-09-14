@@ -11,8 +11,12 @@ function initDialogues() {
   }
 
   if (typeof fetch !== 'undefined') {
-    fetch('/data/dialogues.json')
-      .then(res => res.json())
+    fetch('/api/dialogues')
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .catch(() => fetch('/data/dialogues.json').then(r => r.json()))
       .then(data => {
         if (data && Object.keys(data).length > 0) {
           // Merge server data while retaining any locally added/edited dialogues
@@ -23,7 +27,7 @@ function initDialogues() {
               DIALOGUES[id] = Object.assign({}, d, DIALOGUES[id]);
             }
           }
-          console.log('NusaQuest: Synced DIALOGUES from data/dialogues.json');
+          console.log('NusaQuest: Synced DIALOGUES from API/KV');
         }
       })
       .catch(() => {});
@@ -44,6 +48,7 @@ async function fetchNpcQuiz(npcId) {
     const data = await res.json();
 
     if (data && data.quiz) {
+      console.log(`[Quiz] 🧠 Loaded quiz for ${npcId} (Source: ${data.source || 'server'})`);
       return data.quiz;
     }
   } catch (err) {

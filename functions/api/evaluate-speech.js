@@ -1,6 +1,6 @@
 /**
  * Cloudflare Pages Function: /api/evaluate-speech
- * Proxies audio evaluation requests to NusaTTSE on Hugging Face Spaces.
+ * Proxies audio evaluation requests to NusaTTSE on Hugging Face Spaces (Gradio evaluate_audio endpoint).
  */
 
 export async function onRequestPost(context) {
@@ -41,36 +41,34 @@ export async function onRequestPost(context) {
       });
     }
 
-    const uploadData = await uploadRes.json();
-    const remotePath = Array.isArray(uploadData) ? uploadData[0] : (uploadData && uploadData.files ? uploadData.files[0] : null);
-
-    if (!remotePath) {
-      return new Response(JSON.stringify({ error: 'Failed to retrieve uploaded audio path from HF Space' }), {
+    const uploadedFiles = await uploadRes.json();
+    if (!Array.isArray(uploadedFiles) || !uploadedFiles[0]) {
+      return new Response(JSON.stringify({ error: 'Invalid upload response from Space' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
       });
     }
 
-    // Step 2: Call evaluate_speech endpoint
-    const callHeaders = { 'Content-Type': 'application/json' };
-    if (HF_TOKEN) callHeaders['Authorization'] = `Bearer ${HF_TOKEN}`;
+    const remoteAudioPath = uploadedFiles[0];
 
-    const callPayload = {
-      data: [
-        { path: remotePath, orig_name: 'recording.webm', meta: { _type: 'gradio.FileData' } },
-        referenceText
-      ]
-    };
-
-    const callRes = await fetch(`${HF_SPACE_URL}/gradio_api/call/evaluate_speech`, {
+    // Step 2: Call evaluate_audio endpoint on Gradio Space
+    const callRes = await fetch(`${HF_SPACE_URL}/gradio_api/call/evaluate_audio`, {
       method: 'POST',
-      headers: callHeaders,
-      body: JSON.stringify(callPayload)
+      headers: {
+        'Content-Type': 'application/json',
+        ...(HF_TOKEN ? { 'Authorization': `Bearer ${HF_TOKEN}` } : {})
+      },
+      body: JSON.stringify({
+        data: [
+          { path: remoteAudioPath, meta: { _type: 'gradio.FileData' } },
+          referenceText
+        ]
+      })
     });
 
     if (!callRes.ok) {
       const errText = await callRes.text();
-      return new Response(JSON.stringify({ error: `HF Space evaluate rejected: ${errText}` }), {
+      return new Response(JSON.stringify({ error: `HF Space evaluate_audio failed: ${errText}` }), {
         status: callRes.status,
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
       });
@@ -85,51 +83,47 @@ export async function onRequestPost(context) {
     }
 
     // Step 3: Read result stream
-    const streamHeaders = {};
-    if (HF_TOKEN) streamHeaders['Authorization'] = `Bearer ${HF_TOKEN}`;
-
-    const eventRes = await fetch(`${HF_SPACE_URL}/gradio_api/call/evaluate_speech/${event_id}`, {
-      headers: streamHeaders
+    const streamRes = await fetch(`${HF_SPACE_URL}/gradio_api/call/evaluate_audio/${event_id}`, {
+      headers: HF_TOKEN ? { 'Authorization': `Bearer ${HF_TOKEN}` } : {}
     });
-    const streamText = await eventRes.text();
 
-    const dataLines = streamText.split('\n').filter(l => l.startsWith('data: '));
-    if (dataLines.length > 0) {
-      const lastData = dataLines[dataLines.length - 1].replace('data: ', '').trim();
-      const parsedData = JSON.parse(lastData);
+    const streamText = await streamRes.text();
 
-      let html0 = '', html1 = '', html2 = '';
-      if (Array.isArray(parsedData)) {
-        html0 = parsedData[0] || '';
-        html1 = parsedData[1] || '';
-        html2 = parsedData[2] || '';
-      }
+    if (streamText.includes('ZeroGPU quota exceeded') || streamText.includes('ZeroGPU runs limit') || streamText.includes('event: error')) {
+      return new Response(JSON.stringify({
+        error: 'ZeroGPU daily quota exceeded on Hugging Face Spaces.',
+        isZeroGpuQuota: true,
+        isRateLimit: true
+      }), {
+        status: 429,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      });
+    }
 
-      let overallScore = 85;
-      const scoreMatch = html0.match(/(\d{1,3})\s*\/100/) || html0.match(/(\d{1,3})%/);
-      if (scoreMatch && scoreMatch[1]) {
-        overallScore = parseInt(scoreMatch[1], 10);
-      }
+    const completeLine = streamText.split('\n').find(l => l.startsWith('data: ['));
 
-      let fluencyRating = 'Bagus';
-      if (overallScore >= 90) fluencyRating = 'Sangat Fasih (Native-like)';
-      else if (overallScore >= 80) fluencyRating = 'Lancar & Jelas';
-      else if (overallScore >= 65) fluencyRating = 'Cukup Baik';
-      else fluencyRating = 'Perlu Latihan';
+    if (completeLine) {
+      const parsedData = JSON.parse(completeLine.slice(5));
+      const html0 = parsedData[0] || '';
+      const html1 = parsedData[1] || '';
+      const html2 = parsedData[2] || '';
+
+      const scoreMatch = html0.match(/(\d+)\s*<span[^>]*>\s*\/\s*100/i) || html0.match(/(\d+)\s*\/\s*100/i) || html0.match(/(\d+)%/);
+      const overallScore = scoreMatch ? parseInt(scoreMatch[1], 10) : 50;
+
+      const ratingMatch = html0.match(/<div style="font-size: 1\.8rem; font-weight: 800; color: #fff;">([^<]+)<\/div>/i);
+      const fluencyRating = ratingMatch ? ratingMatch[1].trim() : (overallScore >= 80 ? 'Bagus Banget' : (overallScore >= 60 ? 'Cukup Apik' : 'Perlu Latihan'));
 
       const wordAnalysis = [];
-      const wordRegex = /<span[^>]*class="([^"]*)"[^>]*title="([^"]*)"[^>]*>([^<]+)<\/span>/g;
-      let wMatch;
-      while ((wMatch = wordRegex.exec(html2)) !== null) {
-        const cls = wMatch[1];
-        const tip = wMatch[2];
-        const word = wMatch[3].trim();
-        let score = 80;
+      const chipRegex = /<div style="background:[^"]*" title="([^"]*)"><strong>([^<]+)<\/strong>\s*<span[^>]*>(\d+)%<\/span>/g;
+      let match;
+      while ((match = chipRegex.exec(html1)) !== null) {
+        const tip = match[1];
+        const word = match[2];
+        const score = parseInt(match[3], 10);
         let status = 'correct';
-
-        if (cls.includes('green') || cls.includes('correct')) { score = 95; status = 'correct'; }
-        else if (cls.includes('yellow') || cls.includes('warning')) { score = 70; status = 'fair'; }
-        else if (cls.includes('red') || cls.includes('danger')) { score = 45; status = 'incorrect'; }
+        if (score < 50) status = 'missing';
+        else if (score < 75) status = 'mispronounced';
 
         wordAnalysis.push({ word, score, status, tip });
       }
@@ -145,7 +139,7 @@ export async function onRequestPost(context) {
       });
     }
 
-    return new Response(JSON.stringify({ error: 'Could not parse evaluation result from Space stream' }), {
+    return new Response(JSON.stringify({ error: 'Could not parse evaluation result from Space stream', raw: streamText }), {
       status: 500,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     });

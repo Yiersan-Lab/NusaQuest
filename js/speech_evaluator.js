@@ -309,14 +309,37 @@ class SpeechEvaluatorService {
    */
   evaluateLocally(referenceText, spokenText, duration) {
     const cleanRef = this.normalizeText(referenceText);
-    const cleanSpoken = this.normalizeText(spokenText || referenceText); // fallback simulation if mic muted
+    const cleanSpoken = this.normalizeText(spokenText || '');
 
     const refWords = cleanRef.split(' ').filter(Boolean);
     const spokenWords = cleanSpoken.split(' ').filter(Boolean);
 
+    // If no spoken words detected at all
+    if (spokenWords.length === 0) {
+      return {
+        overall_score: 0,
+        accuracy_score: 0,
+        completeness_score: 0,
+        fluency_score: 0,
+        fluency_rating: 'Suara Belum Terdengar',
+        rating_badge: 'needs_practice',
+        recognized_text: '(Tidak ada suara terdeteksi)',
+        reference_text: referenceText,
+        word_analysis: refWords.map(w => ({
+          word: w,
+          heard_as: '-',
+          status: 'missing',
+          score: 0,
+          tip: `Kata "${w}" belum terdengar`
+        })),
+        feedback: ['Mikrofon tidak mendeteksi kata-kata Anda. Pastikan izin mikrofon aktif dan bicaralah lebih dekat ke mikrofon.'],
+        duration_seconds: duration,
+        wpm: 0
+      };
+    }
+
     let matchedWordsCount = 0;
     const wordAnalysis = refWords.map(word => {
-      // Find best match in spoken words
       let bestSim = 0;
       let bestMatch = '';
 
@@ -328,28 +351,22 @@ class SpeechEvaluatorService {
         }
       }
 
-      // If speech recognition was empty (e.g. unsupported browser), simulate reasonable score for effort
-      if (spokenWords.length === 0) {
-        bestSim = 0.88;
-        bestMatch = word;
-      }
-
-      let status = 'correct';
+      let status = 'missing';
       let score = Math.round(bestSim * 100);
-      let tip = 'Pengucapan benar dan jelas!';
+      let tip = `Kata "${word}" belum terdengar jelas`;
 
       if (bestSim >= 0.75) {
         status = 'correct';
-        matchedWordsCount++;
+        tip = 'Pengucapan benar dan jelas!';
+        matchedWordsCount += 1;
       } else if (bestSim >= 0.45) {
         status = 'mispronounced';
-        tip = `Dengarkan lagi kata "${word}"`;
-        score = Math.max(50, Math.round(bestSim * 100));
+        tip = `Dengarkan lagi cara pengucapan kata "${word}"`;
+        score = Math.max(40, Math.round(bestSim * 100));
         matchedWordsCount += 0.5;
       } else {
         status = 'missing';
-        tip = `Kata "${word}" belum terdengar jelas`;
-        score = 25;
+        score = Math.round(bestSim * 100);
       }
 
       return {
@@ -363,37 +380,38 @@ class SpeechEvaluatorService {
 
     const totalWords = Math.max(1, refWords.length);
     const accuracyScore = Math.min(100, Math.round((matchedWordsCount / totalWords) * 100));
-    const completenessScore = Math.min(100, Math.round((spokenWords.length / totalWords) * 100));
+    const completenessScore = Math.min(100, Math.round((Math.min(spokenWords.length, totalWords) / totalWords) * 100));
     
     // Estimate fluency score
-    const wpm = duration > 0 ? Math.round((spokenWords.length / duration) * 60) : 100;
-    let fluencyScore = 85;
-    if (wpm >= 60 && wpm <= 160) fluencyScore = 95;
-    else if (wpm < 40) fluencyScore = 70;
+    const wpm = duration > 0 ? Math.round((spokenWords.length / duration) * 60) : 0;
+    let fluencyScore = 50;
+    if (wpm >= 60 && wpm <= 160) fluencyScore = 90;
+    else if (wpm >= 30) fluencyScore = 70;
+    else fluencyScore = 40;
 
-    const overallScore = Math.min(100, Math.round((accuracyScore * 0.6) + (fluencyScore * 0.4)));
+    const overallScore = Math.min(100, Math.round((accuracyScore * 0.75) + (completenessScore * 0.15) + (fluencyScore * 0.1)));
 
     let fluencyRating = 'Perlu Latihan Lagi';
     let ratingBadge = 'needs_practice';
 
-    if (overallScore >= 88) {
+    if (overallScore >= 85) {
       fluencyRating = 'Sangat Fasih';
       ratingBadge = 'excellent';
-    } else if (overallScore >= 70) {
+    } else if (overallScore >= 68) {
       fluencyRating = 'Bagus dan Jelas';
       ratingBadge = 'good';
-    } else if (overallScore >= 50) {
+    } else if (overallScore >= 45) {
       fluencyRating = 'Cukup Bagus';
       ratingBadge = 'fair';
     }
 
     const feedback = [];
-    if (overallScore >= 88) {
-      feedback.push('Luar biasa! Pengucapan dan intonasi bahasa Jawa Anda sudah lancar dan jelas.');
-    } else if (overallScore >= 70) {
-      feedback.push('Sudah bagus! Ada beberapa kata yang masih bisa disempurnakan dengan lebih jelas.');
+    if (overallScore >= 85) {
+      feedback.push('Luar biasa! Pengucapan dan intonasi bahasa Jawa Anda sudah sangat lancar dan tepat.');
+    } else if (overallScore >= 68) {
+      feedback.push('Sudah bagus! Perhatikan kata-kata yang ditandai kuning untuk disempurnakan.');
     } else {
-      feedback.push('Ayo coba latihan lagi! Dengarkan contoh suara terlebih dahulu lalu ulangi.');
+      feedback.push('Ayo coba latihan lagi! Dengarkan contoh audio pengucapan NPC terlebih dahulu.');
     }
 
     return {
@@ -403,7 +421,7 @@ class SpeechEvaluatorService {
       fluency_score: fluencyScore,
       fluency_rating: fluencyRating,
       rating_badge: ratingBadge,
-      recognized_text: spokenText || cleanRef,
+      recognized_text: cleanSpoken,
       reference_text: referenceText,
       word_analysis: wordAnalysis,
       feedback,

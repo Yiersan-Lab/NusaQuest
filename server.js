@@ -11,12 +11,13 @@ try {
   Groq = null;
 }
 
-app.get('/', (req, res) => {
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/health', (req, res) => {
   res.status(200).json({ message: "NusaQuest Server is running!" });
 });
 
-const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());

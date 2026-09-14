@@ -172,8 +172,8 @@ class QuestEngine {
 
     try {
       if (typeof fetch !== 'undefined') {
-        const res = await fetch('/data/quests.json');
-        if (res.ok) {
+        const res = await fetch('/api/quests').catch(() => fetch('/data/quests.json'));
+        if (res && res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
             this.quests = data.map(q => ({

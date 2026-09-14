@@ -1312,5 +1312,117 @@
         }
       }
     ]
+  },
+  {
+    "id": "quiz_1789391874214",
+    "npcId": "raden_atif",
+    "title": "Kuis Kosakata Raden Atif",
+    "generatedAt": "2026-09-14T13:17:54.214Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing dialog, Raden Atif ngucapake 'Sugeng enjing!'. Ing basa Indonesia, tembung 'enjing' nujukake wektu apa?",
+        "options": [
+          "Siang",
+          "Dhuwur esuk",
+          "Sore",
+          "Bengi"
+        ],
+        "answer": 1,
+        "explanation": "'Enjing' tegese dhuwur esuk. Dadi 'Sugeng enjing' tegese selamat pagi utawa selamat dhuwur esuk.",
+        "teaches": {
+          "word": "enjing",
+          "meaning": "dhuwur esuk"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Raden Atif ngucapake 'Halo halo bandung'. Yen frasa iki diterjemahkan menyang basa Indonesia, apa terjemahan paling trepne?",
+        "options": [
+          "Halo Bandung",
+          "Halo teman",
+          "Halo dunia",
+          "Halo kores"
+        ],
+        "answer": 0,
+        "explanation": "Ing konteks iki, 'bandung' biasane nuduhake panggenan utawa alamat, dadi terjemahan langsung yaiku 'Halo Bandung'.",
+        "teaches": {
+          "word": "Halo halo bandung",
+          "meaning": "halo"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Ing dialog 'woi woi woi woi oi oi oi oi oi oi', tembung 'oi' ing basa Indonesia duwe fungsi apa?",
+        "options": [
+          "Kata kerja",
+          "Kata seru (interjeksi)",
+          "Kata sifat",
+          "Kata depan"
+        ],
+        "answer": 1,
+        "explanation": "'Oi' utawa 'woi' yaiku kata seru (interjeksi) kanggo ngajak wong supaya tansah utawa mangsuli.",
+        "teaches": {
+          "word": "woi",
+          "meaning": "seruan panggilan"
+        }
+      }
+    ]
+  },
+  {
+    "id": "quiz_1789392383999",
+    "npcId": "raden_atif",
+    "title": "Kuis Kosakata Raden Atif",
+    "generatedAt": "2026-09-14T13:26:23.999Z",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ing basa Indonesia, ukara 'Sugeng enjing!' sing diucapake Raden Atif tegese apa?",
+        "options": [
+          "Selamat siang!",
+          "Selamat pagi!",
+          "Selamat malam!",
+          "Selamat sore!"
+        ],
+        "answer": 1,
+        "explanation": "Tembung 'Sugeng enjing' duwe teges 'Selamat pagi' ing basa Indonesia.",
+        "teaches": {
+          "word": "Sugeng enjing",
+          "meaning": "Selamat pagi"
+        }
+      },
+      {
+        "id": 2,
+        "question": "Ing dialog 'woi woi woi woi oi oi oi oi oi oi', tembung 'woi' biasane digunakake kanggo tujuan apa?",
+        "options": [
+          "Kanggo ngucapake salam sejahtera",
+          "Kanggo ngajak ngombe kopi",
+          "Kanggo njaluk attention utawa ngajak ngomong",
+          "Kanggo matur nuwun"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'woi' digunakake kanggo manggil utawa ngajak wong liya supaya tansah nyengkuyung utawa ngadhepi kita.",
+        "teaches": {
+          "word": "woi",
+          "meaning": "jangan/ayo"
+        }
+      },
+      {
+        "id": 3,
+        "question": "Raden Atif ngucapake 'Halo halo bandung'. Manawa diterjemahkan menyang basa Indonesia, apa terjemahan sing paling trep?",
+        "options": [
+          "Halo halo Cirebon",
+          "Halo halo Semarang",
+          "Halo halo Bandung",
+          "Halo halo Jakarta"
+        ],
+        "answer": 2,
+        "explanation": "Tembung 'Halo' tegese halo, lan 'bandung' nujukake kutha Bandung, dadi terjemahane 'Halo halo Bandung'.",
+        "teaches": {
+          "word": "Halo halo bandung",
+          "meaning": "Halo halo Bandung"
+        }
+      }
+    ]
   }
 ]
